@@ -10,6 +10,10 @@ Lista viva do que falta para o site crescer. Marque com `[x]` o que for concluí
 - [ ] Criar o Google Search Console (tipo "Domínio") e mandar o registro TXT de verificação
 - [ ] Criar uma conta grátis no GoatCounter (estatísticas sem cookies) e mandar o nome do site
 
+### Decisões de texto (me responder para eu ajustar)
+- [ ] **Equipe ou só você?** Se for só você, trocar "Equipe Indoor Growing Lab" e "Conheça a equipe" pela marca "Indoor Growing Lab" ou por uma assinatura em primeira pessoa (nome ou apelido). Equipe inventada derruba a confiança de parceiros e do Google quando descoberta.
+- [ ] **Frase sobre saúde na home** ("benefícios que ela pode trazer à saúde"). Alegação de saúde costuma fazer lojas e programas de afiliado recusarem parceria. Sugestão: tirar da home ("apaixonados pela cultura canábica e pelo cultivo bem feito") e manter a parte de saúde só em "Quem somos", com o aviso médico.
+
 ### Para dar credibilidade
 - [ ] Fotos reais dos 14 sintomas do diagnóstico (lista de arquivos abaixo)
 - [ ] E-mail de contato com o domínio (ex.: contato@seudominio.com.br)
@@ -19,6 +23,7 @@ Lista viva do que falta para o site crescer. Marque com `[x]` o que for concluí
 ### Para monetizar
 - [ ] Escolher produtos vendidos no Brasil e entrar em programas de afiliado (conferir se aceitam o tema)
 - [ ] Preencher preços em reais (`priceBRL` no `data.js`) e links de afiliado
+- [ ] Com os primeiros produtos brasileiros com link: eu coloco indicações no resultado das calculadoras de Espaço, Luz e Exaustão ("Você precisa de 268 m³/h. Estes exaustores atendem."), filtradas pelo seu grow. É o ponto mais natural para venda no site
 
 ### Para validar
 - [ ] Testar num celular de verdade: rolar o ciclo, instalar como app, usar uma calculadora
