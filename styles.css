@@ -1676,3 +1676,33 @@ html.age-leaving body > *:not(.gate):not(.gate__leaf) { filter: blur(0) saturate
 @media (max-width: 600px) {
   .dgallery__head { flex-direction: column; align-items: flex-start; gap: 2px; }
 }
+
+/* ============ DIÁRIO: ARTE PARA COMPARTILHAR ============ */
+.dart-cta {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px 24px; flex-wrap: wrap;
+  margin-top: 20px; padding: 18px 20px; border-radius: 14px; background: #16190f; color: #eef0e6;
+}
+.dart-cta__t { margin: 0; font: 700 1.25rem/1.2 var(--f-display); letter-spacing: -.01em; }
+.dart-cta__t::before { content: ""; display: inline-block; width: 9px; height: 9px; margin-right: 10px; border-radius: 50%; background: var(--accent); vertical-align: 2px; }
+.dart-cta__s { margin: 4px 0 0; max-width: 60ch; font-size: .9375rem; color: #b9bcae; }
+.dart-cta .btn--primary { background: var(--accent); color: #16190f; border-color: var(--accent); }
+.dview__btns, .dart__btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.dview__btns .dview__save { margin-top: 0; }
+.dview__art { background: var(--accent); color: #16190f; border-color: var(--accent); }
+.dart {
+  width: min(520px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); padding: 0 0 20px;
+  border: 0; border-radius: 18px; background: #16190f; color: #eef0e6; overflow: auto;
+}
+.dart::backdrop { background: rgba(10,12,7,.72); backdrop-filter: blur(6px); }
+.dart[open] { animation: fade .3s var(--ease-out); }
+.dart__t { margin: 0; font: 700 1.125rem var(--f-display); }
+.dart__fmt { display: flex; gap: 6px; padding: 4px 18px 12px; }
+.dart__fmt button { padding: 7px 12px; border: 1px solid #2e3326; border-radius: 999px; background: transparent; color: #eef0e6; font: 500 .75rem var(--f-mono); cursor: pointer; }
+.dart__fmt button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #16190f; }
+.dart__stage { padding: 0 18px; }
+.dart__stage img { display: block; width: 100%; max-height: 58dvh; object-fit: contain; border-radius: 12px; background: #0d0f09; min-height: 240px; transition: opacity .2s; }
+.dart.is-busy .dart__stage img { opacity: .4; }
+.dart__note { margin: 12px 18px 0; font-size: .8125rem; color: #9fa492; }
+.dart__btns { padding: 0 18px; }
+.dart__btns .btn--primary { background: var(--accent); color: #16190f; border-color: var(--accent); }
+.dart__btns .btn:not(.btn--primary) { background: transparent; color: #eef0e6; border-color: #eef0e6; }

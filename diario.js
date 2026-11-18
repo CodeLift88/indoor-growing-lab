@@ -392,6 +392,193 @@
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   });
 
+  // --------- arte para compartilhar ---------
+  const D = window.IGL_DATA || null;
+  const FLASK = {
+    liquid: 'M29.8 73.2H70.2L72.6 77.2C74 79.6 74.6 81.6 74.6 84C74.6 88.4 71 91.8 66.4 91.8H33.6C29 91.8 25.4 88.4 25.4 84C25.4 81.6 26 79.6 27.4 77.2Z',
+    glass: 'M40.8 47C40.8 44.5 37.4 44 37.4 40.5C37.4 38.5 38.8 37.3 41 37.3H59.4C61.6 37.3 63 38.5 63 40.5C63 44 59.6 44.5 59.6 47V54.6L73 77.2C74.4 79.6 75 81.6 75 84C75 88.4 71.4 91.8 66.8 91.8H33.6C29 91.8 25.4 88.4 25.4 84C25.4 81.6 26 79.6 27.4 77.2L40.8 54.6Z',
+    sprout: 'M50.2 26.8C49.6 21 47 15 42 11.5C37.5 8.6 31 8.6 27.2 9.4C26 9.7 25.8 10.8 26 12.2C26.6 18 30 24 36 26.8C39.5 28.3 43 27.6 45.5 28.6C47.2 29.4 47.8 31 47.8 33V73.2H52.6V33.4C52.6 31.4 53.8 29.9 56.5 29.7C60 29.4 64.5 29.4 68.4 26.4C71.6 24 73.4 19 73.6 14.6C73.7 13.4 73 12.7 72 12.6C67.5 12 61 12.4 56.5 15.4C52.6 18 50.6 22.4 50.2 26.8Z'
+  };
+  const C = { bg: '#16190f', ink: '#eef0e6', muted: '#9fa492', line: '#2e3326', accent: '#d4f25a', ok: '#a6d36a', warn: '#e8916c' };
+  const FD = '"Bricolage Grotesque", system-ui, sans-serif', FM = '"Martian Mono", ui-monospace, monospace';
+
+  function drawFlask(ctx, x, y, size, glass, liquid, sprout) {
+    ctx.save(); ctx.translate(x, y); ctx.scale(size / 90, size / 90); ctx.translate(-5, -6);
+    ctx.fillStyle = liquid; ctx.fill(new Path2D(FLASK.liquid));
+    ctx.strokeStyle = glass; ctx.lineWidth = 5.6; ctx.lineJoin = 'round'; ctx.stroke(new Path2D(FLASK.glass));
+    ctx.fillStyle = sprout; ctx.fill(new Path2D(FLASK.sprout));
+    ctx.restore();
+  }
+  function pill(ctx, x, y, w, h, fill) {
+    ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(x, y, w, h, h / 2); else ctx.rect(x, y, w, h); ctx.fillStyle = fill; ctx.fill();
+  }
+  function cover(ctx, img, x, y, w, h) {
+    const k = Math.max(w / img.width, h / img.height), iw = img.width * k, ih = img.height * k;
+    ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+    ctx.drawImage(img, x + (w - iw) / 2, y + (h - ih) / 2, iw, ih);
+    ctx.restore();
+  }
+  const loadImg = src => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+
+  // o que vai na arte: dia e fase da data, setup salvo e as medições mais recentes
+  function artData(entry) {
+    const date = entry ? entry.date : iso(new Date());
+    const c = entry ? ctxOf(entry) : ctxFor(date);
+    let setup = {}; try { setup = JSON.parse(localStorage.getItem('igl-setup') || '{}') || {}; } catch { /* vazio */ }
+    const items = [];
+    if (D && D.tents) {
+      const t = D.tents[setup.tent] || D.tents['80x80'];
+      items.push({ k: 'Grow', v: t.label.replace(' cm', ''), u: 'cm' });
+      const w = Number(setup['in-watts']) || t.wattsBloom;
+      items.push({ k: 'LED', v: String(w), u: 'W' });
+    }
+    // medições: as da própria anotação ou as últimas dos 14 dias anteriores
+    const limit = parse(date).getTime() - 14 * DAY;
+    const recent = entries.filter(e => e.m && e.date <= date && parse(e.date).getTime() >= limit).sort((a, b) => (b.date + b.created).localeCompare(a.date + a.created));
+    const pickM = k => (entry && entry.m && entry.m[k] !== undefined) ? entry.m[k] : (recent.find(e => e.m[k] !== undefined) || { m: {} }).m[k];
+    const tt = pickM('t'), rh = pickM('rh'), h = pickM('h');
+    if (tt !== undefined && rh !== undefined) {
+      items.push({ k: 'Clima', v: `${num(tt)}°`, u: `${num(rh, 0)}% UR` });
+      const v = vpdInfo(tt, rh, c && c.phase);
+      items.push({ k: 'VPD', v: num(v.v, 2), u: v.state ? `kPa · ${v.state}` : 'kPa', color: v.state ? (v.ok ? C.ok : C.warn) : null });
+    }
+    if (h !== undefined) items.push({ k: 'Altura', v: num(h), u: 'cm' });
+    const pl = plan();
+    if (pl && pl.tHarvest >= parse(date)) items.push({ k: 'Colheita', v: fmtDate(pl.tHarvest).replace(' de ', ' '), u: 'estimada' });
+    return { date, c, items, photo: entry && entry.photo };
+  }
+
+  async function drawArt(entry, format) {
+    const W = 1080, H = format === 'feed' ? 1350 : 1920;
+    const PH = format === 'feed' ? 700 : 1120; // altura da foto
+    const data = artData(entry);
+    await Promise.all(['800 180px', '300 40px', '700 64px'].map(s => document.fonts.load(`${s} "Bricolage Grotesque"`)).concat(document.fonts.load(`500 26px "Martian Mono"`))).catch(() => {});
+    const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+    const ctx = cv.getContext('2d');
+    ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, H);
+
+    // foto ou, sem foto, o frasco grande sobre papel quadriculado
+    let img = null;
+    if (data.photo) { const u = await photoUrl(data.photo); if (u) img = await loadImg(u).catch(() => null); }
+    if (img) {
+      cover(ctx, img, 0, 0, W, PH);
+    } else {
+      ctx.fillStyle = '#1d2117'; ctx.fillRect(0, 0, W, PH);
+      ctx.strokeStyle = '#262b1e'; ctx.lineWidth = 2;
+      for (let x = 0; x <= W; x += 60) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, PH); ctx.stroke(); }
+      for (let y = 0; y <= PH; y += 60) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+      const fs = PH * 0.58;
+      drawFlask(ctx, W - fs - 60, PH * 0.12, fs, C.ink, C.accent, C.ink);
+    }
+    const g = ctx.createLinearGradient(0, PH - 560, 0, PH);
+    g.addColorStop(0, 'rgba(22,25,15,0)'); g.addColorStop(0.65, 'rgba(22,25,15,.78)'); g.addColorStop(1, C.bg);
+    ctx.fillStyle = g; ctx.fillRect(0, PH - 560, W, 560);
+    const g2 = ctx.createLinearGradient(0, 0, 0, 220);
+    g2.addColorStop(0, 'rgba(22,25,15,.55)'); g2.addColorStop(1, 'rgba(22,25,15,0)');
+    ctx.fillStyle = g2; ctx.fillRect(0, 0, W, 220);
+
+    // topo: marca e data
+    ctx.textBaseline = 'middle';
+    ctx.font = `700 40px ${FD}`;
+    const wGrow = ctx.measureText('Grow').width;
+    ctx.font = `300 40px ${FD}`;
+    const wMetria = ctx.measureText('metria').width;
+    pill(ctx, 56, 56, 44 + 16 + wGrow + wMetria + 48, 84, 'rgba(22,25,15,.78)');
+    drawFlask(ctx, 80, 76, 44, C.ink, C.accent, C.ink);
+    ctx.fillStyle = C.ink; ctx.font = `700 40px ${FD}`; ctx.fillText('Grow', 140, 99);
+    ctx.font = `300 40px ${FD}`; ctx.fillText('metria', 140 + wGrow, 99);
+    const dTxt = fmtDate(parse(data.date), { day: 'numeric', month: 'short', year: 'numeric' }).replace(/ de /g, ' ').toUpperCase();
+    ctx.font = `500 26px ${FM}`;
+    const wd = ctx.measureText(dTxt).width;
+    pill(ctx, W - 56 - wd - 56, 68, wd + 56, 60, 'rgba(22,25,15,.78)');
+    ctx.fillStyle = C.ink; ctx.fillText(dTxt, W - 56 - wd - 28, 99);
+
+    // destaque: dia e fase
+    ctx.textBaseline = 'alphabetic';
+    const big = data.c ? `Dia ${data.c.day}` : cap(fmtDate(parse(data.date), { day: 'numeric', month: 'short' }).replace(' de ', ' '));
+    const sub = data.c && data.c.phase ? `${data.c.phase}${data.c.wk ? ` · semana ${data.c.wk}` : ''}`.toUpperCase() : 'MEU CULTIVO';
+    ctx.fillStyle = C.accent; ctx.font = `500 30px ${FM}`;
+    ctx.fillText(sub, 72, PH - (format === 'feed' ? 190 : 220));
+    ctx.fillStyle = '#ffffff'; ctx.font = `800 ${format === 'feed' ? 150 : 190}px ${FD}`;
+    ctx.fillText(big, 64, PH - 30);
+
+    // números do grow em grade de 2 colunas
+    const rows = format === 'feed' ? 2 : 3;
+    const items = data.items.slice(0, rows * 2);
+    const top = PH + 40, colW = (W - 144) / 2, rowH = format === 'feed' ? 150 : 176;
+    items.forEach((it, i) => {
+      const x = 72 + (i % 2) * colW + (i % 2 ? 24 : 0), y = top + Math.floor(i / 2) * rowH;
+      ctx.strokeStyle = C.line; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + colW - 24, y); ctx.stroke();
+      ctx.fillStyle = C.muted; ctx.font = `500 24px ${FM}`; ctx.fillText(it.k.toUpperCase(), x, y + 46);
+      ctx.fillStyle = it.color || '#ffffff'; ctx.font = `700 ${format === 'feed' ? 62 : 70}px ${FD}`;
+      ctx.fillText(it.v, x, y + (format === 'feed' ? 118 : 130));
+      const vw = ctx.measureText(it.v).width;
+      ctx.fillStyle = C.muted; ctx.font = `500 22px ${FM}`;
+      let u = it.u; const room = colW - 24 - vw - 14;
+      while (u && ctx.measureText(u).width > room && u.length > 3) u = u.slice(0, -2) + '…';
+      ctx.fillText(u, x + vw + 14, y + (format === 'feed' ? 118 : 130));
+    });
+    if (!items.length) {
+      ctx.fillStyle = C.muted; ctx.font = `500 26px ${FM}`;
+      ctx.fillText('Defina seu grow nas calculadoras do site.', 72, top + 60);
+    }
+
+    // rodapé
+    const fy = H - 96;
+    ctx.strokeStyle = C.ink; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(72, fy - 40); ctx.lineTo(W - 72, fy - 40); ctx.stroke();
+    ctx.beginPath(); ctx.arc(84, fy + 6, 12, 0, Math.PI * 2); ctx.fillStyle = C.accent; ctx.fill();
+    ctx.fillStyle = C.ink; ctx.font = `500 24px ${FM}`;
+    ctx.fillText('Feito no diário de cultivo Growmetria · grátis', 112, fy + 14);
+
+    return new Promise(res => cv.toBlob(res, 'image/png'));
+  }
+
+  const art = $('#dart');
+  let artEntry = null, artFormat = 'story', artBlob = null, artUrl = '';
+  async function renderArt() {
+    const img = $('#dart-img');
+    art.classList.add('is-busy');
+    artBlob = await drawArt(artEntry, artFormat);
+    if (artUrl) URL.revokeObjectURL(artUrl);
+    artUrl = URL.createObjectURL(artBlob);
+    img.src = artUrl;
+    art.classList.remove('is-busy');
+  }
+  async function openArt(entry) {
+    artEntry = entry || entries.filter(e => e.photo).sort((a, b) => (b.date + b.created).localeCompare(a.date + a.created))[0] || null;
+    // a arte geral usa a foto mais recente só se ela for dos últimos 14 dias
+    if (!entry && artEntry && daysBetween(parse(artEntry.date), today()) > 14) artEntry = null;
+    $$('#dart-fmt button').forEach(b => b.setAttribute('aria-pressed', b.dataset.fmt === artFormat));
+    $('#dart-share').hidden = !(navigator.canShare && navigator.canShare({ files: [new File([new Blob()], 'x.png', { type: 'image/png' })] }));
+    if (view.open) view.close();
+    art.showModal();
+    await renderArt();
+  }
+  const artName = () => { const c = artEntry ? ctxOf(artEntry) : ctxFor(iso(new Date())); return `growmetria-${c ? `dia-${c.day}` : iso(new Date())}-${artFormat}.png`; };
+  $('#d-art').addEventListener('click', () => openArt(null));
+  $('#dview-art').addEventListener('click', () => openArt(entries.find(x => x.id === viewId)));
+  $('#dart-fmt').addEventListener('click', e => {
+    const b = e.target.closest('[data-fmt]'); if (!b || b.dataset.fmt === artFormat) return;
+    artFormat = b.dataset.fmt;
+    $$('#dart-fmt button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    renderArt();
+  });
+  $('#dart-save').addEventListener('click', () => {
+    if (!artBlob) return;
+    const a = Object.assign(document.createElement('a'), { href: artUrl, download: artName() });
+    document.body.appendChild(a); a.click(); a.remove();
+    toast('Arte baixada.');
+  });
+  $('#dart-share').addEventListener('click', async () => {
+    if (!artBlob) return;
+    try { await navigator.share({ files: [new File([artBlob], artName(), { type: 'image/png' })] }); }
+    catch (e) { if (e.name !== 'AbortError') toast('Não deu para compartilhar. Use Baixar arte.'); }
+  });
+  $('#dart-close').addEventListener('click', () => art.close());
+  art.addEventListener('click', e => { if (e.target === art) art.close(); });
+
   // --------- apagar com desfazer ---------
   let lastDeleted = null;
   $('#dlist').addEventListener('click', e => {
