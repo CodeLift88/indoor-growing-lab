@@ -149,7 +149,7 @@
       const dark = root.dataset.theme === 'dark';
       btn.setAttribute('aria-checked', String(dark));
       btn.title = dark ? 'Mudar para o modo claro' : 'Mudar para o modo escuro';
-      $('meta[name="theme-color"]').setAttribute('content', dark ? '#14160f' : '#f2eee4');
+      $('meta[name="theme-color"]').setAttribute('content', dark ? '#14160f' : '#f3f4ee');
     };
     btn.addEventListener('click', () => {
       const next = root.dataset.theme === 'dark' ? 'light' : 'dark';

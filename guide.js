@@ -15,7 +15,7 @@
     const dark = root.dataset.theme === 'dark';
     btn.setAttribute('aria-checked', String(dark));
     btn.title = dark ? 'Mudar para o modo claro' : 'Mudar para o modo escuro';
-    if (meta) meta.setAttribute('content', dark ? '#14160f' : '#f2eee4');
+    if (meta) meta.setAttribute('content', dark ? '#14160f' : '#f3f4ee');
   };
   btn.addEventListener('click', () => {
     const next = root.dataset.theme === 'dark' ? 'light' : 'dark';

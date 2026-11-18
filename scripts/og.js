@@ -43,18 +43,18 @@ function fanLeaf() {
 
 function card({ title, kicker, size }) {
   return `<!DOCTYPE html><html><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Martian+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; }
-  body { width: 1200px; height: 630px; background: #f2eee4; color: #16190f; font-family: 'Fraunces', serif; position: relative; overflow: hidden; }
+  body { width: 1200px; height: 630px; background: #f3f4ee; color: #16190f; font-family: 'Bricolage Grotesque', sans-serif; position: relative; overflow: hidden; }
   .top { position: absolute; left: 72px; right: 72px; top: 56px; display: flex; justify-content: space-between; align-items: center; }
   .mark { display: flex; align-items: center; gap: 12px; font-size: 30px; }
   .mark svg { width: 40px; height: 40px; }
-  .mark em { font-weight: 400; }
-  .kick { font: 500 20px 'IBM Plex Mono', monospace; color: #6a6e60; }
-  h1 { position: absolute; left: 72px; top: 150px; width: 780px; font-weight: 400; font-size: ${size}px; line-height: .98; letter-spacing: -.03em; font-variation-settings: "opsz" 144; text-wrap: balance; }
-  h1 em { font-weight: 300; }
-  .foot { position: absolute; left: 72px; right: 72px; bottom: 52px; padding-top: 22px; border-top: 2px solid #16190f; display: flex; align-items: center; gap: 14px; font: 500 20px 'IBM Plex Mono', monospace; color: #3a3f31; }
+  .mark { font-weight: 700; letter-spacing: -.02em; } .mark em { font-weight: 300; font-style: normal; }
+  .kick { font: 500 16px 'Martian Mono', monospace; color: #6a6e60; }
+  h1 { position: absolute; left: 72px; top: 150px; width: 780px; font-weight: 750; font-size: ${size}px; line-height: .98; letter-spacing: -.03em; font-variation-settings: "opsz" 96; text-wrap: balance; }
+  h1 em { font-weight: 300; font-style: normal; }
+  .foot { position: absolute; left: 72px; right: 72px; bottom: 52px; padding-top: 22px; border-top: 2px solid #16190f; display: flex; align-items: center; gap: 14px; font: 500 16px 'Martian Mono', monospace; color: #3a3f31; }
   .dot { width: 16px; height: 16px; border-radius: 50%; background: #d4f25a; box-shadow: 0 0 0 2px #16190f; }
   .leaf { position: absolute; right: 64px; top: 112px; width: 330px; height: 330px; }
   .lf { fill: #c9e38a; stroke: #16190f; stroke-width: 2.2; stroke-linejoin: round; }

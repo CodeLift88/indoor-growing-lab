@@ -79,14 +79,14 @@ function shell({ base, file, title, desc, img, type, current, main, scripts = []
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="theme-color" content="#f2eee4" />
+  <meta name="theme-color" content="#f3f4ee" />
   ${ld ? `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>` : ''}
   <link rel="icon" type="image/svg+xml" href="${base}assets/logo-mark.svg" />
   <link rel="manifest" href="${base}manifest.webmanifest" />
   <link rel="apple-touch-icon" href="${base}assets/icons/icon-180.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Instrument+Sans:wght@400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Martian+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="${base}styles.css" />
   <script>
     document.documentElement.classList.replace('no-js', 'js');
