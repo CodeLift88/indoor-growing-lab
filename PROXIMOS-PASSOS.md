@@ -14,7 +14,7 @@ Lista viva do que falta para o site crescer. Marque com `[x]` o que for concluí
 
 ### Decisões de texto (me responder para eu ajustar)
 - [ ] **Equipe ou só você?** Se for só você, trocar "Equipe Growmetria" e "Conheça a equipe" pela marca "Growmetria" ou por uma assinatura em primeira pessoa (nome ou apelido). Equipe inventada derruba a confiança de parceiros e do Google quando descoberta.
-- [ ] **Frase sobre saúde na home** ("benefícios que ela pode trazer à saúde"). Alegação de saúde costuma fazer lojas e programas de afiliado recusarem parceria. Sugestão: tirar da home ("apaixonados pela cultura canábica e pelo cultivo bem feito") e manter a parte de saúde só em "Quem somos", com o aviso médico.
+- [x] **Frase sobre saúde na home** (removida da home) ("benefícios que ela pode trazer à saúde"). Alegação de saúde costuma fazer lojas e programas de afiliado recusarem parceria. Sugestão: tirar da home ("apaixonados pela cultura canábica e pelo cultivo bem feito") e manter a parte de saúde só em "Quem somos", com o aviso médico.
 
 ### Para dar credibilidade
 - [ ] Fotos reais dos 14 sintomas do diagnóstico (lista de arquivos abaixo)

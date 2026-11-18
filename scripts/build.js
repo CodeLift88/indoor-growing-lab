@@ -204,7 +204,7 @@ function diaryPage() {
   const main = `  <header class="article__head">
     <p class="kicker">Ferramenta · fica só no seu navegador</p>
     <h1 class="article__title">Diário de cultivo</h1>
-    <p class="article__lead">Fotografe a planta, anote regas, adubo e medições. Cada registro guarda o dia do cultivo e a fase, e as fotos viram uma linha do tempo do grão à colheita.</p>
+    <p class="article__lead">Fotografe a planta, anote regas, adubo e medições. Cada foto vira uma ficha do grow com o dia, a fase e a configuração do momento, e as fichas formam a linha do tempo do grão à colheita.</p>
   </header>
 
   <section class="dstat" id="dstat" aria-label="Resumo do cultivo" aria-live="polite"></section>
@@ -212,9 +212,9 @@ function diaryPage() {
   <div class="dart-cta">
     <div>
       <p class="dart-cta__t">Ficha do grow</p>
-      <p class="dart-cta__s">Uma imagem com a sua planta, há quantos dias ela está na fase e a configuração atual do grow, pronta para postar. Ela também abre sozinha quando você salva uma foto.</p>
+      <p class="dart-cta__s">Ao salvar uma foto, ela vira esta imagem: a planta, há quantos dias está na fase e a configuração atual do grow. Sem foto, gere uma ficha de hoje aqui.</p>
     </div>
-    <button type="button" class="btn btn--primary" id="d-art">Gerar ficha</button>
+    <button type="button" class="btn btn--primary" id="d-art">Ficha de hoje</button>
   </div>
 
   <div class="diary">
@@ -232,7 +232,7 @@ function diaryPage() {
           <figcaption id="dphoto-size"></figcaption>
           <button type="button" id="dphoto-del" aria-label="Remover foto">×</button>
         </figure>
-        <p class="dphoto__note">A foto fica só no seu aparelho. Ao salvar, apagamos a localização gravada na imagem.</p>
+        <p class="dphoto__note">A foto não fica guardada: ao salvar, ela vira a sua ficha do grow com os dados de hoje, e só a ficha vai para o diário. Nada sai do seu aparelho.</p>
       </div>
       <div class="dwhen">
         <label class="dfield"><span class="ctl__label">Data</span><input type="date" id="d-date" class="date" /></label>
@@ -269,7 +269,7 @@ function diaryPage() {
 
   <section class="dtools" aria-labelledby="dtools-title">
     <h2 class="ctl__label" id="dtools-title">Seus dados</h2>
-    <p>O diário e as fotos ficam salvos apenas neste navegador, nada vai para a internet. Se limpar os dados do navegador ou trocar de celular, eles somem. Baixe uma cópia de vez em quando: ela inclui as fotos.</p>
+    <p>O diário e as fichas ficam salvos apenas neste navegador, nada vai para a internet. Se limpar os dados do navegador ou trocar de celular, eles somem. Baixe uma cópia de vez em quando: ela inclui as fichas.</p>
     <div class="dtools__btns">
       <button type="button" class="btn" id="d-export">Baixar cópia</button>
       <label class="btn dtools__file">Restaurar cópia<input type="file" id="d-import" accept="application/json,.json" /></label>

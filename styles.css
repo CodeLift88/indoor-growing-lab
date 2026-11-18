@@ -1774,3 +1774,7 @@ html.age-leaving body > *:not(.gate):not(.gate__leaf) { filter: blur(0) saturate
 .tool__now { min-height: calc(2.8em + 11px); }
 .cycle[data-stage="5"] .lamp { opacity: .2; transition: opacity .8s ease; }
 .hang .pistil { fill: none; stroke: #b8682c; stroke-width: 1; stroke-linecap: round; opacity: .8; }
+
+.dthumb img { object-position: 50% 42%; }
+.dthumb.is-ficha::after, .dthumb.is-ficha .dthumb__d, .dthumb.is-ficha .dthumb__p { display: none; }
+.dthumb.is-ficha img { object-position: 50% 48%; }

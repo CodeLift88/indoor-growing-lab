@@ -159,7 +159,7 @@
       tiles.push({ k: 'Última rega', v: '—', s: 'Nenhuma rega anotada' });
     }
     const nPhotos = entries.filter(e => e.photo).length;
-    tiles.push({ k: 'Anotações', v: String(entries.length), s: entries.length ? `${nPhotos ? `${nPhotos} com foto · ` : ''}desde ${fmtDate(parse(entries.reduce((a, e) => e.date < a ? e.date : a, entries[0].date)))}` : 'comece pela primeira' });
+    tiles.push({ k: 'Anotações', v: String(entries.length), s: entries.length ? `${nPhotos ? `${nPhotos} ${nPhotos === 1 ? 'ficha' : 'fichas'} · ` : ''}desde ${fmtDate(parse(entries.reduce((a, e) => e.date < a ? e.date : a, entries[0].date)))}` : 'comece pela primeira' });
 
     $('#dstat').innerHTML = tiles.map(x => `
       <div class="dtile">
@@ -177,11 +177,11 @@
     box.hidden = !list.length;
     if (!list.length) { $('#dgallery-strip').innerHTML = ''; return; }
     const first = parse(list[0].date), last = parse(list[list.length - 1].date);
-    $('#dgallery-cap').textContent = `${list.length} ${list.length === 1 ? 'foto' : 'fotos'}${list.length > 1 ? ` · ${fmtDate(first)} a ${fmtDate(last)}` : ''}`;
+    $('#dgallery-cap').textContent = `${list.length} ${list.length === 1 ? 'ficha' : 'fichas'}${list.length > 1 ? ` · ${fmtDate(first)} a ${fmtDate(last)}` : ''}`;
     const strip = $('#dgallery-strip');
     strip.innerHTML = list.map(e => {
       const c = ctxOf(e);
-      return `<button type="button" class="dthumb" data-open="${e.id}">
+      return `<button type="button" class="dthumb${e.ficha ? ' is-ficha' : ''}" data-open="${e.id}">
         <img data-photo="${e.photo}" alt="Foto de ${fmtDate(parse(e.date), { day: 'numeric', month: 'long' })}" loading="lazy" />
         <span class="dthumb__d">${c ? `Dia ${c.day}` : esc(fmtDate(parse(e.date)))}</span>
         <span class="dthumb__p">${c && c.phase ? esc(c.phase) : esc(fmtDate(parse(e.date)))}</span>
@@ -330,11 +330,18 @@
     const date = dateIn.value || iso(new Date());
     const entry = { id: newId(), date, type, note, m, created: new Date().toISOString() };
     const c = ctxFor(date); if (c) entry.ctx = c;
+    let ficha = null;
     if (pending) {
       const pid = 'p-' + newId();
-      try { await DB.put(pid, pending); }
-      catch { toast('Não deu para guardar a foto neste navegador. A anotação não foi salva.'); return; }
-      entry.photo = pid;
+      const src = URL.createObjectURL(pending);
+      $('.dsave').disabled = true;
+      try { ficha = await drawArt(entry, 'story', src); } catch { ficha = null; }
+      URL.revokeObjectURL(src);
+      $('.dsave').disabled = false;
+      if (!ficha) { toast('Não deu para montar a ficha com essa foto. Tente outra.'); return; }
+      try { await DB.put(pid, ficha); }
+      catch { toast('Não deu para guardar a ficha neste navegador. A anotação não foi salva.'); return; }
+      entry.photo = pid; entry.ficha = true;
       if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
     }
     entries.push(entry);
@@ -345,7 +352,7 @@
     clearPending();
     typeTouched = false; setType('foto');
     renderAll();
-    if (entry.photo) { toast('Foto salva. Sua ficha do grow está pronta.'); openArt(entry); }
+    if (ficha) { toast('Ficha salva no diário.'); showFicha(entry, ficha); }
     else toast('Anotação salva.');
   });
 
@@ -367,7 +374,8 @@
     $('#dview-next').disabled = i === list.length - 1;
     const img = $('#dview-img');
     img.removeAttribute('src');
-    img.alt = `Foto de ${fmtDate(parse(e.date), { day: 'numeric', month: 'long' })}`;
+    img.alt = `${e.ficha ? 'Ficha do grow' : 'Foto'} de ${fmtDate(parse(e.date), { day: 'numeric', month: 'long' })}`;
+    $('#dview-art').textContent = e.ficha ? 'Baixar ou compartilhar' : 'Gerar ficha desta foto';
     const u = await photoUrl(e.photo); if (u && viewId === id) img.src = u;
     if (!view.open) view.showModal();
   }
@@ -445,7 +453,7 @@
     return { date, c, items, photo: entry && entry.photo };
   }
 
-  async function drawArt(entry, format) {
+  async function drawArt(entry, format, photoSrc) {
     const W = 1080, H = format === 'feed' ? 1350 : 1920;
     const PH = format === 'feed' ? 700 : 1120; // altura da foto
     const data = artData(entry);
@@ -456,7 +464,8 @@
 
     // foto ou, sem foto, o frasco grande sobre papel quadriculado
     let img = null;
-    if (data.photo) { const u = await photoUrl(data.photo); if (u) img = await loadImg(u).catch(() => null); }
+    const src = photoSrc || (data.photo && !(entry && entry.ficha) ? await photoUrl(data.photo) : null);
+    if (src) img = await loadImg(src).catch(() => null);
     if (img) {
       cover(ctx, img, 0, 0, W, PH);
     } else {
@@ -542,7 +551,7 @@
     ctx.fillStyle = C.ink; ctx.font = `500 24px ${FM}`;
     ctx.fillText('Ficha do grow · diário de cultivo Growmetria · grátis', 112, fy + 14);
 
-    return new Promise(res => cv.toBlob(res, 'image/png'));
+    return new Promise(res => cv.toBlob(res, 'image/jpeg', 0.9));
   }
 
   const art = $('#dart');
@@ -556,18 +565,34 @@
     img.src = artUrl;
     art.classList.remove('is-busy');
   }
+  const canShareFiles = () => !!(navigator.canShare && navigator.canShare({ files: [new File([new Blob()], 'x.jpg', { type: 'image/jpeg' })] }));
+  function showFicha(entry, blob) {
+    artEntry = entry; artBlob = blob;
+    if (artUrl) URL.revokeObjectURL(artUrl);
+    artUrl = URL.createObjectURL(blob);
+    $('#dart-img').src = artUrl;
+    $('#dart-share').hidden = !canShareFiles();
+    if (view.open) view.close();
+    if (!art.open) art.showModal();
+  }
   async function openArt(entry) {
-    artEntry = entry || entries.filter(e => e.photo).sort((a, b) => (b.date + b.created).localeCompare(a.date + a.created))[0] || null;
+    // sem foto nova: usa uma foto antiga (de antes das fichas) dos últimos 14 dias, se houver
+    artEntry = entry || entries.filter(e => e.photo && !e.ficha).sort((a, b) => (b.date + b.created).localeCompare(a.date + a.created))[0] || null;
     // a arte geral usa a foto mais recente só se ela for dos últimos 14 dias
     if (!entry && artEntry && daysBetween(parse(artEntry.date), today()) > 14) artEntry = null;
-    $('#dart-share').hidden = !(navigator.canShare && navigator.canShare({ files: [new File([new Blob()], 'x.png', { type: 'image/png' })] }));
+    $('#dart-share').hidden = !canShareFiles();
     if (view.open) view.close();
     art.showModal();
     await renderArt();
   }
-  const artName = () => { const c = artEntry ? ctxOf(artEntry) : ctxFor(iso(new Date())); return `growmetria-ficha-${c ? `dia-${c.day}` : iso(new Date())}.png`; };
+  const artName = () => { const c = artEntry ? ctxOf(artEntry) : ctxFor(iso(new Date())); return `growmetria-ficha-${c ? `dia-${c.day}` : iso(new Date())}.jpg`; };
   $('#d-art').addEventListener('click', () => openArt(null));
-  $('#dview-art').addEventListener('click', () => openArt(entries.find(x => x.id === viewId)));
+  $('#dview-art').addEventListener('click', async () => {
+    const e = entries.find(x => x.id === viewId); if (!e) return;
+    if (!e.ficha) { openArt(e); return; }
+    const b = await DB.get(e.photo).catch(() => null);
+    if (b) showFicha(e, b); else toast('Não encontramos essa ficha neste navegador.');
+  });
   $('#dart-save').addEventListener('click', () => {
     if (!artBlob) return;
     const a = Object.assign(document.createElement('a'), { href: artUrl, download: artName() });
@@ -576,7 +601,7 @@
   });
   $('#dart-share').addEventListener('click', async () => {
     if (!artBlob) return;
-    try { await navigator.share({ files: [new File([artBlob], artName(), { type: 'image/png' })] }); }
+    try { await navigator.share({ files: [new File([artBlob], artName(), { type: artBlob.type || 'image/jpeg' })] }); }
     catch (e) { if (e.name !== 'AbortError') toast('Não deu para compartilhar. Use Baixar ficha.'); }
   });
   $('#dart-close').addEventListener('click', () => art.close());
@@ -599,7 +624,7 @@
     renderList();
   });
   $('#dfilter').innerHTML = `<button type="button" class="pill is-active" data-f="all">Tudo</button>` +
-    Object.entries(TYPES).map(([k, t]) => `<button type="button" class="pill" data-f="${k}">${k === 'foto' ? 'Fotos' : t.label}</button>`).join('');
+    Object.entries(TYPES).map(([k, t]) => `<button type="button" class="pill" data-f="${k}">${k === 'foto' ? 'Fichas e fotos' : t.label}</button>`).join('');
 
   // --------- cópia de segurança (com as fotos) ---------
   const toDataUrl = b => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(b); });
