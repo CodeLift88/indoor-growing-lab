@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indoor Growing Lab — Calculadoras Fáceis, Guias Práticos &amp; Melhores Equipamentos de Cultivo Indoor</title>
+  <meta name="description" content="Descubra em segundos qual luz LED, tenda e exaustor comprar, ajuste a temperatura e umidade perfeitas e calcule quanto vai gastar na conta de luz." />
+  <link rel="icon" type="image/svg+xml" href="assets/logo-mark.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ========================================================================
+       BIBLIOTECA DE ASSETS SVG PRÓPRIOS — IDENTIDADE VISUAL SWISS LAB
+       ======================================================================== -->
+  <svg class="lab-svg-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <!-- Asset Exclusivo: Estrela Geométrica Indoor Growing Lab -->
+    <symbol id="icon-lab-star" viewBox="0 0 24 24">
+      <path d="M12 1.5L14.85 8.45L22.2 9.15L16.65 14.05L18.3 21.3L12 17.45L5.7 21.3L7.35 14.05L1.8 9.15L9.15 8.45L12 1.5Z" fill="#F59E0B" stroke="#111215" stroke-width="1.6" stroke-linejoin="miter"/>
+      <path d="M12 6.2L13.3 9.8L16.9 11.1L13.3 12.4L12 16L10.7 12.4L7.1 11.1L10.7 9.8L12 6.2Z" fill="#111215" stroke="none"/>
+      <circle cx="12" cy="11.1" r="1.35" fill="#FFFFFF" stroke="none"/>
+    </symbol>
+
+    <!-- Mudas / Sementes Germinando -->
+    <symbol id="icon-seedling" viewBox="0 0 24 24">
+      <path d="M12 21V10" />
+      <path d="M12 13C8.5 13 5 10.5 5 6.5C9 6.5 12 9 12 13Z" />
+      <path d="M12 11C15.5 11 19 8.5 19 4.5C15 4.5 12 7 12 11Z" />
+      <path d="M7 21H17" />
+    </symbol>
+
+    <!-- Crescimento Vegetativo / Folhagem -->
+    <symbol id="icon-leaf" viewBox="0 0 24 24">
+      <path d="M19.5 4.5C11.5 4.5 5.5 9.5 5.5 17.5C13.5 17.5 19.5 12.5 19.5 4.5Z" />
+      <path d="M4.5 19.5L14.5 9.5" />
+      <path d="M10 14L10 10.5" />
+      <path d="M13 11L16.5 11" />
+    </symbol>
+
+    <!-- Floração / Frutos (Emblema Botânico Geométrico) -->
+    <symbol id="icon-bloom" viewBox="0 0 24 24">
+      <polygon points="12,2.5 14.8,8.2 21,9.2 16.5,13.6 17.6,19.8 12,16.8 6.4,19.8 7.5,13.6 3,9.2 9.2,8.2" />
+      <rect x="9.5" y="9.5" width="5" height="5" transform="rotate(45 12 12)" />
+    </symbol>
+
+    <!-- Potência Máxima / CO2 Turbo -->
+    <symbol id="icon-boost" viewBox="0 0 24 24">
+      <polyline points="6 13 12 7 18 13" />
+      <polyline points="6 19 12 13 18 19" />
+      <line x1="12" y1="3" x2="12" y2="5" />
+    </symbol>
+
+    <!-- Status Ideal / Verificado -->
+    <symbol id="icon-check" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="18" height="18" />
+      <polyline points="7.5 12.5 10.5 15.5 16.5 9" />
+    </symbol>
+
+    <!-- Alerta / Atenção Técnica -->
+    <symbol id="icon-alert" viewBox="0 0 24 24">
+      <polygon points="12 3 22 20 2 20" />
+      <line x1="12" y1="9.5" x2="12" y2="14.5" />
+      <rect x="11.25" y="16.5" width="1.5" height="1.5" fill="currentColor" stroke="none" />
+    </symbol>
+
+    <!-- Alerta Térmico / Calor e Secura -->
+    <symbol id="icon-thermal" viewBox="0 0 24 24">
+      <path d="M12 2.5L16.5 9.5C18.5 12.5 17 17.5 12 20.5C7 17.5 5.5 12.5 7.5 9.5L12 2.5Z" />
+      <path d="M12 10.5L14 14C14.8 15.4 14 17.5 12 18.5C10 17.5 9.2 15.4 10 14L12 10.5Z" />
+    </symbol>
+
+    <!-- Cupom de Desconto / Ticket Técnico -->
+    <symbol id="icon-coupon" viewBox="0 0 24 24">
+      <path d="M3 7H21V10.5C19.3 10.5 18 11.2 18 12C18 12.8 19.3 13.5 21 13.5V17H3V13.5C4.7 13.5 6 12.8 6 12C6 11.2 4.7 10.5 3 10.5V7Z" />
+      <line x1="10" y1="7" x2="10" y2="17" stroke-dasharray="2 2" />
+    </symbol>
+
+    <!-- Relógio / Tempo de Leitura -->
+    <symbol id="icon-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" />
+      <polyline points="12 7 12 12 15.5 14" />
+    </symbol>
+
+    <!-- Insight / Regra de Ouro -->
+    <symbol id="icon-insight" viewBox="0 0 24 24">
+      <polygon points="12 2.5 19.5 10 12 17.5 4.5 10" />
+      <line x1="8.5" y1="21" x2="15.5" y2="21" />
+      <line x1="12" y1="17.5" x2="12" y2="21" />
+    </symbol>
+
+    <!-- Alternador de Tema Claro / Escuro -->
+    <symbol id="icon-theme" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 3.5A8.5 8.5 0 0 1 12 20.5Z" fill="currentColor" stroke="none" />
+    </symbol>
+
+    <!-- Setas e Controles Geométricos -->
+    <symbol id="icon-external" viewBox="0 0 24 24">
+      <line x1="7" y1="17" x2="17" y2="7" />
+      <polyline points="9 7 17 7 17 15" />
+    </symbol>
+
+    <symbol id="icon-chevron-down" viewBox="0 0 24 24">
+      <polyline points="6 9 12 15 18 9" />
+    </symbol>
+
+    <symbol id="icon-chevron-up" viewBox="0 0 24 24">
+      <polyline points="6 15 12 9 18 15" />
+    </symbol>
+
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24">
+      <line x1="19" y1="12" x2="5" y2="12" />
+      <polyline points="11 18 5 12 11 6" />
+    </symbol>
+
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24">
+      <line x1="5" y1="12" x2="19" y2="12" />
+      <polyline points="13 6 19 12 13 18" />
+    </symbol>
+
+    <symbol id="icon-close" viewBox="0 0 24 24">
+      <line x1="6" y1="6" x2="18" y2="18" />
+      <line x1="18" y1="6" x2="6" y2="18" />
+    </symbol>
+  </svg>
+
+  <!-- ========================================================================
+       HEADER STICKY AMIGÁVEL (ESTILO VISUAL DO PRINT COM LINGUAGEM CLARA)
+       ======================================================================== -->
+  <header class="top-telemetry-bar">
+    <div class="telemetry-brand">
+      <img src="assets/logo-mark.svg" alt="" class="brand-mark-svg" />
+      <span>INDOOR GROWING LAB</span>
+      <span class="telemetry-brand-tag">[CALCULADORAS &amp; GUIA PRÁTICO]</span>
+    </div>
+
+    <div class="telemetry-stepper">
+      <button type="button" class="stepper-btn" onclick="stepSection(-1)" title="Passo anterior" aria-label="Passo anterior">
+        <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-arrow-left"></use></svg>
+      </button>
+      <span id="stepper-counter" class="stepper-counter-label">Passo 01 / 06</span>
+      <button type="button" class="stepper-btn" onclick="stepSection(1)" title="Próximo passo" aria-label="Próximo passo">
+        <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+      </button>
+    </div>
+
+    <div class="telemetry-controls">
+      <button type="button" id="btn-unit-toggle" class="control-pill" onclick="toggleUnitSystem()">
+        MEDIDAS: METROS &amp; °C (BR/UE)
+      </button>
+      <button type="button" id="btn-theme-toggle" class="control-pill" onclick="toggleThemeMode()">
+        <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-theme"></use></svg>
+        <span>MODO ESCURO</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       MENU DE NAVEGAÇÃO DIRETO E FÁCIL DE ENTENDER
+       ======================================================================== -->
+  <nav class="sub-nav" aria-label="Navegação Principal">
+    <div class="nav-tabs">
+      <button type="button" class="nav-tab active" onclick="jumpToSection(1, 'sec-calculadoras', this)">
+        01. Tamanho da Tenda &amp; Luz
+      </button>
+      <button type="button" class="nav-tab" onclick="jumpToSection(2, 'sec-vpd-cfm', this)">
+        02. Clima &amp; Exaustor (Sem Cheiro)
+      </button>
+      <button type="button" class="nav-tab" onclick="jumpToSection(3, 'sec-energia', this)">
+        03. Simulador da Conta de Luz
+      </button>
+      <button type="button" class="nav-tab" onclick="jumpToSection(4, 'sec-hardware', this)">
+        04. Melhores Equipamentos
+      </button>
+      <button type="button" class="nav-tab" onclick="jumpToSection(5, 'sec-blog', this)">
+        05. Guias Práticos (Blog)
+      </button>
+      <button type="button" class="nav-tab" onclick="jumpToSection(6, 'sec-protocolo', this)">
+        06. Sobre o Lab
+      </button>
+    </div>
+
+    <div class="global-preset-bar">
+      <label for="global-tent-select">MINHA TENDA:</label>
+      <select id="global-tent-select" class="preset-select" aria-label="Selecionar tamanho da tenda">
+        <option value="60x60">Compacta: 60×60 cm (1 a 2 plantas)</option>
+        <option value="120x60">Retangular: 120×60 cm (2 a 3 plantas)</option>
+        <option value="90x90">Média: 90×90 cm (3 a 4 plantas)</option>
+        <option value="120x120" selected>Padrão Ouro: 120×120 cm (4 a 6 plantas)</option>
+        <option value="150x150">Grande: 150×150 cm (6 a 9 plantas)</option>
+      </select>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       CONTAINER PRINCIPAL DO SITE
+       ======================================================================== -->
+  <main class="lab-container">
+
+    <!-- HERO DIRETO, ACOLHEDOR E FÁCIL -->
+    <section class="editorial-hero">
+      <div>
+        <span class="hero-kicker">CALCULADORAS GRATUITAS &amp; RECOMENDAÇÕES SEM ENROLAÇÃO</span>
+        <h1 class="hero-title">Monte seu Cultivo Indoor sem Errar nos Equipamentos.</h1>
+        <p class="hero-subtitle">
+          Chega de gastar dinheiro à toa com lâmpada fraca ou passar calor no quarto. Mexa nos controles abaixo para descobrir em segundos <strong>qual luz LED comprar</strong>, como <strong>acertar a temperatura e a umidade</strong>, qual <strong>exaustor tira 100% do cheiro</strong> e quanto isso vai custar na sua <strong>conta de luz</strong>.
+        </p>
+      </div>
+
+      <aside class="hero-telemetry-box" aria-label="Resumo em tempo real do seu cultivo">
+        <div class="hero-telemetry-header">
+          <strong>RESUMO DO SEU SETUP AGORA</strong>
+          <span class="live-status-pill">
+            <span class="pulse-dot"></span>
+            <span>ATUALIZADO NA HORA</span>
+          </span>
+        </div>
+        <div class="telemetry-stat-grid">
+          <div class="mini-stat">
+            <div class="mini-stat-label">Espaço Escolhido</div>
+            <div class="mini-stat-val" id="hero-stat-tent">120×120 cm</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-label">Energia de Luz / Dia</div>
+            <div class="mini-stat-val" id="hero-stat-dli">32 pts (Ótima)</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-label">Clima para a Planta</div>
+            <div class="mini-stat-val" id="hero-stat-vpd">1.08 (Bom)</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-label">Gasto de Luz / Mês</div>
+            <div class="mini-stat-val" id="hero-stat-kwh">R$ 165/mês</div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- ======================================================================
+         PASSO 01 & PASSO 02: TAMANHO DA TENDA E POTÊNCIA DA LUZ
+         ====================================================================== -->
+    <div id="sec-calculadoras" class="spread-grid">
+
+      <!-- CARD 01: QUAL O TAMANHO DA SUA TENDA? -->
+      <article class="folio-card">
+        <div class="folio-card-header">
+          <span>Passo 1: Descubra o Kit Ideal para o Seu Espaço</span>
+          <span>CALCULADORA 01 / 05</span>
+        </div>
+
+        <div class="kinetic-bars-stage">
+          <div class="kinetic-col">
+            <div class="kinetic-bar-wrap">
+              <div id="fig1-bar-1" class="kinetic-bar-fill bar-indigo" style="height: 68%;">
+                <span class="kinetic-rotated-num">500W</span>
+              </div>
+            </div>
+            <span class="kinetic-col-label">Potência do LED</span>
+            <span class="kinetic-col-sub">Força Real na Tomada</span>
+          </div>
+
+          <div class="kinetic-col">
+            <div class="kinetic-bar-wrap">
+              <div id="fig1-bar-2" class="kinetic-bar-fill bar-vermilion" style="height: 74%;">
+                <span class="kinetic-rotated-num">4 a 6</span>
+              </div>
+            </div>
+            <span class="kinetic-col-label">Nº de Plantas</span>
+            <span class="kinetic-col-sub">Cabem com Conforto</span>
+          </div>
+
+          <div class="kinetic-col">
+            <div class="kinetic-bar-wrap">
+              <div id="fig1-bar-3" class="kinetic-bar-fill bar-orchid" style="height: 55%;">
+                <span class="kinetic-rotated-num">198</span>
+              </div>
+            </div>
+            <span class="kinetic-col-label">Força do Exaustor</span>
+            <span id="fig1-col3-sub" class="kinetic-col-sub">Vazão de Ar (m³/h)</span>
+          </div>
+        </div>
+
+        <div class="folio-body">
+          <div class="fig-meta">
+            <span class="fig-code">COMO FUNCIONA ESTA CALCULADORA:</span>
+            Basta clicar no tamanho da tenda que cabe na sua casa e na fase em que suas plantas estão. Nós calculamos automaticamente a luz e a ventilação certas para você não comprar nada errado.
+          </div>
+
+          <div class="interactive-controls-panel">
+            <div class="control-row">
+              <div class="control-label-line">
+                <span>1. QUAL TAMANHO DE TENDA CABE NO SEU ESPAÇO?</span>
+              </div>
+              <div class="pill-selector-group">
+                <button type="button" class="pill-option" data-tent-btn="60x60" onclick="selectTentSize('60x60', this)">60×60 cm (1–2 plantas)</button>
+                <button type="button" class="pill-option" data-tent-btn="120x60" onclick="selectTentSize('120x60', this)">120×60 cm (2–3 plantas)</button>
+                <button type="button" class="pill-option" data-tent-btn="90x90" onclick="selectTentSize('90x90', this)">90×90 cm (3–4 plantas)</button>
+                <button type="button" class="pill-option active" data-tent-btn="120x120" onclick="selectTentSize('120x120', this)">120×120 cm (4–6 plantas)</button>
+                <button type="button" class="pill-option" data-tent-btn="150x150" onclick="selectTentSize('150x150', this)">150×150 cm (6–9 plantas)</button>
+              </div>
+            </div>
+
+            <div class="control-row">
+              <div class="control-label-line">
+                <span>2. EM QUE FASE SUAS PLANTAS ESTÃO?</span>
+              </div>
+              <div class="pill-selector-group">
+                <button type="button" class="pill-option" data-stage-btn="seedling" onclick="selectGrowthStage('seedling', this)">
+                  <svg class="lab-icon" aria-hidden="true"><use href="#icon-seedling"></use></svg>
+                  <span>Mudas / Bebês (Luz Suave)</span>
+                </button>
+                <button type="button" class="pill-option" data-stage-btn="veg" onclick="selectGrowthStage('veg', this)">
+                  <svg class="lab-icon" aria-hidden="true"><use href="#icon-leaf"></use></svg>
+                  <span>Crescimento / Folhas (Luz Média)</span>
+                </button>
+                <button type="button" class="pill-option active" data-stage-btn="bloom" onclick="selectGrowthStage('bloom', this)">
+                  <svg class="lab-icon" aria-hidden="true"><use href="#icon-bloom"></use></svg>
+                  <span>Floração / Frutos (Luz Máxima)</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="btn-table-toggle" onclick="toggleDataDrawer('drawer-fig1', this)">
+            <span>Ver tabela resumida de todos os tamanhos</span>
+            <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+          </button>
+
+          <div id="drawer-fig1" class="data-drawer">
+            <table class="lab-table">
+              <thead>
+                <tr>
+                  <th>Tamanho da Tenda</th>
+                  <th>Quantas Plantas Cabem</th>
+                  <th>LED p/ Crescimento</th>
+                  <th>LED p/ Floração</th>
+                  <th>Tamanho do Tubo de Ar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>60×60 cm (2×2 pés)</td><td>1 a 2 vasos médios</td><td>100 W</td><td>150 W</td><td>100 mm (4 polegadas)</td></tr>
+                <tr><td>120×60 cm (2×4 pés)</td><td>2 a 3 vasos médios</td><td>200 W</td><td>300 W</td><td>100 a 150 mm</td></tr>
+                <tr><td>90×90 cm (3×3 pés)</td><td>3 a 4 vasos médios</td><td>240 W</td><td>320 W</td><td>150 mm (6 polegadas)</td></tr>
+                <tr><td>120×120 cm (4×4 pés)</td><td>4 a 6 vasos grandes</td><td>360 W</td><td>480–500 W</td><td>150 mm (6 polegadas)</td></tr>
+                <tr><td>150×150 cm (5×5 pés)</td><td>6 a 9 vasos grandes</td><td>550 W</td><td>700–730 W</td><td>200 mm (8 polegadas)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="kpi-headline-block">
+            <div class="kpi-kicker">RECOMENDAÇÃO DIRETA PARA A SUA TENDA</div>
+            <div class="kpi-headline-row">
+              <div id="fig1-headline-num" class="kpi-giant-number">LED de 500W</div>
+              <span id="fig1-status-badge" class="kpi-status-badge status-good">
+                <svg class="lab-icon" aria-hidden="true"><use href="#icon-check"></use></svg>
+                <span>Dimensionamento Exato</span>
+              </span>
+            </div>
+            <p id="fig1-headline-copy" class="kpi-summary-copy">
+              Para uma tenda de 120×120 cm (onde cabem de 4 a 6 plantas com folga), você precisa de um painel LED de cerca de 480W a 500W reais e um exaustor de 150 mm (6 polegadas).
+            </p>
+          </div>
+
+          <div class="recommendation-strip">
+            <div class="rec-header">
+              <span>MELHOR CUSTO-BENEFÍCIO PARA ESTE TAMANHO</span>
+              <span>LOJA OFICIAL + AMAZON</span>
+            </div>
+            <div class="rec-product-title">Kit Tenda e Iluminação Inteligente Vivosun</div>
+            <div class="dual-cta-row">
+              <a href="https://vivosun.com/" target="_blank" rel="noopener noreferrer" class="btn-dtc-primary">
+                <span>Comprar na Loja Oficial Vivosun</span>
+                <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-external"></use></svg>
+              </a>
+              <button type="button" class="btn-coupon-copy" onclick="copyLabCoupon('IGLAB10', 'Vivosun')">
+                <svg class="lab-icon" aria-hidden="true"><use href="#icon-coupon"></use></svg>
+                <span>COPIAR CUPOM 10%: IGLAB10</span>
+              </button>
+              <a href="https://www.amazon.com/s?k=Vivosun+Smart+Grow+Tent+Kit" target="_blank" rel="noopener noreferrer" class="btn-amazon-secondary">
+                <span>Ver Preço na Amazon</span>
+                <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-external"></use></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 02: CALCULADORA DE LUZ (ESTÁ FORTE OU FRACA?) -->
+      <article class="folio-card">
+        <div class="folio-card-header">
+          <span>Passo 2: Sua Luz Está Forte Demais ou Fraca?</span>
+          <span>CALCULADORA 02 / 05</span>
+        </div>
+
+        <div class="kinetic-bars-stage">
+          <div class="kinetic-col">
+            <div class="kinetic-bar-wrap">
+              <div id="fig2-bar-1" class="kinetic-bar-fill bar-indigo" style="height: 55%;">
+                <span class="kinetic-rotated-num">750</span>
+              </div>
+            </div>
+            <span class="kinetic-col-label">Força da Luz Agora</span>
+            <span class="kinetic-col-sub">Medida nas Folhas (PPFD)</span>
+          </div>
+
+          <div class="kinetic-col">
+            <div class="kinetic-bar-wrap">
+              <div id="fig2-bar-2" class="kinetic-bar-fill bar-emerald" style="height: 58%;">
+                <span class="kinetic-rotated-num">32</span>
+              </div>
+            </div>
+            <span class="kinetic-col-label">Total no Dia (DLI)</span>
+            <span class="kinetic-col-sub">Bateria de Luz Diária</span>
+          </div>
+
+          <div class="kinetic-col">
+            <div class="kinetic-bar-wrap">
+              <div id="fig2-bar-3" class="kinetic-bar-fill bar-orchid" style="height: 50%;">
+                <span class="kinetic-rotated-num">12h</span>
+              </div>
+            </div>
+            <span class="kinetic-col-label">Horas Ligada</span>
+            <span class="kinetic-col-sub">Tempo por Dia</span>
+          </div>
+        </div>
+
+        <div class="folio-body">
+          <div class="fig-meta">
+            <span class="fig-code">ENTENDA EM 10 SEGUNDOS:</span>
+            Pense na planta como uma bateria que carrega durante o dia. Se faltar luz, ela cresce magra e fraca. Se tiver luz demais sem necessidade, as folhas queimam e você joga dinheiro fora na conta de energia!
+          </div>
+
+          <div class="interactive-controls-panel">
+            <div class="control-row">
+              <div class="control-label-line">
+                <label for="slider-ppfd">FORÇA DA LUZ BATENDO NA PLANTA (PPFD):</label>
+                <span id="val-ppfd" class="control-val-badge">750 (Forte / Floração)</span>
+              </div>
+              <input type="range" id="slider-ppfd" min="150" max="1500" step="25" value="750" />
+            </div>
+
+            <div class="control-row">
+              <div class="control-label-line">
+                <label for="slider-hours">QUANTAS HORAS POR DIA O LED FICA LIGADO?</label>
+                <span id="val-hours" class="control-val-badge">12 horas por dia</span>
+              </div>
+              <input type="range" id="slider-hours" min="10" max="24" step="1" value="12" />
+            </div>
+
+            <div class="control-row control-row--inline">
+              <label for="chk-co2" class="control-inline-label">
+                VOCÊ USA CILINDRO EXTRA DE GÁS CO₂ NA SALA?
+              </label>
+              <input type="checkbox" id="chk-co2" class="control-checkbox" />
+            </div>
+          </div>
+
+          <button type="button" class="btn-table-toggle" onclick="toggleDataDrawer('drawer-fig2', this)">
+            <span>Ver guia rápido de quanta luz usar em cada fase</span>
+            <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+          </button>
+
+          <div id="drawer-fig2" class="data-drawer">
+            <table class="lab-table">
+              <thead>
+                <tr>
+                  <th>Fase da Planta</th>
+                  <th>Força da Luz (PPFD)</th>
+                  <th>Horas Ligada</th>
+                  <th>Nota Simples (DLI)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <span class="table-stage-cell">
+                      <svg class="lab-icon" aria-hidden="true"><use href="#icon-seedling"></use></svg>
+                      <span>Mudas Pequenas e Clones</span>
+                    </span>
+                  </td>
+                  <td>200 a 300 (Luz bem suave)</td>
+                  <td>18 horas</td>
+                  <td>12 a 20 (Ideal p/ raízes)</td>
+                </tr>
+                <tr>
+                  <td>
+                    <span class="table-stage-cell">
+                      <svg class="lab-icon" aria-hidden="true"><use href="#icon-leaf"></use></svg>
+                      <span>Crescimento (Fazendo folhas)</span>
+                    </span>
+                  </td>
+                  <td>400 a 650 (Luz média)</td>
+                  <td>18 horas</td>
+                  <td>25 a 40 (Crescimento rápido)</td>
+                </tr>
+                <tr>
+                  <td>
+                    <span class="table-stage-cell">
+                      <svg class="lab-icon" aria-hidden="true"><use href="#icon-bloom"></use></svg>
+                      <span>Floração / Frutos (Normal)</span>
+                    </span>
+                  </td>
+                  <td>700 a 900 (Luz forte)</td>
+                  <td>12 horas</td>
+                  <td>30 a 40 (Máximo s/ queimar)</td>
+                </tr>
+                <tr>
+                  <td>
+                    <span class="table-stage-cell">
+                      <svg class="lab-icon" aria-hidden="true"><use href="#icon-boost"></use></svg>
+                      <span>Floração Turbo (Só com CO₂)</span>
+                    </span>
+                  </td>
+                  <td>950 a 1.200 (Super forte)</td>
+                  <td>12 horas</td>
+                  <td>42 a 55 (Exige CO₂ extra)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="kpi-headline-block">
+            <div class="kpi-kicker">DIAGNÓSTICO DA SUA ILUMINAÇÃO</div>
+            <div class="kpi-headline-row">
+              <div id="fig2-headline-num" class="kpi-giant-number">32 pts / dia</div>
+              <span id="fig2-status-badge" class="kpi-status-badge status-good">
+                <svg class="lab-icon" aria-hidden="true"><use href="#icon-check"></use></svg>
+                <span>Na Medida Certa</span>
+              </span>
+            </div>
+            <p id="fig2-headline-copy" class="kpi-summary-copy">
+              Excelente! Com força 750 ligada por 12h/dia, suas plantas estão recebendo a quantidade ideal de luz para crescerem fortes sem queimar as folhas.
+            </p>
+          </div>
+
+          <div class="recommendation-strip">
+            <div class="rec-header">
+              <span>PAINEL LED COM REGULADOR DE FORÇA (DIMMER)</span>
+              <span>ESPALHA A LUZ SEM QUEIMAR O MEIO</span>
+            </div>
+            <div class="rec-product-title">Luminária em Barras Spider Farmer SE5000 (Chips Samsung)</div>
+            <div class="dual-cta-row">
+              <a href="https://www.spider-farmer.com/" target="_blank" rel="noopener noreferrer" class="btn-dtc-primary">
+                <span>Loja Oficial Spider Farmer</span>
+                <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-external"></use></svg>
+              </a>
+              <button type="button" class="btn-coupon-copy" onclick="copyLabCoupon('IGLABSF', 'Spider Farmer')">
+                <svg class="lab-icon" aria-hidden="true"><use href="#icon-coupon"></use></svg>
+                <span>CUPOM: IGLABSF</span>
+              </button>
+              <a href="https://www.amazon.com/s?k=Spider+Farmer+SE5000+LED+Grow+Light" target="_blank" rel="noopener noreferrer" class="btn-amazon-secondary">
+                <span>Ver Preço na Amazon</span>
+                <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-external"></use></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- ======================================================================
+         PASSO 03 & PASSO 04: CLIMA (TEMPERATURA/UMIDADE) E EXAUSTOR
+         ====================================================================== -->
+    <div id="sec-vpd-cfm" class="spread-grid">
+
+      <!-- CARD 03: TERMÔMETRO DE CONFORTO DA PLANTA (VPD FÁCIL) -->
+      <article class="folio-card">
+        <div class="folio-card-header">
+          <span>Passo 3: Clima Perfeito (Temperatura + Umidade)</span>
+          <span>CALCULADORA 03 / 05</span>
+        </div>
+
+        <div class="kinetic-bars-stage">
+          <div class="kinetic-col">
+            <div class="kinetic-bar-wrap">
+              <div id="fig3-bar-1" class="kinetic-bar-fill bar-indigo" style="height: 64%;">
+                <span class="kinetic-rotated-num">27°</span>
+              </div>
+            </div>
+            <span class="kinetic-col-label">Temperatura</span>
+            <span class="kinetic-col-sub">Calor dentro da Tenda</span>
+          </div>
+
+          <div class="kinetic-col">
+            <div class="kinetic-bar-wrap">
+              <div id="fig3-bar-2" class="kinetic-bar-fill bar-emerald" style="height: 52%;">
+                <span class="kinetic-rotated-num">1.08</span>
+              </div>
+            </div>
+            <span class="kinetic-col-label">Nota do Clima</span>
+            <span class="kinetic-col-sub">Índice VPD (Meta: 0.8 a 1.4)</span>
+          </div>
+
+          <div class="kinetic-col">
+            <div class="kinetic-bar-wrap">
+              <div id="fig3-bar-3" class="kinetic-bar-fill bar-orchid" style="height: 60%;">
+                <span class="kinetic-rotated-num">60%</span>
+              </div>
+            </div>
+            <span class="kinetic-col-label">Umidade do Ar</span>
+            <span class="kinetic-col-sub">Medida no Higrômetro</span>
+          </div>
+        </div>
+
+        <div class="folio-body">
+          <div class="fig-meta">
+            <span class="fig-code">O QUE É ISSO NA PRÁTICA?</span>
+            As plantas "bebem" água pelas raízes e suam pelas folhas. Se o ar estiver <strong>muito úmido</strong>, a planta não transpira e pode mofar. Se estiver <strong>muito seco e quente</strong>, ela fecha os poros e para de crescer. O ponto ideal fica entre <strong>0.8 e 1.4</strong>!
+          </div>
+
+          <div class="interactive-controls-panel">
+            <div class="control-row">
+              <div class="control-label-line">
+                <label for="slider-temp">QUAL A TEMPERATURA DENTRO DA SUA TENDA?</label>
+                <span id="val-temp" class="control-val-badge">26.5 °C</span>
+              </div>
+              <input type="range" id="slider-temp" min="16" max="35" step="0.5" value="26.5" />
+            </div>
+
+            <div class="control-row">
+              <div class="control-label-line">
+                <label for="slider-rh">QUAL A UMIDADE DO AR NO SEU MEDIDOR?</label>
+                <span id="val-rh" class="control-val-badge">60% de Umidade</span>
+              </div>
+              <input type="range" id="slider-rh" min="30" max="85" step="1" value="60" />
+            </div>
+
+            <div class="control-row">
+              <div class="control-label-line">
+                <label for="slider-offset">DIFERENÇA DE TEMPERATURA DA FOLHA (PADRÃO LED: -1.5°C):</label>
+                <span id="val-offset" class="control-val-badge">-1.5 °C</span>
+              </div>
+              <input type="range" id="slider-offset" min="-3.5" max="1.0" step="0.5" value="-1.5" />
+            </div>
+          </div>
+
+          <button type="button" class="btn-table-toggle" onclick="toggleDataDrawer('drawer-fig3', this)">
+            <span>Ver tabela fácil de Temperatura × Umidade ideal</span>
+            <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+          </button>
+
+          <div id="drawer-fig3" class="data-drawer">
+            <table class="lab-table">
+              <thead>
+                <tr>
+                  <th>Nota do Clima (VPD)</th>
+                  <th>O Que Acontece com a Planta</th>
+                  <th>O Que Fazer Agora</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Abaixo de 0.45 (Ar muito úmido)</td>
+                  <td>
+                    <span class="table-stage-cell">
+                      <svg class="lab-icon" aria-hidden="true"><use href="#icon-alert"></use></svg>
+                      <span>Perigo de Mofo! Planta não consegue beber água.</span>
+                    </span>
+                  </td>
+                  <td>Aumente o exaustor ou ligue um desumidificador.</td>
+                </tr>
+                <tr>
+                  <td>0.45 a 0.80 (Clima úmido suave)</td>
+                  <td>
+                    <span class="table-stage-cell">
+                      <svg class="lab-icon" aria-hidden="true"><use href="#icon-seedling"></use></svg>
+                      <span>Perfeito para mudas pequenas e enraizamento.</span>
+                    </span>
+                  </td>
+                  <td>Mantenha assim nos primeiros 15 dias de vida.</td>
+                </tr>
+                <tr>
+                  <td>0.80 a 1.15 (Zona Verde Ideal!)</td>
+                  <td>
+                    <span class="table-stage-cell">
+                      <svg class="lab-icon" aria-hidden="true"><use href="#icon-leaf"></use></svg>
+                      <span>Crescimento acelerado! Folhas saudáveis e abertas.</span>
+                    </span>
+                  </td>
+                  <td>Clima perfeito para toda a fase de crescimento.</td>
+                </tr>
+                <tr>
+                  <td>1.20 a 1.50 (Clima mais sequinho)</td>
+                  <td>
+                    <span class="table-stage-cell">
+                      <svg class="lab-icon" aria-hidden="true"><use href="#icon-bloom"></use></svg>
+                      <span>Ótimo para a Floração (protege flores contra mofo).</span>
+                    </span>
+                  </td>
+                  <td>Ideal nas últimas semanas antes de colher.</td>
+                </tr>
+                <tr>
+                  <td>Acima de 1.60 (Seco/Quente demais)</td>
+                  <td>
+                    <span class="table-stage-cell">
+                      <svg class="lab-icon" aria-hidden="true"><use href="#icon-thermal"></use></svg>
+                      <span>Planta estressada! Folhas enrolando para cima.</span>
+                    </span>
+                  </td>
+                  <td>Abaixe a temperatura ou ligue um umidificador.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="kpi-headline-block">
+            <div class="kpi-kicker">RESULTADO DO SEU CLIMA AGORA</div>
+            <div class="kpi-headline-row">
+              <div id="fig3-headline-num" class="kpi-giant-number">1.08 kPa</div>
+              <span id="fig3-status-badge" class="kpi-status-badge status-good">
+                <svg class="lab-icon" aria-hidden="true"><use href="#icon-check"></use></svg>
+                <span>Clima Ideal</span>
+              </span>
+            </div>
+            <p id="fig3-headline-copy" class="kpi-summary-copy">
+              Excelente! Com 26.5 °C e 60% de umidade, suas plantas estão na Zona Verde Ideal (entre 0.8 e 1.2): elas respiram com facilidade e absorvem todos os nutrientes sem estresse.
+            </p>
+          </div>
+
+          <div class="recommendation-strip">
+            <div class="rec-header">
+              <span>QUER MONITORAR PELO CELULAR SEM FAZER CONTA?</span>
+              <span>PARCEIRO OFICIAL PULSE GROW (10%)</span>
+            </div>
+            <div class="rec-product-title">Sensor Inteligente Pulse One (Mede Clima, Luz e Avisa no Celular)</div>
+            <div class="dual-cta-row">
+              <a href="https://pulsegrow.com/" target="_blank" rel="noopener noreferrer" class="btn-dtc-primary">
+                <span>Loja Oficial Pulse Grow</span>
+                <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-external"></use></svg>
+              </a>
+              <button type="button" class="btn-coupon-copy" onclick="copyLabCoupon('IGLABPULSE', 'Pulse Grow')">
+                <svg class="lab-icon" aria-hidden="true"><use href="#icon-coupon"></use></svg>
+                <span>CUPOM: IGLABPULSE</span>
+              </button>
+              <a href="https://www.amazon.com/s?k=Pulse+One+Grow+Room+Monitor" target="_blank" rel="noopener noreferrer" class="btn-amazon-secondary">
+                <span>Ver Preço na Amazon</span>
+                <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-external"></use></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 04: QUAL EXAUSTOR E FILTRO DE CARVÃO COMPRAR? -->
+      <article class="folio-card">
+        <div class="folio-card-header">
+          <span>Passo 4: Tirar o Calor e o Cheiro (Exaustor)</span>
+          <span>CALCULADORA 04 / 05</span>
+        </div>
+
+        <div class="kinetic-bars-stage">
+          <div class="kinetic-col">
+            <div class="kinetic-bar-wrap">
+              <div id="fig4-bar-1" class="kinetic-bar-fill bar-indigo" style="height: 44%;">
+                <span class="kinetic-rotated-num">118</span>
+              </div>
+            </div>
+            <span class="kinetic-col-label">Ar Básico</span>
+            <span class="kinetic-col-sub">Só o Tamanho da Tenda</span>
+          </div>
+
+          <div class="kinetic-col">
+            <div class="kinetic-bar-wrap">
+              <div id="fig4-bar-2" class="kinetic-bar-fill bar-vermilion" style="height: 64%;">
+                <span class="kinetic-rotated-num">+64%</span>
+              </div>
+            </div>
+            <span class="kinetic-col-label">Força Extra</span>
+            <span class="kinetic-col-sub">Para Vencer o Filtro</span>
+          </div>
+
+          <div class="kinetic-col">
+            <div class="kinetic-bar-wrap">
+              <div id="fig4-bar-3" class="kinetic-bar-fill bar-orchid" style="height: 72%;">
+                <span class="kinetic-rotated-num">198</span>
+              </div>
+            </div>
+            <span class="kinetic-col-label">Exaustor Certo</span>
+            <span class="kinetic-col-sub">Mínimo p/ Comprar</span>
+          </div>
+        </div>
+
+        <div class="folio-body">
+          <div class="fig-meta">
+            <span class="fig-code">POR QUE EXAUSTOR BARATO NÃO DÁ CONTA?</span>
+            Quando você coloca um <strong>filtro de carvão ativado</strong> (para não sair cheiro no apartamento) e dobra o tubo de alumínio, o exaustor perde quase metade da força! Aqui já calculamos a potência real com essa folga.
+          </div>
+
+          <div class="interactive-controls-panel">
+            <div class="control-row control-row--inline">
+              <label for="chk-filter" class="control-inline-label">
+                VAI USAR FILTRO DE CARVÃO PARA TIRAR O CHEIRO?
+              </label>
+              <input type="checkbox" id="chk-filter" checked class="control-checkbox" />
+            </div>
+
+            <div class="control-row">
+              <div class="control-label-line">
+                <label for="slider-bends">QUANTAS DOBRAS (CURVAS) TEM O TUBO DE SAÍDA DE AR?</label>
+                <span id="val-bends" class="control-val-badge">2 dobras no tubo</span>
+              </div>
+              <input type="range" id="slider-bends" min="0" max="5" step="1" value="2" />
+            </div>
+          </div>
+
+          <button type="button" class="btn-table-toggle" onclick="toggleDataDrawer('drawer-fig4', this)">
+            <span>Ver qual modelo de exaustor serve em cada tenda</span>
+            <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+          </button>
+
+          <div id="drawer-fig4" class="data-drawer">
+            <table class="lab-table">
+              <thead>
+                <tr>
+                  <th>Modelo Recomendado</th>
+                  <th>Tamanho da Boca</th>
+                  <th>Força Máxima</th>
+                  <th>Barulho</th>
+                  <th>Para Qual Tenda Serve</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>AC Infinity Cloudline T4</td><td>100 mm (4")</td><td>348 m³/h (205 CFM)</td><td>Super silencioso</td><td>Tendas 60×60 cm e 120×60 cm</td></tr>
+                <tr><td>AC Infinity Cloudline T6</td><td>150 mm (6")</td><td>683 m³/h (402 CFM)</td><td>Silencioso</td><td>Tendas 90×90 cm e 120×120 cm</td></tr>
+                <tr><td>AC Infinity Cloudline T8</td><td>200 mm (8")</td><td>1.371 m³/h (807 CFM)</td><td>Médio</td><td>Tendas Grandes 150×150 cm+</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="kpi-headline-block">
+            <div class="kpi-kicker">FORÇA MÍNIMA QUE SEU EXAUSTOR PRECISA TER</div>
+            <div class="kpi-headline-row">
+              <div id="fig4-headline-num" class="kpi-giant-number">198 m³/h</div>
+              <span id="fig4-status-badge" class="kpi-status-badge status-good">
+                <svg class="lab-icon" aria-hidden="true"><use href="#icon-check"></use></svg>
+                <span>Zero Cheiro c/ Filtro</span>
+              </span>
+            </div>
+            <p id="fig4-headline-copy" class="kpi-summary-copy">
+              Como você usa Filtro de Carvão e 2 curvas no tubo, compre um exaustor de 150 mm (6 polegadas) que puxe pelo menos 198 m³/h. Assim você pode deixá-lo na metade da velocidade, sem barulho no quarto!
+            </p>
+          </div>
+
+          <div class="recommendation-strip">
+            <div class="rec-header">
+              <span>O EXAUSTOR MAIS SILENCIOSO E INTELIGENTE DO MERCADO</span>
+              <span>AJUSTA A VELOCIDADE SOZINHO</span>
+            </div>
+            <div class="rec-product-title">Exaustor AC Infinity Cloudline Pro T6 + Controlador Automático</div>
+            <div class="dual-cta-row">
+              <a href="https://acinfinity.com/" target="_blank" rel="noopener noreferrer" class="btn-dtc-primary">
+                <span>Loja Oficial AC Infinity</span>
+                <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-external"></use></svg>
+              </a>
+              <button type="button" class="btn-coupon-copy" onclick="copyLabCoupon('IGLABAC', 'AC Infinity')">
+                <svg class="lab-icon" aria-hidden="true"><use href="#icon-coupon"></use></svg>
+                <span>CUPOM: IGLABAC</span>
+              </button>
+              <a href="https://www.amazon.com/s?k=AC+Infinity+Cloudline+Pro+T6" target="_blank" rel="noopener noreferrer" class="btn-amazon-secondary">
+                <span>Ver Preço na Amazon</span>
+                <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-external"></use></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- ======================================================================
+         PASSO 05: SIMULADOR DA CONTA DE LUZ (R$ / US$ / €)
+         ====================================================================== -->
+    <div id="sec-energia" class="spread-grid">
+      <article class="folio-card full-span">
+        <div class="folio-card-header">
+          <span>Passo 5: Quanto Vai Aumentar na Sua Conta de Luz?</span>
+          <span>CALCULADORA 05 / 05</span>
+        </div>
+
+        <div class="kinetic-bars-stage">
+          <div class="kinetic-col">
+            <div class="kinetic-bar-wrap">
+              <div id="fig5-bar-1" class="kinetic-bar-fill bar-indigo" style="height: 55%;">
+                <span class="kinetic-rotated-num">194</span>
+              </div>
+            </div>
+            <span class="kinetic-col-label">Consumo no Mês</span>
+            <span class="kinetic-col-sub">kWh na Conta de Energia</span>
+          </div>
+
+          <div class="kinetic-col">
+            <div class="kinetic-bar-wrap">
+              <div id="fig5-bar-2" class="kinetic-bar-fill bar-emerald" style="height: 48%;">
+                <span class="kinetic-rotated-num">R$165</span>
+              </div>
+            </div>
+            <span class="kinetic-col-label">Valor por Mês</span>
+            <span class="kinetic-col-sub">Acréscimo na Fatura</span>
+          </div>
+
+          <div class="kinetic-col">
+            <div class="kinetic-bar-wrap">
+              <div id="fig5-bar-3" class="kinetic-bar-fill bar-vermilion" style="height: 62%;">
+                <span class="kinetic-rotated-num">R$496</span>
+              </div>
+            </div>
+            <span class="kinetic-col-label">Custo por Colheita</span>
+            <span class="kinetic-col-sub">Ciclo Completo (3 Meses)</span>
+          </div>
+        </div>
+
+        <div class="folio-body">
+          <div class="energy-split-layout">
+            <div class="interactive-controls-panel">
+              <div class="control-row">
+                <div class="control-label-line">
+                  <label for="slider-watts">SOMA DOS WATTS (LUZ LED + EXAUSTOR + VENTILADOR):</label>
+                  <span id="val-watts" class="control-val-badge">540 Watts no total</span>
+                </div>
+                <input type="range" id="slider-watts" min="50" max="1500" step="10" value="540" />
+              </div>
+
+              <div class="control-row">
+                <div class="control-label-line">
+                  <label for="slider-tariff">PREÇO DO kWh NA SUA CONTA DE LUZ (MÉDIA BRASIL = R$ 0,85):</label>
+                  <span id="val-tariff" class="control-val-badge">R$ 0.85 / kWh</span>
+                </div>
+                <input type="range" id="slider-tariff" min="0.10" max="2.50" step="0.05" value="0.85" />
+              </div>
+
+              <div class="control-row control-row--inline">
+                <label for="select-currency" class="control-inline-label">
+                  ESCOLHA A SUA MOEDA:
+                </label>
+                <select id="select-currency" class="preset-select">
+                  <option value="BRL" selected>Real Brasileiro (R$)</option>
+                  <option value="USD">Dólar Americano (US$)</option>
+                  <option value="EUR">Euro Europeu (€)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <div class="fig-meta">
+                <span class="fig-code">SEM SURPRESAS NO FIM DO MÊS:</span>
+                Ao escolher o tamanho da tenda lá no Passo 1, nós já preenchemos os Watts automaticamente aqui para você. Você também pode arrastar a barra ao lado para simular equipamentos maiores ou menores.
+              </div>
+              <div class="kpi-headline-block">
+                <div class="kpi-kicker">VALOR ESTIMADO NA SUA CONTA DE LUZ</div>
+                <div class="kpi-headline-row">
+                  <div id="fig5-headline-num" class="kpi-giant-number">R$ 165,24 / mês</div>
+                  <span class="kpi-status-badge status-good">
+                    <svg class="lab-icon" aria-hidden="true"><use href="#icon-check"></use></svg>
+                    <span>Alta Eficiência LED</span>
+                  </span>
+                </div>
+                <p id="fig5-headline-copy" class="kpi-summary-copy">
+                  Seus equipamentos vão consumir cerca de 194 kWh por mês (6,5 kWh por dia ligados 12h). Uma colheita completa de 3 meses vai custar aproximadamente R$ 495,72 de energia elétrica.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- ======================================================================
+         SEÇÃO 04: VITRINE DE EQUIPAMENTOS TESTADOS E APROVADOS
+         ====================================================================== -->
+    <section id="sec-hardware">
+      <div class="section-divider-banner">
+        <div>
+          <span class="hero-kicker">EQUIPAMENTOS RECOMENDADOS COM CUPOM DE DESCONTO</span>
+          <h2 class="section-banner-title">Os Melhores Equipamentos para o Seu Cultivo</h2>
+        </div>
+        <div class="pill-selector-group" id="hw-filter-group">
+          <button type="button" class="pill-option active" onclick="renderHardwareGrid('all', this)">Ver Todos (6)</button>
+          <button type="button" class="pill-option" onclick="renderHardwareGrid('my-tent', this)">Ideais para Minha Tenda</button>
+          <button type="button" class="pill-option" onclick="renderHardwareGrid('iluminacao', this)">Luzes LED</button>
+          <button type="button" class="pill-option" onclick="renderHardwareGrid('clima', this)">Exaustores (Sem Cheiro)</button>
+          <button type="button" class="pill-option" onclick="renderHardwareGrid('sensores', this)">Termômetros Inteligentes</button>
+          <button type="button" class="pill-option" onclick="renderHardwareGrid('substratos', this)">Terra, Vasos &amp; Hortas</button>
+        </div>
+      </div>
+
+      <div id="hardware-grid-container" class="hardware-grid"></div>
+    </section>
+
+    <!-- ======================================================================
+         SEÇÃO 05: BLOG & GUIAS PRÁTICOS FÁCEIS DE LER
+         ====================================================================== -->
+    <section id="sec-blog">
+      <div class="section-divider-banner">
+        <div>
+          <span class="hero-kicker">APRENDA SEM TERMOS COMPLICADOS</span>
+          <h2 class="section-banner-title">Guias Práticos de Cultivo Indoor (Passo a Passo)</h2>
+        </div>
+      </div>
+
+      <div class="blog-filter-bar">
+        <div class="pill-selector-group" id="blog-filter-group">
+          <button type="button" class="pill-option active" onclick="renderBlogGrid('all', '', this)">Todos os Guias (6)</button>
+          <button type="button" class="pill-option" onclick="renderBlogGrid('cluster-luz', '', this)">Como Escolher a Luz LED</button>
+          <button type="button" class="pill-option" onclick="renderBlogGrid('cluster-clima', '', this)">Temperatura e Umidade</button>
+          <button type="button" class="pill-option" onclick="renderBlogGrid('cluster-exaustao', '', this)">Tirar Cheiro e Calor</button>
+          <button type="button" class="pill-option" onclick="renderBlogGrid('cluster-hardware', '', this)">Comparativos de Marcas</button>
+          <button type="button" class="pill-option" onclick="renderBlogGrid('cluster-substratos', '', this)">Terra Orgânica vs. Hidroponia</button>
+        </div>
+
+        <input
+          type="search"
+          id="blog-search-input"
+          class="blog-search-input"
+          placeholder="Buscar dúvida (ex: cheiro, conta de luz, LED)..."
+          aria-label="Pesquisar guias práticos"
+        />
+      </div>
+
+      <div id="blog-grid-container" class="blog-grid"></div>
+    </section>
+
+    <!-- ======================================================================
+         SEÇÃO 06: SOBRE O INDOOR GROWING LAB
+         ====================================================================== -->
+    <section id="sec-protocolo" class="folio-card full-span protocol-card">
+      <div class="protocol-grid">
+        <div>
+          <span class="hero-kicker">POR QUE CRIÁMOS ESTE SITE?</span>
+          <h3 class="protocol-heading">
+            Sem "Watts Falsos" e Sem Empurrar Produto Ruim
+          </h3>
+          <p class="protocol-copy">
+            Muitas marcas anunciam lâmpadas "1000W" na internet que na verdade puxam apenas 100W da tomada e deixam suas plantas fracas. No <strong>Indoor Growing Lab</strong>, nós fazemos as contas reais por você para que cada centavo investido na sua tenda traga o máximo resultado.
+          </p>
+        </div>
+
+        <div>
+          <span class="hero-kicker">100% LEGAL, SEGURO E TRANSPARENTE</span>
+          <h3 class="protocol-heading">
+            Focado Apenas em Equipamentos e Jardinagem Indoor
+          </h3>
+          <p class="protocol-copy">
+            Nosso portal testa e recomenda exclusivamente <strong>equipamentos eletrônicos de iluminação, tendas, exaustores, medidores de clima e insumos de jardinagem 100% lícitos</strong>. Não vendemos nem promovemos sementes proibidas.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       JANELA DE LEITURA COMPLETA DOS GUIAS DO BLOG
+       ======================================================================== -->
+  <div id="article-modal-backdrop" class="article-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-header-title">
+    <div class="article-modal">
+      <div class="article-modal-header">
+        <span id="modal-header-title">GUIA PRÁTICO — INDOOR GROWING LAB</span>
+        <button type="button" class="article-modal-close" onclick="closeArticleModal()">
+          <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-close"></use></svg>
+          <span>FECHAR GUIA</span>
+        </button>
+      </div>
+      <div id="modal-body-container" class="article-modal-content"></div>
+    </div>
+  </div>
+
+  <!-- NOTIFICAÇÃO QUANDO O USUÁRIO COPIA O CUPOM -->
+  <div id="lab-toast" class="lab-toast" role="status" aria-live="polite"></div>
+
+  <!-- ========================================================================
+       RODAPÉ SIMPLES E TRANSPARENTE
+       ======================================================================== -->
+  <footer class="lab-footer">
+    <div class="footer-inner">
+      <div>
+        <strong class="footer-heading">
+          INDOOR GROWING LAB — CALCULADORAS &amp; GUIAS DE CULTIVO INDOOR
+        </strong>
+        <div class="compliance-box">
+          <strong>COMO MANTEMOS O SITE 100% GRATUITO:</strong><br>
+          Todas as nossas calculadoras e guias são gratuitos. Quando você compra um equipamento usando nossos cupons de desconto nas lojas oficiais (como <em>Vivosun</em>, <em>AC Infinity</em>, <em>Pulse Grow</em>, <em>Click &amp; Grow</em> e <em>BuildASoil</em>) ou pelos links da <em>Amazon</em>, nós recebemos uma pequena comissão da loja — e você ainda paga mais barato com o cupom!
+        </div>
+      </div>
+
+      <div>
+        <strong class="footer-heading">ATALHOS RÁPIDOS</strong>
+        <ul class="footer-links-list">
+          <li>
+            <a href="#sec-calculadoras">
+              <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+              <span>Passo 1: Tamanho da Tenda</span>
+            </a>
+          </li>
+          <li>
+            <a href="#sec-calculadoras">
+              <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+              <span>Passo 2: Força da Luz LED</span>
+            </a>
+          </li>
+          <li>
+            <a href="#sec-vpd-cfm">
+              <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+              <span>Passo 3: Temperatura e Umidade</span>
+            </a>
+          </li>
+          <li>
+            <a href="#sec-vpd-cfm">
+              <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+              <span>Passo 4: Escolher o Exaustor</span>
+            </a>
+          </li>
+          <li>
+            <a href="#sec-energia">
+              <svg class="lab-icon lab-icon--sm" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+              <span>Passo 5: Simulador da Conta de Luz</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <strong class="footer-heading">FALE COM O LAB</strong>
+        <p class="protocol-copy">
+          Projeto desenvolvido com base em dados reais de fabricantes e testes de bancada.<br>
+          100% focado em equipamentos, iluminação, sensores e insumos legais.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
