@@ -344,8 +344,9 @@
     renderVpd();
     clearPending();
     typeTouched = false; setType('foto');
-    toast(entry.photo ? 'Foto salva no diário.' : 'Anotação salva.');
     renderAll();
+    if (entry.photo) { toast('Foto salva. Sua ficha do grow está pronta.'); openArt(entry); }
+    else toast('Anotação salva.');
   });
 
   // --------- foto ampliada ---------
@@ -539,7 +540,7 @@
     ctx.beginPath(); ctx.moveTo(72, fy - 40); ctx.lineTo(W - 72, fy - 40); ctx.stroke();
     ctx.beginPath(); ctx.arc(84, fy + 6, 12, 0, Math.PI * 2); ctx.fillStyle = C.accent; ctx.fill();
     ctx.fillStyle = C.ink; ctx.font = `500 24px ${FM}`;
-    ctx.fillText('Feito no diário de cultivo Growmetria · grátis', 112, fy + 14);
+    ctx.fillText('Ficha do grow · diário de cultivo Growmetria · grátis', 112, fy + 14);
 
     return new Promise(res => cv.toBlob(res, 'image/png'));
   }
@@ -564,19 +565,19 @@
     art.showModal();
     await renderArt();
   }
-  const artName = () => { const c = artEntry ? ctxOf(artEntry) : ctxFor(iso(new Date())); return `growmetria-${c ? `dia-${c.day}` : iso(new Date())}.png`; };
+  const artName = () => { const c = artEntry ? ctxOf(artEntry) : ctxFor(iso(new Date())); return `growmetria-ficha-${c ? `dia-${c.day}` : iso(new Date())}.png`; };
   $('#d-art').addEventListener('click', () => openArt(null));
   $('#dview-art').addEventListener('click', () => openArt(entries.find(x => x.id === viewId)));
   $('#dart-save').addEventListener('click', () => {
     if (!artBlob) return;
     const a = Object.assign(document.createElement('a'), { href: artUrl, download: artName() });
     document.body.appendChild(a); a.click(); a.remove();
-    toast('Arte baixada.');
+    toast('Ficha baixada.');
   });
   $('#dart-share').addEventListener('click', async () => {
     if (!artBlob) return;
     try { await navigator.share({ files: [new File([artBlob], artName(), { type: 'image/png' })] }); }
-    catch (e) { if (e.name !== 'AbortError') toast('Não deu para compartilhar. Use Baixar arte.'); }
+    catch (e) { if (e.name !== 'AbortError') toast('Não deu para compartilhar. Use Baixar ficha.'); }
   });
   $('#dart-close').addEventListener('click', () => art.close());
   art.addEventListener('click', e => { if (e.target === art) art.close(); });

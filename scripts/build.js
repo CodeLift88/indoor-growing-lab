@@ -211,10 +211,10 @@ function diaryPage() {
 
   <div class="dart-cta">
     <div>
-      <p class="dart-cta__t">Arte do meu grow</p>
-      <p class="dart-cta__s">Uma imagem com o dia, a fase, a foto mais recente e os números do seu grow, pronta para postar.</p>
+      <p class="dart-cta__t">Ficha do grow</p>
+      <p class="dart-cta__s">Uma imagem com a sua planta, há quantos dias ela está na fase e a configuração atual do grow, pronta para postar. Ela também abre sozinha quando você salva uma foto.</p>
     </div>
-    <button type="button" class="btn btn--primary" id="d-art">Gerar arte</button>
+    <button type="button" class="btn btn--primary" id="d-art">Gerar ficha</button>
   </div>
 
   <div class="diary">
@@ -294,21 +294,21 @@ function diaryPage() {
       <p class="dview__note" id="dview-note"></p>
       <div id="dview-m"></div>
       <div class="dview__btns">
-        <button type="button" class="btn dview__art" id="dview-art">Gerar arte desta foto</button>
+        <button type="button" class="btn dview__art" id="dview-art">Gerar ficha desta foto</button>
       </div>
     </div>
   </dialog>
 
   <dialog class="dart" id="dart" aria-labelledby="dart-t">
     <div class="dview__top">
-      <h2 class="dart__t" id="dart-t">Arte do meu grow</h2>
+      <h2 class="dart__t" id="dart-t">Ficha do grow</h2>
       <button type="button" class="dview__x" id="dart-close" aria-label="Fechar">×</button>
     </div>
-    <div class="dart__stage"><img id="dart-img" alt="Prévia da arte com os dados do seu grow" /></div>
-    <p class="dart__note">Confira antes de postar: a arte não mostra endereço nem localização, mas o fundo da foto pode mostrar.</p>
+    <div class="dart__stage"><img id="dart-img" alt="Prévia da ficha com os dados do seu grow" /></div>
+    <p class="dart__note">Confira antes de postar: a ficha não mostra endereço nem localização, mas o fundo da foto pode mostrar.</p>
     <div class="dart__btns">
       <button type="button" class="btn btn--primary" id="dart-share" hidden>Compartilhar</button>
-      <button type="button" class="btn" id="dart-save">Baixar arte</button>
+      <button type="button" class="btn" id="dart-save">Baixar ficha</button>
     </div>
   </dialog>`;
   return shell({ base: '', file: 'diario.html', title: 'Diário de cultivo', desc: 'Fotos, regas, adubo e medições do seu cultivo, com o dia e a fase de cada registro. Grátis, sem cadastro, salvo só no seu aparelho.', img: 'diario', type: 'website', current: 'diario', main, scripts: ['data.js', 'plan.js', 'diario.js'] });

@@ -45,9 +45,9 @@ Uma por sintoma, sua ou com licença de uso. Luz branca, de perto, horizontal, m
 - [ ] Revisar o modo escuro com a identidade nova
 - [ ] Fazer links antigos (`#luz`, `#clima`...) levarem à ferramenta certa
 - [ ] Aviso ao trocar o nível de detalhe
-- [x] Diário: arte para compartilhar (story e feed)
+- [x] Diário: ficha do grow para compartilhar (imagem 9:16, abre ao salvar uma foto)
 - [ ] Diário: comparação antes e depois
-- [ ] Quando o domínio chegar: colocar o endereço no rodapé da arte do diário
+- [ ] Quando o domínio chegar: colocar o endereço no rodapé da ficha do grow
 - [ ] Novos guias: treinamento (LST e poda), secagem e cura, nutrição básica, segurança elétrica
 
 ## Quando o domínio chegar (técnico)
