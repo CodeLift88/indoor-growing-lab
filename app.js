@@ -62,6 +62,7 @@
     level: document.documentElement.dataset.level || '1',
     tent: '120x120',
     phase: 'veg',
+    auto: store.get('igl-kind') === 'auto',
     wattsTouched: false
   };
 
@@ -448,14 +449,27 @@
   function setPhase(phase, fromLight) {
     S.phase = phase;
     $$(`[data-bind="phase"] input[value="${phase}"]`).forEach(i => { i.checked = true; });
-    if (fromLight !== false) {
-      const p = D.phases[phase];
-      $('#in-ppfd').value = p.ppfd;
-      $('#in-hours').value = p.hours;
-    }
+    if (fromLight !== false) applyPreset();
     updateAll();
   }
+  // valores sugeridos de luz para a fase; autos ficam em 18 h a vida toda
+  function applyPreset() {
+    const p = D.phases[S.phase];
+    const autoFlor = S.auto && S.phase === 'flor';
+    $('#in-ppfd').value = autoFlor ? 650 : p.ppfd;
+    $('#in-hours').value = S.auto ? 18 : p.hours;
+  }
   $$('[data-bind="phase"]').forEach(fs => fs.addEventListener('change', e => setPhase(e.target.value)));
+
+  /* TIPO DE PLANTA (compartilhado: espaço, luz, cronograma) */
+  function setKind(kind) {
+    S.auto = kind === 'auto';
+    store.set('igl-kind', kind);
+    $$(`[data-bind="kind"] input[value="${kind}"]`).forEach(i => { i.checked = true; });
+    if (S.phase === 'flor') applyPreset();
+    updateAll();
+  }
+  $$('[data-bind="kind"]').forEach(fs => fs.addEventListener('change', e => setKind(e.target.value)));
 
   /* ------------------------------------------------------------------
      03 · LUZ (DLI)
@@ -505,9 +519,12 @@
       ? 'Suba o LED alguns centímetros ou baixe o dimmer.'
       : `Baixe a força para perto de ${fmtInt(needPpfd)} µmol/m²/s, ou reduza as horas.`;
 
-    if (S.phase === 'flor' && hours !== 12) {
+    if (S.auto && hours < 16) {
+      body += ' Autoflorescentes rendem mais com 18 a 20 h de luz a vida toda.';
+    }
+    if (S.phase === 'flor' && !S.auto && hours !== 12) {
       body = 'Na floração a luz precisa ficar em 12 h. Com mais que isso, plantas comuns (fotoperiódicas) não florescem direito.';
-      action = 'Coloque o timer em 12 h ligadas e 12 h no escuro total. Exceção: autoflorescentes aceitam 18–20 h.';
+      action = 'Coloque o timer em 12 h ligadas e 12 h no escuro total. Se sua planta for autoflorescente, marque isso no tipo de planta.';
       v.dataset.state = 'dry';
       swapWord($('#luz-word'), 'Fotoperíodo errado');
     }
@@ -535,7 +552,7 @@
       <p>Alvo para ${ph.label.toLowerCase()}${co2 ? ' com CO₂' : ''}: ${dMin}–${dMax}<br>
          PPFD para o meio da faixa com ${hours} h: <b>${fmtInt(needPpfd)}</b></p>`;
 
-    S.dli = dli; S.luzOk = state === 'ok' && !(S.phase === 'flor' && hours !== 12);
+    S.dli = dli; S.luzOk = state === 'ok' && !(S.phase === 'flor' && !S.auto && hours !== 12);
   }
   ['#in-ppfd', '#in-hours', '#in-co2'].forEach(s => $(s).addEventListener('input', updateAll));
 
@@ -721,56 +738,90 @@
   const SYM = { BRL: 'R$', USD: 'US$', EUR: '€' };
   const money = (v, cur, d = 0) => `${SYM[cur]} ${v.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d })}`;
 
+  const DAY = 864e5;
+  const fmtDate = (d, long) => d.toLocaleDateString('pt-BR', long ? { day: 'numeric', month: 'long' } : { day: 'numeric', month: 'short' }).replace('.', '');
+  const addWeeks = (d, w) => new Date(d.getTime() + w * 7 * DAY);
+  function startDate() {
+    const v = $('#in-start').value;
+    const d = v ? new Date(v + 'T12:00:00') : new Date();
+    return isNaN(d) ? new Date() : d;
+  }
+
   function updateEnergy() {
     const watts = Number($('#in-watts').value), extra = Number($('#in-extra').value);
     const vegW = Number($('#in-veg').value), tariff = Number($('#in-tariff').value);
     const cur = $('#in-currency').value;
+    const auto = S.auto;
+    const vegN = auto ? 2 : vegW, florN = auto ? 6 : 9;
+    $('#in-veg').disabled = auto;
     setText('#out-watts', `${watts} W`);
     setText('#out-extra', `${extra} W`);
-    setText('#out-veg', `${vegW} semanas`);
+    setText('#out-veg', auto ? 'a auto decide' : `${vegW} semanas`);
     setText('#out-tariff', money(tariff, cur, 2));
 
-    const plan = [
-      ...Array(2).fill('muda'),
-      ...Array(vegW).fill('veg'),
-      ...Array(9).fill('flor')
-    ];
-    const weekKwh = ph => {
-      const p = D.phases[ph];
-      return ((watts * p.power * p.hours) + extra * 24) * 7 / 1000;
-    };
+    const plan = [...Array(2).fill('muda'), ...Array(vegN).fill('veg'), ...Array(florN).fill('flor')];
+    const hoursOf = ph => (auto ? 18 : D.phases[ph].hours);
+    const weekKwh = ph => ((watts * D.phases[ph].power * hoursOf(ph)) + extra * 24) * 7 / 1000;
     const weeks = plan.map(ph => ({ ph, kwh: weekKwh(ph), cost: weekKwh(ph) * tariff }));
     const total = weeks.reduce((a, w) => a + w.cost, 0);
     const kwhTotal = weeks.reduce((a, w) => a + w.kwh, 0);
     const monthAvg = (total / plan.length) * 30 / 7;
     const top = ['muda', 'veg', 'flor'].reduce((a, ph) => weekKwh(ph) > weekKwh(a) ? ph : a, 'muda');
 
+    // cronograma: 1 semana de germinação antes da luz
+    const t0 = startDate();
+    const tLight = addWeeks(t0, 1);
+    const tFlor = addWeeks(tLight, 2 + vegN);
+    const tHarvest = addWeeks(tFlor, florN);
+    const steps = [
+      { date: t0, title: 'Germinação', desc: 'Semente no papel toalha ou direto no substrato, no escuro.', guide: 'germinacao' },
+      { date: tLight, title: 'Muda', desc: 'Primeiras folhas. Luz suave, 18 h por dia.' },
+      { date: addWeeks(tLight, 2), title: 'Vegetativo', desc: auto ? 'Crescimento rápido. A auto decide sozinha quando florescer.' : 'Construir estrutura. Você escolhe quanto tempo fica aqui.' },
+      { date: tFlor, title: auto ? 'Começa a florescer sozinha' : 'Virar o timer para 12 h', desc: auto ? 'Não mexa na luz: continua em 18 h.' : '12 h de luz e 12 h de escuro total, sem vazamento.', key: true },
+      { date: addWeeks(tHarvest, -2), title: 'Comece a olhar os tricomas', desc: 'Lupa de 60× a cada 2 ou 3 dias.' },
+      { date: tHarvest, title: 'Colheita estimada', desc: 'A data certa quem diz são os tricomas, não o calendário.', key: true },
+      { date: addWeeks(tHarvest, 2), title: 'Fim da secagem, começa a cura', desc: 'Potes de vidro, abrindo todo dia na primeira semana.' },
+      { date: addWeeks(tHarvest, 4), title: 'Cura mínima', desc: 'Sabor e aroma seguem melhorando por até 8 semanas.' }
+    ];
+    const now = new Date();
+    let nowIdx = -1;
+    steps.forEach((s, i) => { if (s.date <= now) nowIdx = i; });
+    $('#timeline').innerHTML = steps.map((s, i) => `
+      <li class="tl ${i < nowIdx ? 'is-past' : ''} ${i === nowIdx ? 'is-now' : ''} ${s.key ? 'is-key' : ''}">
+        <span class="tl__date">${fmtDate(s.date)}</span>
+        <span class="tl__body"><span class="tl__title">${esc(s.title)}${i === nowIdx ? ' <em class="tl__now">você está aqui</em>' : ''}</span>
+        <span class="tl__desc">${esc(s.desc)}${s.guide ? ` <a href="guias/${s.guide}.html">Ver guia</a>` : ''}</span></span>
+      </li>`).join('');
+
+    swapWord($('#en-harvest'), fmtDate(tHarvest, true));
+    setText('#en-harvest-sub', `${Math.round((tHarvest - t0) / (7 * DAY))} semanas depois de germinar${auto ? ', por ser autoflorescente' : ''}.`);
     tweenNumber($('#en-month'), monthAvg, v => money(v, cur));
-    setText('#en-peak', top === 'flor'
-      ? 'A semana mais cara é na floração, com o LED no máximo.'
-      : 'Repare: a semana mais cara é no vegetativo. 18 h de luz a 75% pesam mais que 12 h no máximo.');
     tweenNumber($('#en-total'), total, v => money(v, cur));
-    setText('#en-weeks', plan.length);
+    setText('#en-peak', auto
+      ? 'Na auto a luz fica em 18 h a vida toda, então a floração, com o LED no máximo, é a fase mais cara.'
+      : top === 'flor'
+        ? 'A semana mais cara é na floração, com o LED no máximo.'
+        : 'Repare: a semana mais cara é no vegetativo. 18 h de luz a 75% pesam mais que 12 h no máximo.');
     setText('#en-kwh', `${fmtInt(kwhTotal)} kWh`);
     setText('#en-btu', `${fmtInt((watts + extra) * 3.412)} BTU/h`);
 
-    // gráfico semanal: o DOM só é refeito quando muda a escala ou o número de semanas
+    // gráfico semanal: o DOM só é refeito quando muda a escala, as semanas ou as datas
     const X0 = 56, X1 = 548, Y0 = 16, Y1 = 220;
     const maxC = Math.max(...weeks.map(w => w.cost)) * 1.15 || 1;
     const gw = (X1 - X0) / weeks.length;
-    const sameLayout = enChart.dataset.layout === String(weeks.length) && enChart.dataset.cur === cur;
-    if (sameLayout && maxC <= enMax && maxC > enMax * 0.45) {
+    const key = `${weeks.length}|${cur}|${t0.toDateString()}|${auto}`;
+    const tip = (w, i) => `Semana ${i + 1}, a partir de ${fmtDate(addWeeks(tLight, i))} (${D.phases[w.ph].label}): ${money(w.cost, cur, 2)}`;
+    if (enChart.dataset.key === key && maxC <= enMax && maxC > enMax * 0.45) {
       const rects = $$('.wk', enChart);
       weeks.forEach((w, i) => {
         const h = (w.cost / enMax) * (Y1 - Y0);
         rects[i].style.y = `${(Y1 - h).toFixed(1)}px`;
         rects[i].style.height = `${h.toFixed(1)}px`;
-        rects[i].firstChild.textContent = `Semana ${i + 1} (${D.phases[w.ph].label}): ${money(w.cost, cur, 2)}`;
+        rects[i].firstChild.textContent = tip(w, i);
       });
       return finishEnergy();
     }
-    enChart.dataset.layout = String(weeks.length);
-    enChart.dataset.cur = cur;
+    enChart.dataset.key = key;
     enMax = maxC;
     enChart.innerHTML = '';
     const g = el('g', { class: 'grid' }, enChart);
@@ -784,29 +835,40 @@
     weeks.forEach((w, i) => {
       const h = (w.cost / maxC) * (Y1 - Y0);
       const r = el('rect', { x: (X0 + i * gw + gw * 0.14).toFixed(1), y: (Y1 - h).toFixed(1), width: (gw * 0.72).toFixed(1), height: h.toFixed(1), class: `wk wk--${w.ph}` }, enChart);
-      el('title', {}, r).textContent = `Semana ${i + 1} (${D.phases[w.ph].label}): ${money(w.cost, cur, 2)}`;
+      el('title', {}, r).textContent = tip(w, i);
       r.style.y = `${(Y1 - h).toFixed(1)}px`; r.style.height = `${h.toFixed(1)}px`;
     });
-    // chaves das fases
+    // chaves das fases, com a data de início de cada uma
     let start = 0;
     ['muda', 'veg', 'flor'].forEach(ph => {
       const n = plan.filter(p => p === ph).length;
       const xa = X0 + start * gw + 4, xb = X0 + (start + n) * gw - 4;
       el('path', { d: `M${xa} ${Y1 + 10} v6 H${xb} v-6`, class: 'wk-bracket' }, enChart);
-      el('text', { x: (xa + xb) / 2, y: Y1 + 34, 'text-anchor': 'middle', class: 'wk-label' }, enChart).textContent = `${D.phases[ph].label} · ${n} sem.`;
+      el('text', { x: (xa + xb) / 2, y: Y1 + 34, 'text-anchor': 'middle', class: 'wk-label' }, enChart).textContent = D.phases[ph].label;
+      const since = fmtDate(addWeeks(tLight, start));
+      el('text', { x: (xa + xb) / 2, y: Y1 + 50, 'text-anchor': 'middle', class: 'wk-date' }, enChart).textContent = n >= 4 ? `${n} sem. · ${since}` : since;
       start += n;
     });
+    // linha de hoje
+    const wNow = (now - tLight) / (7 * DAY);
+    if (wNow >= 0 && wNow <= weeks.length) {
+      const x = X0 + wNow * gw;
+      el('line', { x1: x, x2: x, y1: Y0 - 6, y2: Y1, class: 'today-line' }, enChart);
+      el('text', { x: x + 4, y: Y0 + 2, class: 'today-txt' }, enChart).textContent = 'hoje';
+    }
     finishEnergy();
 
     function finishEnergy() {
-    $('#en-math').innerHTML = `
-      <p><b>Semana</b> = (LED × força da fase × horas + outros × 24 h) × 7 ÷ 1000</p>
-      <p>Floração: (${watts} × 100% × 12 + ${extra} × 24) × 7 ÷ 1000 = <b>${fmt(weekKwh('flor'), 1)} kWh</b><br>
-         Vegetativo: (${watts} × 75% × 18 + ${extra} × 24) × 7 ÷ 1000 = <b>${fmt(weekKwh('veg'), 1)} kWh</b><br>
-         Muda: (${watts} × 35% × 18 + ${extra} × 24) × 7 ÷ 1000 = <b>${fmt(weekKwh('muda'), 1)} kWh</b></p>
-      <p><b>Ciclo</b> = ${fmtInt(kwhTotal)} kWh × ${money(tariff, cur, 2)} = <b>${money(total, cur, 2)}</b></p>`;
-
-    S.month = money(monthAvg, cur);
+      const hf = hoursOf('flor');
+      $('#en-math').innerHTML = `
+        <p><b>Semana</b> = (LED × força da fase × horas + outros × 24 h) × 7 ÷ 1000</p>
+        <p>Floração: (${watts} × 100% × ${hf} + ${extra} × 24) × 7 ÷ 1000 = <b>${fmt(weekKwh('flor'), 1)} kWh</b><br>
+           Vegetativo: (${watts} × 75% × 18 + ${extra} × 24) × 7 ÷ 1000 = <b>${fmt(weekKwh('veg'), 1)} kWh</b><br>
+           Muda: (${watts} × 35% × 18 + ${extra} × 24) × 7 ÷ 1000 = <b>${fmt(weekKwh('muda'), 1)} kWh</b></p>
+        <p><b>Ciclo</b> = ${fmtInt(kwhTotal)} kWh × ${money(tariff, cur, 2)} = <b>${money(total, cur, 2)}</b></p>
+        <p><b>Datas</b>: 1 semana de germinação, 2 de muda, ${vegN} de vegetativo, ${florN} de floração, 2 de secagem e 2 de cura mínima.</p>`;
+      S.month = money(monthAvg, cur);
+      S.harvest = fmtDate(tHarvest);
     }
   }
   let enMax = 0;
@@ -816,6 +878,13 @@
     const n = raw / mag;
     return (n < 1.5 ? 1 : n < 3 ? 2 : n < 7 ? 5 : 10) * mag;
   }
+
+  // data de início: lembrada no navegador, hoje por padrão
+  const startIn = $('#in-start');
+  const isoToday = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10); };
+  startIn.value = store.get('igl-start') || isoToday();
+  startIn.addEventListener('change', () => { store.set('igl-start', startIn.value); updateEnergy(); updateSetup(); });
+  $('#start-today').addEventListener('click', () => { startIn.value = isoToday(); store.set('igl-start', startIn.value); updateEnergy(); updateSetup(); });
 
   ['#in-extra', '#in-veg', '#in-tariff', '#in-currency'].forEach(s => $(s).addEventListener('input', () => {
     fillRanges(); updateEnergy(); updateSetup();
@@ -1108,6 +1177,7 @@
     $('#s-clima-dot').classList.toggle('warn', !S.climaOk);
     setText('#s-ar', `${fmtInt(S.need)} m³/h`);
     setText('#s-en', `${S.month}/mês`);
+    setText('#s-harvest', S.harvest);
   }
 
   function updateAll() {
@@ -1183,6 +1253,8 @@
   renderGuides();
   renderSymptoms();
   renderDiagnosis();
+  $$(`[data-bind="kind"] input[value="${S.auto ? 'auto' : 'foto'}"]`).forEach(i => { i.checked = true; });
+  if (S.auto) applyPreset();
   applyLevel(S.level);
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onScroll);

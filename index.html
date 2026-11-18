@@ -109,7 +109,7 @@
           <li><a href="#luz"><span class="toc__n">03</span><span class="toc__t">Luz do dia</span><span class="toc__m">calculadora</span></a></li>
           <li><a href="#clima"><span class="toc__n">04</span><span class="toc__t">Clima da tenda</span><span class="toc__m">calculadora</span></a></li>
           <li><a href="#ar"><span class="toc__n">05</span><span class="toc__t">Exaustão e cheiro</span><span class="toc__m">calculadora</span></a></li>
-          <li><a href="#energia"><span class="toc__n">06</span><span class="toc__t">Conta de luz</span><span class="toc__m">calculadora</span></a></li>
+          <li><a href="#energia"><span class="toc__n">06</span><span class="toc__t">Cronograma e conta de luz</span><span class="toc__m">calendário + calculadora</span></a></li>
           <li><a href="#diagnostico"><span class="toc__n">07</span><span class="toc__t">O que há de errado com a planta?</span><span class="toc__m">diagnóstico por sintoma</span></a></li>
           <li><a href="#equipamentos"><span class="toc__n">08</span><span class="toc__t">Equipamentos</span><span class="toc__m">6 indicações</span></a></li>
           <li><a href="#guias"><span class="toc__n">09</span><span class="toc__t">Guias práticos</span><span class="toc__m">11 leituras curtas</span></a></li>
@@ -292,7 +292,7 @@
         <li><a href="#luz"><span>03</span>Luz</a></li>
         <li><a href="#clima"><span>04</span>Clima</a></li>
         <li><a href="#ar"><span>05</span>Exaustão</a></li>
-        <li><a href="#energia"><span>06</span>Conta de luz</a></li>
+        <li><a href="#energia"><span>06</span>Calendário</a></li>
       </ol>
     </div>
   </section>
@@ -311,6 +311,14 @@
       <form class="controls" data-reveal onsubmit="return false">
         <fieldset class="tents" id="tent-picker">
           <legend class="ctl__label">Tamanho da tenda</legend>
+        </fieldset>
+        <fieldset class="seg seg--2" data-bind="kind">
+          <legend class="ctl__label">Tipo de planta</legend>
+          <div class="seg__opts">
+            <label><input type="radio" name="kind-kit" value="foto" checked /><span>Fotoperiódica</span></label>
+            <label><input type="radio" name="kind-kit" value="auto" /><span>Autoflorescente</span></label>
+          </div>
+          <p class="ctl__help"><a href="guias/auto-ou-foto.html">Qual a diferença?</a></p>
         </fieldset>
       </form>
 
@@ -360,6 +368,14 @@
             <label><input type="radio" name="phase-luz" value="veg" checked /><span>Vegetativo</span></label>
             <label><input type="radio" name="phase-luz" value="flor" /><span>Floração</span></label>
           </div>
+        </fieldset>
+        <fieldset class="seg seg--2" data-bind="kind">
+          <legend class="ctl__label">Tipo de planta</legend>
+          <div class="seg__opts">
+            <label><input type="radio" name="kind-luz" value="foto" checked /><span>Fotoperiódica</span></label>
+            <label><input type="radio" name="kind-luz" value="auto" /><span>Autoflorescente</span></label>
+          </div>
+          
         </fieldset>
 
         <div class="ctl">
@@ -548,13 +564,26 @@
        ================================================================= -->
   <section class="calc" id="energia" aria-labelledby="energia-title">
     <header class="sec-head" data-reveal>
-      <p class="kicker">06 · Simulador da conta de luz</p>
-      <h2 class="sec-head__title" id="energia-title">Quanto isso vai <em>custar</em> na conta?</h2>
-      <p class="sec-head__lead">Do primeiro dia de muda ao fim da floração, semana a semana, com a sua tarifa.</p>
+      <p class="kicker">06 · Cronograma e conta de luz</p>
+      <h2 class="sec-head__title" id="energia-title">Quando colhe e quanto <em>custa?</em></h2>
+      <p class="sec-head__lead">Coloque a data de início e veja o calendário do cultivo inteiro, com o custo de luz de cada semana.</p>
     </header>
 
     <div class="calc__grid">
       <form class="controls" id="energia-form" data-reveal onsubmit="return false">
+        <div class="ctl">
+          <div class="ctl__row"><label class="ctl__label" for="in-start">Dia de pôr a semente para germinar</label><button type="button" class="linkish" id="start-today">hoje</button></div>
+          <input type="date" id="in-start" class="date" />
+        </div>
+        <fieldset class="seg seg--2" data-bind="kind">
+          <legend class="ctl__label">Tipo de planta</legend>
+          <div class="seg__opts">
+            <label><input type="radio" name="kind-en" value="foto" checked /><span>Fotoperiódica</span></label>
+            <label><input type="radio" name="kind-en" value="auto" /><span>Autoflorescente</span></label>
+          </div>
+          
+        </fieldset>
+
         <div class="ctl">
           <div class="ctl__row"><label class="ctl__label" for="in-watts">Potência do LED</label><output class="ctl__val" id="out-watts" for="in-watts">500 W</output></div>
           <input type="range" id="in-watts" min="50" max="1500" step="10" value="500" />
@@ -589,20 +618,27 @@
       </form>
 
       <div class="verdict verdict--kit" data-reveal aria-live="polite">
-        <p class="verdict__kicker">Média por mês</p>
-        <p class="verdict__word verdict__word--ink"><span id="en-month">R$ 165</span> <small>/ mês</small></p>
-        <p class="verdict__body">O ciclo inteiro, <span id="en-weeks">15</span> semanas da muda à colheita, sai por <strong id="en-total">R$ 480</strong>.</p>
-        <p class="verdict__action" id="en-peak"></p>
-        <dl class="kit-specs lvl-2">
-          <div><dt>Energia no ciclo</dt><dd id="en-kwh">560 kWh</dd></div>
-          <div><dt>Calor gerado (floração)</dt><dd id="en-btu">1.910 BTU/h</dd></div>
+        <p class="verdict__kicker">Colheita estimada</p>
+        <p class="verdict__word verdict__word--ink" id="en-harvest">—</p>
+        <p class="verdict__body" id="en-harvest-sub"></p>
+        <dl class="kit-specs">
+          <div><dt>Luz por mês, em média</dt><dd id="en-month">R$ 165</dd></div>
+          <div><dt>Luz no ciclo inteiro</dt><dd id="en-total">R$ 480</dd></div>
+          <div class="lvl-2"><dt>Energia no ciclo</dt><dd id="en-kwh">560 kWh</dd></div>
+          <div class="lvl-2"><dt>Calor gerado</dt><dd id="en-btu">1.910 BTU/h</dd></div>
         </dl>
+        <p class="verdict__action" id="en-peak"></p>
       </div>
 
       <figure class="chart" data-reveal>
         <svg viewBox="0 0 560 280" id="en-chart" role="img" aria-labelledby="en-cap"></svg>
-        <figcaption id="en-cap">Custo de cada semana do ciclo. Na muda o LED fica a ~35% da força, no vegetativo a ~75%, na floração a 100%.</figcaption>
+        <figcaption id="en-cap">Custo de luz de cada semana. Na muda o LED fica a ~35% da força, no vegetativo a ~75%, na floração a 100%.</figcaption>
       </figure>
+
+      <div class="tl-wrap" data-reveal>
+        <p class="ctl__label">Seu calendário</p>
+        <ol class="timeline" id="timeline"></ol>
+      </div>
 
       <details class="math lvl-2" data-reveal>
         <summary>Ver a matemática</summary>
@@ -747,6 +783,7 @@
   <a href="#clima"><span class="setup__dot" id="s-clima-dot"></span><span class="setup__k">Clima</span><span id="s-clima">ok</span></a>
   <a href="#ar"><span class="setup__k">Ar</span><span id="s-ar">268 m³/h</span></a>
   <a href="#energia"><span class="setup__k">Conta</span><span id="s-en">R$ 165/mês</span></a>
+  <a href="#energia" class="setup__wide"><span class="setup__k">Colheita</span><span id="s-harvest">—</span></a>
 </aside>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>

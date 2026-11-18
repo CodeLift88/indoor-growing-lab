@@ -1006,3 +1006,53 @@ html[data-theme="dark"] .diag__illo svg { background: #e8e3d5; }
 .diag__back { display: none; margin-top: 18px; padding: 0; border: 0; background: none; color: var(--ink); font: 500 .875rem var(--f-body); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .diag__filter { scroll-margin-top: 80px; }
 @media (max-width: 900px) { .diag__back { display: inline-block; } }
+
+/* ============ TIPO DE PLANTA + CRONOGRAMA ============ */
+.seg--2 .seg__opts { grid-template-columns: repeat(2, 1fr); }
+.seg .ctl__help { margin-top: 8px; }
+.seg .ctl__help a { color: var(--ink); text-underline-offset: 3px; }
+.tents + .seg { margin-top: 24px; }
+
+.date {
+  width: 100%; padding: 10px 14px; border: 1px solid var(--ink); border-radius: 999px;
+  background: var(--paper); color: var(--ink); font: 500 1rem var(--f-body);
+}
+.date:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.linkish { border: 0; background: none; padding: 0; color: var(--ink); font: 500 .8125rem var(--f-body); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+input[type="range"]:disabled { opacity: .35; cursor: not-allowed; }
+
+#energia .calc__grid {
+  grid-template-areas:
+    "controls verdict"
+    "controls chart"
+    "math     tl";
+}
+.tl-wrap { grid-area: tl; }
+.timeline { list-style: none; margin: 10px 0 0; padding: 0; position: relative; }
+.timeline::before { content: ""; position: absolute; left: 82px; top: 8px; bottom: 8px; width: 1px; background: var(--line); }
+.tl { display: grid; grid-template-columns: 72px 1fr; gap: 21px; padding: 8px 0; position: relative; }
+.tl::before {
+  content: ""; position: absolute; left: 78px; top: 15px; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--paper); border: 1.5px solid var(--ink);
+}
+.tl.is-key::before { background: var(--ink); }
+.tl.is-now::before { background: var(--accent); width: 13px; height: 13px; left: 76px; top: 13px; box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 35%, transparent); }
+.tl.is-past { opacity: .5; }
+.tl__date { font: 500 .8125rem/1.9 var(--f-mono); text-align: right; font-variant-numeric: tabular-nums; }
+.tl__title { display: block; font-weight: 600; }
+.tl.is-key .tl__title { font: 400 1.3rem/1.2 var(--f-display); }
+.tl__now { font: 500 .6875rem var(--f-mono); font-style: normal; background: var(--accent); color: var(--accent-ink); padding: 2px 6px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
+.tl__desc { display: block; font-size: .9375rem; color: var(--muted); }
+.tl__desc a { color: var(--ink); text-underline-offset: 3px; }
+
+.wk-date { font: 400 10px var(--f-mono); fill: var(--muted); }
+.today-line { stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 3 3; }
+.today-txt { font: 500 11px var(--f-mono); fill: var(--ink); }
+
+@media (max-width: 900px) {
+  #energia .calc__grid { grid-template-areas: "verdict" "chart" "tl" "controls" "math"; }
+}
+@media (max-width: 760px) {
+  .wk-date { font-size: 13px; }
+  .setup__wide { display: none !important; }
+}
