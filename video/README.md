@@ -16,3 +16,18 @@ npm run render   # gera out/lancamento.mp4
 
 As fontes ficam em `public/fonts`, então o render não depende de internet.
 O `remotion.config.ts` aponta para o Chromium desta máquina; em outro computador, apague a linha `setBrowserExecutable`.
+
+## Série "Sem chute" (HyperFrames)
+
+Cada episódio é uma página HTML com animação em GSAP, em `hyperframes/epNN/`. Fontes e GSAP ficam dentro da pasta do episódio.
+
+```bash
+cd hyperframes && npm install
+npx hyperframes telemetry disable
+npx hyperframes snapshot ep01 --at 1,5,10,15   # fotos para conferir
+npx hyperframes render ep01 -o sem-chute-01.mp4 --quality delivery
+```
+
+| Episódio | Tema |
+|---|---|
+| `ep01` | O LED de 1000 W que puxa 100 W da tomada |

@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Sem chute #01 · O LED de 1000 W</title>
+<style>
+  @font-face { font-family: "Bricolage Grotesque"; src: url("fonts/bricolage.woff2") format("woff2"); font-weight: 200 800; }
+  @font-face { font-family: "Martian Mono"; src: url("fonts/martian.woff2") format("woff2"); font-weight: 500; }
+  :root { --night: #0f110b; --card: #16190f; --ink: #eef0e6; --muted: #9fa492; --line: #2e3326; --accent: #d4f25a; --warn: #e8916c; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1080px; height: 1920px; background: var(--night); overflow: hidden; }
+  body { font-family: "Bricolage Grotesque", sans-serif; color: var(--ink); }
+  #root { position: relative; width: 1080px; height: 1920px; background: radial-gradient(80% 40% at 50% 30%, #1a1e14, var(--night) 70%); }
+  .clip { position: absolute; inset: 0; }
+  .mono { font-family: "Martian Mono", monospace; }
+  .accent { color: var(--accent); }
+
+  /* topo fixo */
+  .top { position: absolute; left: 72px; right: 72px; top: 84px; display: flex; justify-content: space-between; align-items: center; z-index: 5; }
+  .brand { display: flex; align-items: center; gap: 14px; font-size: 44px; letter-spacing: -.02em; }
+  .brand b { font-weight: 700; } .brand span { font-weight: 300; }
+  .brand svg { width: 52px; height: 52px; }
+  .tag { font: 500 28px "Martian Mono", monospace; color: var(--night); background: var(--accent); padding: 12px 22px; border-radius: 999px; }
+
+  /* cena 1: a caixa */
+  .box { position: absolute; left: 140px; top: 380px; width: 800px; height: 760px; }
+  .box__lid { position: absolute; inset: 0 0 auto 0; height: 120px; background: #23271d; border: 3px solid #3c4233; border-radius: 14px 14px 0 0; }
+  .box__body { position: absolute; left: 0; right: 0; top: 116px; bottom: 0; background: #1d2117; border: 3px solid #3c4233; border-radius: 0 0 14px 14px; display: grid; place-items: center; }
+  .box__brand { position: absolute; top: 40px; left: 40px; font: 500 26px "Martian Mono", monospace; color: var(--muted); letter-spacing: .1em; }
+  .box__w { position: relative; font-weight: 800; font-size: 300px; line-height: 1; letter-spacing: -.05em; color: #fff; }
+  .box__w small { font-size: 150px; }
+  .strike { position: absolute; left: -30px; right: -30px; top: 52%; height: 22px; background: var(--warn); border-radius: 11px; transform-origin: left center; transform: rotate(-8deg) scaleX(0); }
+  .box__leds { position: absolute; left: 60px; right: 60px; top: 44px; display: flex; justify-content: space-between; }
+  .box__leds i { width: 22px; height: 22px; border-radius: 50%; background: #e6f0ff; box-shadow: 0 0 24px #bcd3f5; }
+  .hook { position: absolute; left: 72px; right: 72px; top: 1300px; }
+  .h1 { font-weight: 800; font-size: 118px; line-height: .95; letter-spacing: -.035em; }
+  .h2 { font-weight: 300; font-size: 84px; line-height: 1.05; letter-spacing: -.03em; margin-top: 14px; }
+
+  /* cena 2: medidor de tomada */
+  .meter { position: absolute; left: 140px; top: 380px; width: 800px; padding: 60px 60px 50px; background: var(--card); border: 3px solid var(--line); border-radius: 48px; }
+  .meter__k { font: 500 30px "Martian Mono", monospace; color: var(--muted); }
+  .meter__screen { margin-top: 30px; padding: 40px 44px; background: #0b0d08; border-radius: 24px; border: 2px solid #23271d; display: flex; align-items: baseline; justify-content: flex-end; gap: 20px; }
+  .meter__v { font-weight: 800; font-size: 280px; line-height: .9; letter-spacing: -.05em; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .meter__u { font: 500 64px "Martian Mono", monospace; color: var(--accent); }
+  .meter__plug { display: flex; gap: 60px; justify-content: center; margin-top: 44px; }
+  .meter__plug i { width: 26px; height: 70px; background: #3c4233; border-radius: 8px; }
+
+  /* cena 3: explicação */
+  .chips { position: absolute; left: 72px; right: 72px; top: 520px; display: grid; gap: 34px; }
+  .chip { padding: 44px 48px; background: var(--card); border: 3px solid var(--line); border-radius: 36px; }
+  .chip__k { font: 500 28px "Martian Mono", monospace; color: var(--muted); text-transform: uppercase; }
+  .chip__v { font-weight: 700; font-size: 84px; letter-spacing: -.03em; margin-top: 10px; }
+  .chip__v small { font: 500 32px "Martian Mono", monospace; color: var(--muted); margin-left: 16px; letter-spacing: 0; }
+  .chip--no { opacity: .9; }
+  .chip--no .chip__v { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--warn); text-decoration-thickness: 8px; }
+  .chip--yes { border-color: var(--accent); }
+
+  /* cena 4: quanto cada grow precisa */
+  .bars { position: absolute; left: 72px; right: 72px; top: 560px; display: grid; gap: 48px; }
+  .bar__row { display: grid; grid-template-columns: 250px 1fr; align-items: center; gap: 24px; }
+  .bar__k { font-weight: 700; font-size: 64px; letter-spacing: -.03em; }
+  .bar__k small { display: block; font: 500 24px "Martian Mono", monospace; color: var(--muted); letter-spacing: 0; }
+  .bar__track { position: relative; height: 120px; background: var(--card); border: 2px solid var(--line); border-radius: 24px; overflow: hidden; }
+  .bar__fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); border-radius: 22px; transform-origin: left center; transform: scaleX(0); }
+  .bar__v { position: absolute; right: 30px; top: 50%; transform: translateY(-50%); font-weight: 800; font-size: 64px; letter-spacing: -.03em; color: var(--ink); }
+  #b3 .bar__v { color: #16190f; }
+
+  .caption { position: absolute; left: 72px; right: 72px; top: 1360px; }
+  .caption .k { font: 500 34px "Martian Mono", monospace; color: var(--accent); text-transform: uppercase; letter-spacing: .02em; }
+  .caption .t { font-weight: 700; font-size: 78px; line-height: 1.05; letter-spacing: -.025em; margin-top: 18px; }
+
+  /* cena 5: chamada */
+  .cta { position: absolute; left: 72px; right: 72px; top: 560px; }
+  .cta__ep { font: 500 34px "Martian Mono", monospace; color: var(--accent); }
+  .cta__t { font-weight: 800; font-size: 150px; line-height: .92; letter-spacing: -.045em; margin-top: 30px; }
+  .cta__s { font-weight: 300; font-size: 88px; line-height: 1.05; letter-spacing: -.03em; margin-top: 28px; }
+  .cta__foot { position: absolute; left: 72px; right: 72px; top: 1560px; display: flex; justify-content: space-between; align-items: center; padding-top: 40px; border-top: 3px solid var(--ink); }
+
+  .rail { position: absolute; left: 72px; right: 72px; bottom: 84px; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; z-index: 5; }
+  .rail i { position: absolute; inset: 0; background: var(--accent); transform-origin: left center; transform: scaleX(0); }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="root" data-width="1080" data-height="1920" data-fps="30">
+
+  <div class="top">
+    <div class="brand">
+      <svg viewBox="5 6 90 90"><path d="M29.8 73.2H70.2L72.6 77.2C74 79.6 74.6 81.6 74.6 84C74.6 88.4 71 91.8 66.4 91.8H33.6C29 91.8 25.4 88.4 25.4 84C25.4 81.6 26 79.6 27.4 77.2Z" fill="#d4f25a"/><path d="M40.8 47C40.8 44.5 37.4 44 37.4 40.5C37.4 38.5 38.8 37.3 41 37.3H59.4C61.6 37.3 63 38.5 63 40.5C63 44 59.6 44.5 59.6 47V54.6L73 77.2C74.4 79.6 75 81.6 75 84C75 88.4 71.4 91.8 66.8 91.8H33.6C29 91.8 25.4 88.4 25.4 84C25.4 81.6 26 79.6 27.4 77.2L40.8 54.6Z" fill="none" stroke="#eef0e6" stroke-width="5.6" stroke-linejoin="round"/><path d="M50.2 26.8C49.6 21 47 15 42 11.5C37.5 8.6 31 8.6 27.2 9.4C26 9.7 25.8 10.8 26 12.2C26.6 18 30 24 36 26.8C39.5 28.3 43 27.6 45.5 28.6C47.2 29.4 47.8 31 47.8 33V73.2H52.6V33.4C52.6 31.4 53.8 29.9 56.5 29.7C60 29.4 64.5 29.4 68.4 26.4C71.6 24 73.4 19 73.6 14.6C73.7 13.4 73 12.7 72 12.6C67.5 12 61 12.4 56.5 15.4C52.6 18 50.6 22.4 50.2 26.8Z" fill="#eef0e6"/></svg>
+      <div><b>Grow</b><span>metria</span></div>
+    </div>
+    <div class="tag">SEM CHUTE #01</div>
+  </div>
+
+  <!-- 1 · gancho: a caixa do LED -->
+  <div id="s1" class="clip" data-start="0" data-duration="5">
+    <div class="box" id="box">
+      <div class="box__lid"><div class="box__leds"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="box__body">
+        <span class="box__brand">LED GROW · FULL SPECTRUM</span>
+        <div class="box__w">1000<small>W</small><span class="strike" id="strike"></span></div>
+      </div>
+    </div>
+    <div class="hook" id="hook1">
+      <div class="h1">Seu LED de<br>1000&nbsp;W?</div>
+      <div class="h2">Na tomada, ele puxa <b class="accent" style="font-weight:800">100.</b></div>
+    </div>
+  </div>
+
+  <!-- 2 · medidor -->
+  <div id="s2" class="clip" data-start="3.4" data-duration="3.6">
+    <div class="meter" id="meter">
+      <div class="meter__k">MEDIDOR DE TOMADA · CONSUMO REAL</div>
+      <div class="meter__screen"><span class="meter__v" id="mv">1000</span><span class="meter__u">W</span></div>
+      <div class="meter__plug"><i></i><i></i></div>
+    </div>
+    <div class="caption" id="cap2">
+      <div class="k">O que acontece</div>
+      <div class="t">O "1000 W" da caixa é uma comparação com lâmpada antiga.</div>
+    </div>
+  </div>
+
+  <!-- 3 · o que olhar -->
+  <div id="s3" class="clip" data-start="7" data-duration="4">
+    <div class="chips">
+      <div class="chip chip--no" id="c1"><div class="chip__k">Ignore</div><div class="chip__v">1000 W "equivalente"</div></div>
+      <div class="chip chip--yes" id="c2"><div class="chip__k">Olhe 1 · consumo real</div><div class="chip__v">W reais<small>da tomada</small></div></div>
+      <div class="chip chip--yes" id="c3"><div class="chip__k">Olhe 2 · luz que sai</div><div class="chip__v">PPF<small>µmol/s</small></div></div>
+    </div>
+    <div class="caption" id="cap3">
+      <div class="k">Na hora de comprar</div>
+      <div class="t">Procure esses dois números na ficha técnica.</div>
+    </div>
+  </div>
+
+  <!-- 4 · quanto cada grow precisa -->
+  <div id="s4" class="clip" data-start="11" data-duration="4.4">
+    <div class="bars">
+      <div class="bar__row" id="b1"><div class="bar__k">60×60<small>1 a 2 plantas</small></div><div class="bar__track"><div class="bar__fill" style="width:30%"></div><span class="bar__v">150 W</span></div></div>
+      <div class="bar__row" id="b2"><div class="bar__k">80×80<small>2 a 3 plantas</small></div><div class="bar__track"><div class="bar__fill" style="width:50%"></div><span class="bar__v">250 W</span></div></div>
+      <div class="bar__row" id="b3"><div class="bar__k">120×120<small>4 a 6 plantas</small></div><div class="bar__track"><div class="bar__fill" style="width:100%"></div><span class="bar__v">500 W</span></div></div>
+    </div>
+    <div class="caption" id="cap4">
+      <div class="k">Watts reais na floração</div>
+      <div class="t">Quanto o seu grow precisa de verdade.</div>
+    </div>
+  </div>
+
+  <!-- 5 · chamada -->
+  <div id="s5" class="clip" data-start="15.4" data-duration="4.6">
+    <div class="cta">
+      <div class="cta__ep" id="k5">SEM CHUTE · EPISÓDIO 01</div>
+      <div class="cta__t" id="t5">Faça a conta do seu grow.</div>
+      <div class="cta__s" id="s5t">Grátis, em <b class="accent" style="font-weight:700">10 segundos.</b></div>
+    </div>
+    <div class="cta__foot" id="f5">
+      <div class="brand"><div><b>Grow</b><span>metria</span></div></div>
+      <div class="tag">link na bio</div>
+    </div>
+  </div>
+
+  <div class="rail"><i id="rail"></i></div>
+</div>
+
+<script src="gsap.min.js"></script>
+<script>
+  const ease = 'expo.out';
+  const tl = gsap.timeline({ paused: true });
+
+  // 1 · gancho
+  tl.from('#box', { y: 80, opacity: 0, scale: .92, duration: .7, ease }, 0);
+  tl.from('#hook1 .h1', { y: 40, opacity: 0, duration: .6, ease }, .15);
+  tl.from('#hook1 .h2', { y: 30, opacity: 0, duration: .6, ease }, 1.5);
+  tl.to('#strike', { scaleX: 1, duration: .35, ease: 'power3.in' }, 1.9);
+  tl.to('#box', { x: -12, duration: .06, yoyo: true, repeat: 5, ease: 'none' }, 2.25);
+  tl.to(['#box', '#hook1'], { opacity: 0, y: -40, duration: .4, ease: 'power2.in' }, 3.1);
+
+  // 2 · medidor: conta de 1000 até 100
+  const m = { v: 1000 };
+  tl.from('#meter', { y: 80, opacity: 0, duration: .6, ease }, 3.4);
+  tl.to(m, { v: 100, duration: 1.6, ease: 'power3.out', onUpdate: () => { document.getElementById('mv').textContent = Math.round(m.v); } }, 3.8);
+  tl.from('#cap2', { y: 30, opacity: 0, duration: .6, ease }, 4.2);
+  tl.to(['#meter', '#cap2'], { opacity: 0, y: -40, duration: .4, ease: 'power2.in' }, 6.6);
+
+  // 3 · o que olhar
+  tl.from('#c1', { x: -60, opacity: 0, duration: .6, ease }, 7);
+  tl.from('#c2', { x: -60, opacity: 0, duration: .6, ease }, 7.7);
+  tl.from('#c3', { x: -60, opacity: 0, duration: .6, ease }, 8.3);
+  tl.from('#cap3', { y: 30, opacity: 0, duration: .6, ease }, 8.9);
+  tl.to(['.chips', '#cap3'], { opacity: 0, y: -40, duration: .4, ease: 'power2.in' }, 10.6);
+
+  // 4 · barras
+  ['#b1', '#b2', '#b3'].forEach((id, i) => {
+    tl.from(id, { y: 40, opacity: 0, duration: .5, ease }, 11 + i * .35);
+    tl.to(id + ' .bar__fill', { scaleX: 1, duration: .9, ease: 'power3.out' }, 11.3 + i * .35);
+  });
+  tl.from('#cap4', { y: 30, opacity: 0, duration: .6, ease }, 12.4);
+  tl.to(['.bars', '#cap4'], { opacity: 0, y: -40, duration: .4, ease: 'power2.in' }, 15);
+
+  // 5 · chamada
+  tl.from('#k5', { y: 30, opacity: 0, duration: .5, ease }, 15.4);
+  tl.from('#t5', { y: 60, opacity: 0, duration: .7, ease }, 15.6);
+  tl.from('#s5t', { y: 40, opacity: 0, duration: .6, ease }, 16.3);
+  tl.from('#f5', { y: 30, opacity: 0, duration: .6, ease }, 16.9);
+
+  // progresso do episódio
+  tl.to('#rail', { scaleX: 1, duration: 20, ease: 'none' }, 0);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines['root'] = tl;
+</script>
+</body>
+</html>
