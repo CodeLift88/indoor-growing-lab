@@ -300,13 +300,15 @@ window.IGL_DATA = {
       cluster: 'cuidados',
       clusterLabel: 'Cuidados',
       readTime: '5 min',
-      title: 'Autoflorescente ou fotoperiódica: qual escolher para começar',
-      excerpt: 'Uma floresce sozinha, a outra só quando você muda a luz. Veja a diferença em tempo, tamanho, luz e tolerância a erro.',
+      title: 'Cannabis autoflorescente ou fotoperiódica: qual escolher para começar',
+      short: 'Autoflorescente ou fotoperiódica: qual escolher para começar',
+      blurb: 'Uma floresce sozinha, a outra só quando você muda a luz. Veja a diferença em tempo, tamanho, luz e tolerância a erro.',
+      excerpt: 'Uma floresce sozinha, a outra só quando você muda a luz. Veja a diferença entre cannabis auto e fotoperiódica em tempo, tamanho, luz e tolerância a erro.',
       summary: 'Autos são mais rápidas e simples na luz, mas não se recuperam bem de erros no começo. Fotoperiódicas levam mais tempo e perdoam mais.',
       calc: { href: '#luz', label: 'Calculadora de luz' },
       hw: 'spiderfarmer-se5000',
       html: `
-        <p>A primeira decisão do cultivo não é a luz nem a estufa: é o tipo de planta. A diferença está em <strong>quem decide a hora de florescer</strong>.</p>
+        <p>A primeira decisão do cultivo de cannabis não é a luz nem a estufa: é o tipo de planta. A diferença está em <strong>quem decide a hora de florescer</strong>.</p>
 
         <h3>1. A diferença em uma frase</h3>
         <ul>
@@ -349,13 +351,15 @@ window.IGL_DATA = {
       cluster: 'cuidados',
       clusterLabel: 'Cuidados',
       readTime: '5 min',
-      title: 'Germinação passo a passo: do grão à primeira folha',
-      excerpt: 'Papel toalha ou direto no substrato? Temperatura, profundidade e os erros que mais matam mudas na primeira semana.',
+      title: 'Como germinar sementes de cannabis: do grão à primeira folha',
+      short: 'Germinação passo a passo: do grão à primeira folha',
+      blurb: 'Papel toalha ou direto no substrato? Temperatura, profundidade e os erros que mais matam mudas na primeira semana.',
+      excerpt: 'Papel toalha ou direto no substrato? Temperatura, profundidade e os erros que mais matam mudas de cannabis na primeira semana.',
       summary: 'Calor estável (22–26 °C), umidade sem encharcar e escuro até a raiz aparecer. Plante a 0,5–1 cm de profundidade, raiz para baixo.',
       calc: { href: '#clima', label: 'Calculadora de clima' },
       hw: 'pulse-pro-monitor',
       html: `
-        <p>A germinação é a fase mais curta do cultivo, de 1 a 7 dias, e a que mais assusta quem está começando. A boa notícia: a semente já traz tudo de que precisa. Seu trabalho é só dar <strong>água, calor e escuro</strong> na medida certa.</p>
+        <p>A germinação é a fase mais curta do cultivo de cannabis, de 1 a 7 dias, e a que mais assusta quem está começando. A boa notícia: a semente já traz tudo de que precisa. Seu trabalho é só dar <strong>água, calor e escuro</strong> na medida certa.</p>
 
         <h3>1. Escolha o método</h3>
         <p>Os dois funcionam. A diferença é quanto você mexe na semente.</p>
@@ -398,13 +402,15 @@ window.IGL_DATA = {
       cluster: 'cuidados',
       clusterLabel: 'Cuidados',
       readTime: '5 min',
-      title: 'Rega: quanto e quando molhar (o erro nº 1 de quem começa)',
-      excerpt: 'Mais plantas morrem de excesso de água do que de falta. Aprenda o teste do peso do vaso e nunca mais regue no chute.',
+      title: 'Como regar cannabis: quanto e quando molhar (o erro nº 1 de quem começa)',
+      short: 'Rega: quanto e quando molhar (o erro nº 1 de quem começa)',
+      blurb: 'Mais plantas morrem de excesso de água do que de falta. Aprenda o teste do peso do vaso e nunca mais regue no chute.',
+      excerpt: 'Mais plantas de cannabis morrem de excesso de água do que de falta. Aprenda o teste do peso do vaso e nunca mais regue no chute.',
       summary: 'Regue quando o vaso estiver leve e os primeiros 2–3 cm do substrato secos. Molhe tudo de uma vez, depois espere secar de novo.',
       calc: { href: '#clima', label: 'Calculadora de clima' },
       hw: 'buildasoil-living-soil',
       html: `
-        <p>Quem começa costuma regar por carinho: um pouco todo dia. O problema é que <strong>a raiz também precisa de ar</strong>. Substrato sempre molhado sufoca a raiz, a planta murcha mesmo com água sobrando e abre espaço para fungos.</p>
+        <p>Quem começa a cultivar cannabis costuma regar por carinho: um pouco todo dia. O problema é que <strong>a raiz também precisa de ar</strong>. Substrato sempre molhado sufoca a raiz, a planta murcha mesmo com água sobrando e abre espaço para fungos.</p>
 
         <h3>1. A regra: molhe bem, depois deixe secar</h3>
         <p>O ciclo saudável é <strong>molhar o vaso inteiro e esperar ele secar</strong> antes da próxima rega. Nesse intervalo, a raiz cresce procurando água, e é isso que deixa a planta forte.</p>
@@ -453,13 +459,15 @@ window.IGL_DATA = {
       cluster: 'cuidados',
       clusterLabel: 'Cuidados',
       readTime: '6 min',
-      title: 'Folhas amarelas ou manchadas: o que a planta está dizendo',
-      excerpt: 'Antes de comprar adubo, olhe onde o problema começou. A posição da folha já diz metade do diagnóstico.',
+      title: 'Folhas amarelas na cannabis: o que a planta está dizendo',
+      short: 'Folhas amarelas ou manchadas: o que a planta está dizendo',
+      blurb: 'Antes de comprar adubo, olhe onde o problema começou. A posição da folha já diz metade do diagnóstico.',
+      excerpt: 'Folha de cannabis amarelando ou manchada? Antes de comprar adubo, olhe onde o problema começou. A posição da folha já diz metade do diagnóstico.',
       summary: 'Antes de adubar, confira nesta ordem: rega, pH, luz e temperatura. A maioria das “deficiências” é um desses quatro.',
       calc: { href: '#luz', label: 'Calculadora de luz' },
       hw: 'pulse-pro-monitor',
       html: `
-        <p>Folha amarela é o sintoma que mais gera pânico, e o que mais leva a gastos desnecessários com fertilizante. Na maioria das vezes, <strong>a comida está no vaso, mas a planta não consegue absorver</strong>, por causa de rega, pH, luz ou temperatura.</p>
+        <p>Na cannabis, folha amarela é o sintoma que mais gera pânico, e o que mais leva a gastos desnecessários com fertilizante. Na maioria das vezes, <strong>a comida está no vaso, mas a planta não consegue absorver</strong>, por causa de rega, pH, luz ou temperatura.</p>
 
         <h3>1. Primeiro, onde começou?</h3>
         <p>Alguns nutrientes “andam” dentro da planta e outros não. Por isso a posição da folha é a melhor pista:</p>
@@ -503,13 +511,15 @@ window.IGL_DATA = {
       cluster: 'cuidados',
       clusterLabel: 'Cuidados',
       readTime: '6 min',
-      title: 'Pragas e mofo: como prevenir e o que fazer quando aparecem',
-      excerpt: 'Ácaros, mosquinhas, oídio e mofo cinza. Como reconhecer cada um e por que prevenir dá muito menos trabalho do que tratar.',
+      title: 'Pragas e mofo na cannabis: como prevenir e o que fazer',
+      short: 'Pragas e mofo: como prevenir e o que fazer quando aparecem',
+      blurb: 'Ácaros, mosquinhas, oídio e mofo cinza. Como reconhecer cada um e por que prevenir dá muito menos trabalho do que tratar.',
+      excerpt: 'Ácaros, mosquinhas, oídio e mofo cinza no cultivo de cannabis indoor. Como reconhecer cada um e por que prevenir dá muito menos trabalho do que tratar.',
       summary: 'Prevenção é clima certo, ar circulando, estufa limpa e uma olhada semanal no verso das folhas. Na floração, nada de spray nos buds.',
       calc: { href: '#clima', label: 'Calculadora de clima' },
       hw: 'pulse-pro-monitor',
       html: `
-        <p>Numa estufa fechada, uma praga encontra calor, comida e nenhum predador. Por isso ela se multiplica rápido. A boa notícia: quase todas dependem de um <strong>clima errado</strong> para explodir, e isso você controla.</p>
+        <p>Num cultivo de cannabis em estufa fechada, uma praga encontra calor, comida e nenhum predador. Por isso ela se multiplica rápido. A boa notícia: quase todas dependem de um <strong>clima errado</strong> para explodir, e isso você controla.</p>
 
         <h3>1. Prevenção: os cinco hábitos</h3>
         <ol>
@@ -552,12 +562,14 @@ window.IGL_DATA = {
       cluster: 'luz',
       clusterLabel: 'Luz LED',
       readTime: '4 min',
-      title: 'Como escolher a luz LED certa (e não cair no golpe dos “1000 W”)',
-      excerpt: 'Aquelas lâmpadas roxas baratas que dizem ter 1000 W ou 2000 W? Veja como descobrir a força real de um LED em 30 segundos.',
+      title: 'Luz LED para cannabis: como escolher (e não cair no golpe dos “1000 W”)',
+      short: 'Como escolher a luz LED certa (e não cair no golpe dos “1000 W”)',
+      blurb: 'Aquelas lâmpadas roxas baratas que dizem ter 1000 W ou 2000 W? Veja como descobrir a força real de um LED em 30 segundos.',
+      excerpt: 'Aquelas lâmpadas roxas baratas que dizem ter 1000 W? Veja como descobrir a força real de um LED para cannabis em 30 segundos.',
       summary: 'Regra de bolso: de 30 a 35 W reais na tomada para cada 30×30 cm de estufa.',
       hw: 'vivosun-vsfd6500',
       html: `
-        <p>Ao procurar uma luz de cultivo, é comum achar anúncios de <strong>“LED 1000 W” ou “LED 2000 W” por um preço baixo</strong>. Nas letras miúdas, a lâmpada puxa só 80 W da tomada, e as plantas crescem esticadas, fracas e sem peso.</p>
+        <p>Ao procurar uma luz para cultivar cannabis, é comum achar anúncios de <strong>“LED 1000 W” ou “LED 2000 W” por um preço baixo</strong>. Nas letras miúdas, a lâmpada puxa só 80 W da tomada, e as plantas crescem esticadas, fracas e sem peso.</p>
         <h3>1. Olhe sempre o consumo real na tomada</h3>
         <p>Ignore o número do nome comercial. Procure na descrição a <strong>potência real</strong> (em inglês, <em>power draw</em> ou <em>true watts</em>):</p>
         <ul>
@@ -574,12 +586,14 @@ window.IGL_DATA = {
       cluster: 'clima',
       clusterLabel: 'Clima',
       readTime: '5 min',
-      title: 'Temperatura e umidade sem mistério',
-      excerpt: 'Folhas enrolando ou com manchas estranhas? Muitas vezes a culpa não é do adubo, e sim do ar seco ou úmido demais.',
+      title: 'Temperatura e umidade ideais para cannabis indoor',
+      short: 'Temperatura e umidade sem mistério',
+      blurb: 'Folhas enrolando ou com manchas estranhas? Muitas vezes a culpa não é do adubo, e sim do ar seco ou úmido demais.',
+      excerpt: 'Folhas de cannabis enrolando ou com manchas? Muitas vezes a culpa não é do adubo, e sim do ar seco ou úmido demais no grow.',
       summary: 'Vegetativo: 22–28 °C com 55–65% de umidade. Floração: 20–26 °C com 40–50%.',
       hw: 'pulse-pro-monitor',
       html: `
-        <p>Muita gente gasta com fertilizante achando que a planta está com fome, quando na verdade <strong>o clima da estufa está impedindo a planta de beber água</strong>.</p>
+        <p>Muita gente que cultiva cannabis gasta com fertilizante achando que a planta está com fome, quando na verdade <strong>o clima da estufa está impedindo a planta de beber água</strong>.</p>
         <h3>1. Como a planta “bebe” e “sua”</h3>
         <p>Para puxar água e nutrientes pelas raízes, a planta precisa evaporar água pelos poros das folhas. É como você se exercitando:</p>
         <ul>
@@ -595,8 +609,10 @@ window.IGL_DATA = {
       cluster: 'ar',
       clusterLabel: 'Exaustão',
       readTime: '4 min',
-      title: 'Como segurar o cheiro e o calor da estufa sem barulho',
-      excerpt: 'Como ligar o filtro de carvão do jeito certo e o truque para a estufa ficar silenciosa.',
+      title: 'Como segurar o cheiro da cannabis e o calor do grow sem barulho',
+      short: 'Como segurar o cheiro e o calor da estufa sem barulho',
+      blurb: 'Como ligar o filtro de carvão do jeito certo e o truque para a estufa ficar silenciosa.',
+      excerpt: 'Como ligar o filtro de carvão do jeito certo para o cheiro da cannabis não escapar, e o truque para o grow ficar silencioso.',
       summary: 'Truque do silêncio: compre um exaustor um tamanho acima e use a 40–60% da força.',
       hw: 'acinfinity-cloudline-t6',
       html: `
@@ -612,8 +628,10 @@ window.IGL_DATA = {
       cluster: 'equipamentos',
       clusterLabel: 'Equipamentos',
       readTime: '5 min',
-      title: 'Vivosun, Spider Farmer ou AC Infinity: onde vale gastar em 2026',
-      excerpt: 'Três marcas comparadas em construção, consumo, preço e facilidade de uso.',
+      title: 'Vivosun, Spider Farmer ou AC Infinity: o melhor equipamento para cannabis em 2026',
+      short: 'Vivosun, Spider Farmer ou AC Infinity: onde vale gastar em 2026',
+      blurb: 'Três marcas comparadas em construção, consumo, preço e facilidade de uso.',
+      excerpt: 'Três marcas de equipamento para cultivo de cannabis indoor comparadas em construção, consumo, preço e facilidade de uso.',
       summary: 'Automação e exaustão: AC Infinity. Custo-benefício em LED e kits: Vivosun e Spider Farmer.',
       hw: 'spiderfarmer-se5000',
       html: `
@@ -629,8 +647,10 @@ window.IGL_DATA = {
       cluster: 'substratos',
       clusterLabel: 'Substrato',
       readTime: '5 min',
-      title: 'Terra orgânica, fibra de coco ou hidroponia: por onde começar',
-      excerpt: 'Prós e contras sinceros de cada método antes de comprar os vasos.',
+      title: 'Terra orgânica, fibra de coco ou hidroponia para cannabis: por onde começar',
+      short: 'Terra orgânica, fibra de coco ou hidroponia: por onde começar',
+      blurb: 'Prós e contras sinceros de cada método antes de comprar os vasos.',
+      excerpt: 'Prós e contras sinceros de cada método de cultivo de cannabis antes de comprar os vasos.',
       summary: 'Quer menos trabalho e menos erro? Terra orgânica viva. Quer velocidade máxima? Coco ou hidroponia.',
       hw: 'buildasoil-living-soil',
       html: `
@@ -646,8 +666,10 @@ window.IGL_DATA = {
       cluster: 'luz',
       clusterLabel: 'Espaço',
       readTime: '4 min',
-      title: 'Cultivo discreto em apartamento: 2 a 3 plantas em 120×60 cm',
-      excerpt: 'Por que a estufa retangular, que cabe no canto do quarto, virou a mais vendida do mundo.',
+      title: 'Cultivo de cannabis discreto em apartamento: 2 a 3 plantas em 120×60 cm',
+      short: 'Cultivo discreto em apartamento: 2 a 3 plantas em 120×60 cm',
+      blurb: 'Por que a estufa retangular, que cabe no canto do quarto, virou a mais vendida do mundo.',
+      excerpt: 'Por que a estufa retangular, que cabe no canto do quarto, virou a mais usada para cultivar cannabis em casa.',
       summary: 'Estufa de 120×60 cm + LED de 240–300 W + exaustor silencioso: colheita boa no espaço de uma cômoda.',
       hw: 'clickandgrow-sg9',
       html: `

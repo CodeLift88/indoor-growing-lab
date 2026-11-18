@@ -563,7 +563,7 @@
       <p>${ppfd} × ${hours} × 3600 ÷ 1.000.000 = <b>${fmt(dli, 1)} mol/m²/dia</b></p>
       <p>Alvo para ${ph.label.toLowerCase()}${co2 ? ' com CO₂' : ''}: ${dMin}–${dMax}<br>
          PPFD para o meio da faixa com ${hours} h: <b>${fmtInt(needPpfd)}</b></p>
-      <p class="math__src">Fontes: Faust e Logan (2018), “Daily Light Integral: A Research Review”, <i>HortScience</i> 53(9). Rodriguez-Morrison, Llewellyn e Zheng (2021), resposta da cannabis a níveis crescentes de luz, <i>Frontiers in Plant Science</i> 12.</p>`;
+      <p class="math__src">Fontes: Faust e Logan (2018), “Daily Light Integral: A Research Review”, <i>HortScience</i> 53(9). Rodriguez-Morrison, Llewellyn e Zheng (2021), resposta da planta a níveis crescentes de luz, <i>Frontiers in Plant Science</i> 12.</p>`;
 
     S.dli = dli; S.luzOk = state === 'ok' && !(S.phase === 'flor' && !S.auto && hours !== 12);
   }
@@ -986,13 +986,13 @@
   function renderGuides() {
     const q = norm($('#guide-search').value.trim());
     const list = D.guides.filter(g => (guideCat === 'all' || g.cluster === guideCat) &&
-      (!q || norm(g.title + ' ' + g.excerpt + ' ' + g.summary + ' ' + g.html.replace(/<[^>]+>/g, ' ')).includes(q)));
+      (!q || norm(g.title + ' ' + (g.short || '') + ' ' + g.excerpt + ' ' + g.summary + ' ' + g.html.replace(/<[^>]+>/g, ' ')).includes(q)));
     $('#guide-list').innerHTML = list.map((g, i) => `
       <li class="guide" style="animation-delay:${i * 40}ms">
         <a href="guias/${g.id}.html">
           <span class="guide__n">${String(D.guides.indexOf(g) + 1).padStart(2, '0')}</span>
-          <span class="guide__title">${esc(g.title)}</span>
-          <span class="guide__ex">${esc(g.excerpt)}</span>
+          <span class="guide__title">${esc(g.short || g.title)}</span>
+          <span class="guide__ex">${esc(g.blurb || g.excerpt)}</span>
           <span class="guide__meta">${esc(g.clusterLabel)} · ${esc(g.readTime)} <span class="guide__arrow" aria-hidden="true">→</span></span>
         </a>
       </li>`).join('');
@@ -1135,7 +1135,7 @@
       return;
     }
     const links = d.guides.map(guideById).filter(Boolean)
-      .map(g => `<a class="btn" href="guias/${g.id}.html">Guia: ${esc(g.title.split(':')[0])}</a>`);
+      .map(g => `<a class="btn" href="guias/${g.id}.html">Guia: ${esc((g.short || g.title).split(':')[0])}</a>`);
     if (d.calc) links.unshift(`<a class="btn btn--primary" href="${d.calc.href}">${esc(d.calc.label)}</a>`);
     box.innerHTML = `
       <div class="diag__card">

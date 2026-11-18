@@ -1262,3 +1262,8 @@ html[data-theme="dark"] .term-pop__t { color: #4c7a2b; }
 #seed-layer .seed { fill: #8a7350; }
 #seed-layer .root { stroke: #d8c9a3; stroke-width: 1.4; }
 @media (max-width: 420px) { .cycle__count { display: none; } }
+
+.byline { margin: 18px 0 0; font: 500 .8125rem var(--f-mono); color: var(--muted); }
+.byline a { color: var(--ink); text-underline-offset: 3px; }
+.about__lead { margin: -12px 0 28px; max-width: 60ch; font: 400 clamp(1.15rem, 1.8vw, 1.4rem)/1.4 var(--f-display); color: var(--ink-2); }
+.about__lead a { color: var(--ink); text-underline-offset: 3px; font-family: var(--f-body); font-size: .8em; font-weight: 600; }

@@ -14,6 +14,8 @@ const vm = require('vm');
 const ROOT = path.resolve(__dirname, '..');
 const SITE = 'https://codelift88.github.io/indoor-growing-lab/';
 const UPDATED = 'nov. 2026';
+const MODIFIED = '2026-11-18';
+const REPO = 'https://github.com/CodeLift88/indoor-growing-lab';
 
 // carrega data.js como no navegador
 const sandbox = { window: {} };
@@ -53,7 +55,7 @@ function related(g) {
 }
 
 // moldura comum: head, cabeçalho e rodapé. base = '../' dentro de guias/, '' na raiz
-function shell({ base, file, title, desc, img, type, current, main, scripts = [] }) {
+function shell({ base, file, title, desc, img, type, current, main, scripts = [], ld = null }) {
   const url = SITE + file;
   const nav = [['ciclo', 'O ciclo'], ['calculadoras', 'Calculadoras'], ['diagnostico', 'Diagnóstico'], ['equipamentos', 'Equipamentos'], ['guias', 'Guias'], ['diario', 'Meu diário']];
   const navHref = id => id === 'diario' ? `${base}diario.html` : `${base}index.html#${id}`;
@@ -77,6 +79,7 @@ function shell({ base, file, title, desc, img, type, current, main, scripts = []
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#f2eee4" />
+  ${ld ? `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>` : ''}
   <link rel="icon" type="image/svg+xml" href="${base}assets/logo-mark.svg" />
   <link rel="manifest" href="${base}manifest.webmanifest" />
   <link rel="apple-touch-icon" href="${base}assets/icons/icon-180.png" />
@@ -117,7 +120,7 @@ ${main}
 <footer class="foot">
   <div class="foot__legal">
     <p><strong>Conteúdo informativo e de redução de danos, para maiores de 18 anos.</strong> No Brasil, cultivar cannabis sem autorização ainda é ilegal. Desde 2024 o STF trata o cultivo para uso pessoal (até 6 plantas fêmeas) como infração administrativa, não como crime. Consulte a legislação do seu país antes de qualquer coisa.</p>
-    <p class="foot__links"><a href="${base}diario.html">Meu diário</a> · <a href="${base}privacidade.html">Privacidade e contato</a></p>
+    <p class="foot__links"><a href="${base}diario.html">Meu diário</a> · <a href="${base}sobre.html">Quem somos</a> · <a href="${base}privacidade.html">Privacidade e contato</a></p>
   </div>
   <nav class="foot__nav" aria-label="Atalhos">
     ${foot.map(([id, label]) => `<a href="${base}index.html#${id}">${label}</a>`).join('\n    ')}
@@ -140,9 +143,10 @@ function page(g) {
   const main = `  <nav class="crumbs" aria-label="Você está em"><a href="../index.html#guias">Guias</a><span aria-hidden="true">/</span><span>${esc(g.clusterLabel)}</span></nav>
 
   <header class="article__head">
-    <p class="kicker">Guia ${n} · ${esc(g.readTime)} de leitura · revisado em ${UPDATED}</p>
+    <p class="kicker">Guia ${n} · ${esc(g.readTime)} de leitura</p>
     <h1 class="article__title">${esc(g.title)}</h1>
     <p class="article__lead">${esc(g.excerpt)}</p>
+    <p class="byline">Por <a href="../sobre.html">Equipe Indoor Growing Lab</a> · revisado em ${UPDATED}</p>
   </header>
 
   <div class="article__grid">
@@ -177,7 +181,15 @@ function page(g) {
       </a></li>`).join('\n      ')}
     </ol>
   </section>`;
-  return shell({ base: '../', file: `guias/${g.id}.html`, title: g.title, desc: g.excerpt, img: g.id, type: 'article', current: 'guias', main });
+  const ld = {
+    '@context': 'https://schema.org', '@type': 'Article',
+    headline: g.title, description: g.excerpt, inLanguage: 'pt-BR',
+    image: `${SITE}assets/og/${g.id}.png`, mainEntityOfPage: `${SITE}guias/${g.id}.html`,
+    dateModified: MODIFIED,
+    author: { '@type': 'Organization', name: 'Equipe Indoor Growing Lab', url: `${SITE}sobre.html` },
+    publisher: { '@type': 'Organization', name: 'Indoor Growing Lab', url: SITE, logo: { '@type': 'ImageObject', url: `${SITE}assets/icons/icon-512.png` } }
+  };
+  return shell({ base: '../', file: `guias/${g.id}.html`, title: g.title, desc: g.excerpt, img: g.id, type: 'article', current: 'guias', main, ld });
 }
 
 
@@ -233,8 +245,61 @@ function diaryPage() {
   return shell({ base: '', file: 'diario.html', title: 'Diário de cultivo', desc: 'Anote regas, adubo, medições e problemas do seu cultivo. Grátis, sem cadastro, salvo só no seu navegador.', img: 'diario', type: 'website', current: 'diario', main, scripts: ['plan.js', 'diario.js'] });
 }
 
+
+/* Quem somos */
+function aboutPage() {
+  const main = `  <header class="article__head">
+    <p class="kicker">Quem somos</p>
+    <h1 class="article__title">Equipe Indoor Growing Lab</h1>
+    <p class="article__lead">Somos apaixonados pela cultura, pela planta e pelos benefícios que ela pode trazer à saúde de quem precisa. Este site é o guia que gostaríamos de ter tido no primeiro cultivo.</p>
+  </header>
+
+  <div class="article__grid">
+    <div class="article__body">
+      <div class="prose">
+        <h3>Por que fazemos isso</h3>
+        <p>A cannabis tem uma história longa com as pessoas, e ganha cada vez mais espaço na pesquisa científica e no cuidado com a saúde. Mesmo assim, quem quer aprender a cultivar ainda encontra pouca informação clara em português, muito mito e muita venda disfarçada de conselho.</p>
+        <p>Queremos mudar isso com <strong>respostas diretas para quem nunca plantou</strong> e <strong>as contas à mostra para quem já planta</strong>.</p>
+
+        <h3>Como trabalhamos</h3>
+        <ul>
+          <li><strong>Números reais.</strong> As calculadoras usam dados de fabricantes e estudos de horticultura, e as fórmulas ficam abertas em “Ver a matemática”, com as fontes citadas.</li>
+          <li><strong>Linguagem de gente.</strong> Cada guia explica o que fazer e por quê, sem sigla quando não precisa.</li>
+          <li><strong>Revisão constante.</strong> Cada guia mostra quando foi revisado pela última vez. Achou um erro? Fale com a gente.</li>
+          <li><strong>Indicação antes de comissão.</strong> Quando um link for de afiliado, ele fica marcado, e a comissão nunca muda o que indicamos.</li>
+        </ul>
+
+        <h3>Saúde em primeiro lugar</h3>
+        <p>Acreditamos no potencial da planta para quem precisa dela, e por isso levamos o assunto a sério: <strong>nada aqui substitui a orientação de um médico.</strong> No Brasil, o uso medicinal da cannabis depende de prescrição médica e de produtos autorizados pela Anvisa. Se você busca tratamento, comece por um profissional de saúde.</p>
+
+        <h3>O que não fazemos</h3>
+        <ul>
+          <li>Não vendemos nem indicamos onde comprar sementes.</li>
+          <li>Não incentivamos nada que vá contra a lei. O conteúdo é informativo e de redução de danos, para maiores de 18 anos.</li>
+          <li>Não coletamos seus dados. Veja a <a href="privacidade.html">página de privacidade</a>.</li>
+        </ul>
+
+        <h3>Fale com a gente</h3>
+        <p>Dúvidas, correções ou sugestões de guia: abra uma <a href="${REPO}/issues" target="_blank" rel="noopener">conversa no GitHub</a>. É público, então não inclua informações pessoais.</p>
+      </div>
+    </div>
+    <aside class="article__aside">
+      <div class="aside-card">
+        <span class="kicker">Em uma linha</span>
+        <span class="aside-card__title">Cultivo com informação, não com chute.</span>
+        <span class="aside-card__desc">Feito por quem gosta da planta, para quem quer cultivar bem.</span>
+      </div>
+      <a class="aside-card aside-card--calc" href="index.html#guias">
+        <span class="kicker">Comece por aqui</span>
+        <span class="aside-card__title">Guias práticos <span aria-hidden="true">→</span></span>
+        <span class="aside-card__desc">Leituras curtas, do grão à colheita.</span>
+      </a>
+    </aside>
+  </div>`;
+  return shell({ base: '', file: 'sobre.html', title: 'Quem somos', desc: 'A equipe do Indoor Growing Lab: apaixonados pela cultura, pela planta e pelos benefícios que ela pode trazer à saúde de quem precisa.', img: 'home', type: 'website', current: '', main });
+}
+
 /* Página de privacidade e contato. Mantenha fiel ao que o site realmente faz. */
-const REPO = 'https://github.com/CodeLift88/indoor-growing-lab';
 function privacyPage() {
   const main = `  <header class="article__head">
     <p class="kicker">Atualizada em ${UPDATED}</p>
@@ -298,10 +363,11 @@ D.guides.forEach(g => fs.writeFileSync(path.join(ROOT, 'guias', `${g.id}.html`),
 
 fs.writeFileSync(path.join(ROOT, 'privacidade.html'), privacyPage());
 fs.writeFileSync(path.join(ROOT, 'diario.html'), diaryPage());
+fs.writeFileSync(path.join(ROOT, 'sobre.html'), aboutPage());
 
-const urls = [SITE, ...D.guides.map(g => `${SITE}guias/${g.id}.html`), `${SITE}diario.html`, `${SITE}privacidade.html`];
+const urls = [SITE, ...D.guides.map(g => `${SITE}guias/${g.id}.html`), `${SITE}diario.html`, `${SITE}sobre.html`, `${SITE}privacidade.html`];
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url><loc>${u}</loc></url>`).join('\n')}\n</urlset>\n`);
 fs.writeFileSync(path.join(ROOT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}sitemap.xml\n`);
 
-console.log(`${D.guides.length} guias gerados em guias/, diario.html, privacidade.html, sitemap.xml e robots.txt atualizados.`);
+console.log(`${D.guides.length} guias gerados em guias/, diario.html, sobre.html, privacidade.html, sitemap.xml e robots.txt atualizados.`);

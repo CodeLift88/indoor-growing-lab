@@ -19,6 +19,7 @@ Site estático, sem framework. Funciona abrindo `index.html` direto no navegador
 | `sw.js` + `manifest.webmanifest` | Modo app: instalar na tela inicial e abrir sem internet |
 | `assets/icons/*.png` | Ícones do app (gerados por `scripts/icons.js`) |
 | `privacidade.html` | Privacidade e contato (gerada) |
+| `sobre.html` | Quem somos: Equipe Indoor Growing Lab (gerada) |
 | `guias/*.html` | Páginas dos guias (geradas, não edite à mão) |
 | `assets/og/*.png` | Imagens de prévia ao compartilhar links (geradas) |
 | `scripts/build.js` | Gera `guias/`, `privacidade.html`, `sitemap.xml` e `robots.txt` a partir de `data.js` |
@@ -37,6 +38,10 @@ Se mudou o título de um guia ou criou um novo, gere também a imagem de prévia
 ```bash
 node scripts/og.js
 ```
+
+Cada guia tem três textos de chamada:
+- `title` e `excerpt`: título e resumo completos, com a palavra "cannabis". Aparecem na página do guia, no Google e na prévia ao compartilhar.
+- `short` e `blurb`: título e resumo neutros, usados na listagem da página principal, que fica sem citar a planta.
 
 Dentro do texto de um guia (`html`):
 - `href="#clima"` aponta para uma calculadora da página principal (`#kit`, `#luz`, `#clima`, `#ar`, `#energia`).
