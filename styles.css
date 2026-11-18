@@ -1778,3 +1778,6 @@ html.age-leaving body > *:not(.gate):not(.gate__leaf) { filter: blur(0) saturate
 .dthumb img { object-position: 50% 42%; }
 .dthumb.is-ficha::after, .dthumb.is-ficha .dthumb__d, .dthumb.is-ficha .dthumb__p { display: none; }
 .dthumb.is-ficha img { object-position: 50% 48%; }
+
+.ficha__src { margin: 12px 0 0; font: 500 .6875rem/1.4 var(--f-mono); color: var(--fm); }
+.ficha__go { margin-top: 8px; }

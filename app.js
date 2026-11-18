@@ -1332,6 +1332,7 @@
     setText('#f-ar-u', `m³/h · ${S.fan || t.duct}`);
     if (S.month) tween('f-conta', S.month);
     if (S.harvest) tween('f-colheita', S.harvest.replace(' de ', ' '));
+    setText('#f-src', SAVED.tent ? 'Calculado com o seu setup salvo. Valores estimados.' : 'Exemplo para começar: toque no tamanho do seu grow.');
   }
   function pickTent(key) {
     S.tent = key;
