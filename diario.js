@@ -61,7 +61,8 @@
     const w = P.where(pl, d);
     if (!w.now) return { day };
     const first = pl.steps.find(s => s.phase === w.now.phase) || w.now;
-    return { day, phase: w.now.phase, wk: Math.floor(daysBetween(first.date, d) / 7) + 1 };
+    const pd = daysBetween(first.date, d) + 1;
+    return { day, phase: w.now.phase, wk: Math.floor((pd - 1) / 7) + 1, pd };
   }
   const ctxOf = e => e.ctx || ctxFor(e.date);
   const ctxLabel = c => !c ? '' : `Dia ${c.day}${c.phase ? ` · ${c.phase}${c.wk ? ` · semana ${c.wk}` : ''}` : ''}`;
@@ -382,16 +383,6 @@
   $('#dview-close').addEventListener('click', () => view.close());
   view.addEventListener('click', e => { if (e.target === view) view.close(); });
   view.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
-  $('#dview-save').addEventListener('click', async () => {
-    const e = entries.find(x => x.id === viewId); if (!e) return;
-    const b = await DB.get(e.photo).catch(() => null); if (!b) return;
-    const c = ctxOf(e);
-    const url = URL.createObjectURL(b);
-    const a = Object.assign(document.createElement('a'), { href: url, download: `growmetria-${e.date}${c ? `-dia-${c.day}` : ''}.jpg` });
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  });
-
   // --------- arte para compartilhar ---------
   const D = window.IGL_DATA || null;
   const FLASK = {
@@ -432,6 +423,11 @@
       const w = Number(setup['in-watts']) || t.wattsBloom;
       items.push({ k: 'LED', v: String(w), u: 'W' });
     }
+    if (c && c.phase) {
+      const auto = P.saved().auto;
+      const hrs = Number(setup['in-hours']) || (c.phase === 'Floração' && !auto ? 12 : 18);
+      items.push({ k: 'Fotoperíodo', v: `${hrs}/${24 - hrs}`, u: 'h luz/escuro' });
+    }
     // medições: as da própria anotação ou as últimas dos 14 dias anteriores
     const limit = parse(date).getTime() - 14 * DAY;
     const recent = entries.filter(e => e.m && e.date <= date && parse(e.date).getTime() >= limit).sort((a, b) => (b.date + b.created).localeCompare(a.date + a.created));
@@ -442,9 +438,9 @@
       const v = vpdInfo(tt, rh, c && c.phase);
       items.push({ k: 'VPD', v: num(v.v, 2), u: v.state ? `kPa · ${v.state}` : 'kPa', color: v.state ? (v.ok ? C.ok : C.warn) : null });
     }
-    if (h !== undefined) items.push({ k: 'Altura', v: num(h), u: 'cm' });
     const pl = plan();
     if (pl && pl.tHarvest >= parse(date)) items.push({ k: 'Colheita', v: fmtDate(pl.tHarvest).replace(' de ', ' '), u: 'estimada' });
+    if (h !== undefined) items.push({ k: 'Altura', v: num(h), u: 'cm' });
     return { date, c, items, photo: entry && entry.photo };
   }
 
@@ -495,17 +491,30 @@
 
     // destaque: dia e fase
     ctx.textBaseline = 'alphabetic';
-    const big = data.c ? `Dia ${data.c.day}` : cap(fmtDate(parse(data.date), { day: 'numeric', month: 'short' }).replace(' de ', ' '));
-    const sub = data.c && data.c.phase ? `${data.c.phase}${data.c.wk ? ` · semana ${data.c.wk}` : ''}`.toUpperCase() : 'MEU CULTIVO';
-    ctx.fillStyle = C.accent; ctx.font = `500 30px ${FM}`;
-    ctx.fillText(sub, 72, PH - (format === 'feed' ? 190 : 220));
-    ctx.fillStyle = '#ffffff'; ctx.font = `800 ${format === 'feed' ? 150 : 190}px ${FD}`;
-    ctx.fillText(big, 64, PH - 30);
+    const c = data.c;
+    const feed = format === 'feed';
+    if (c && c.phase && c.pd) {
+      ctx.fillStyle = C.accent; ctx.font = `500 30px ${FM}`;
+      ctx.fillText(`DIA ${c.day} DO CULTIVO`, 72, PH - (feed ? 210 : 250));
+      ctx.fillStyle = '#ffffff'; ctx.font = `800 ${feed ? 150 : 190}px ${FD}`;
+      ctx.fillText(`${c.pd} ${c.pd === 1 ? 'dia' : 'dias'}`, 64, PH - 60);
+      ctx.font = `300 ${feed ? 48 : 58}px ${FD}`; ctx.fillStyle = C.ink;
+      const ph = `de ${c.phase.toLowerCase()}`;
+      ctx.fillText(ph, 72, PH + 10);
+      const pw = ctx.measureText(ph).width;
+      ctx.fillStyle = C.muted; ctx.font = `500 26px ${FM}`;
+      if (c.wk) ctx.fillText(`· semana ${c.wk}`, 72 + pw + 18, PH + 4);
+    } else {
+      ctx.fillStyle = C.accent; ctx.font = `500 30px ${FM}`;
+      ctx.fillText(c ? `DIA ${c.day} DO CULTIVO` : 'MEU CULTIVO', 72, PH - (feed ? 190 : 220));
+      ctx.fillStyle = '#ffffff'; ctx.font = `800 ${feed ? 150 : 190}px ${FD}`;
+      ctx.fillText(c ? `Dia ${c.day}` : cap(fmtDate(parse(data.date), { day: 'numeric', month: 'short' }).replace(' de ', ' ')), 64, PH - 30);
+    }
 
     // números do grow em grade de 2 colunas
     const rows = format === 'feed' ? 2 : 3;
     const items = data.items.slice(0, rows * 2);
-    const top = PH + 40, colW = (W - 144) / 2, rowH = format === 'feed' ? 150 : 176;
+    const top = PH + (c && c.phase && c.pd ? 70 : 40), colW = (W - 144) / 2, rowH = format === 'feed' ? 150 : 176;
     items.forEach((it, i) => {
       const x = 72 + (i % 2) * colW + (i % 2 ? 24 : 0), y = top + Math.floor(i / 2) * rowH;
       ctx.strokeStyle = C.line; ctx.lineWidth = 2;
@@ -550,21 +559,14 @@
     artEntry = entry || entries.filter(e => e.photo).sort((a, b) => (b.date + b.created).localeCompare(a.date + a.created))[0] || null;
     // a arte geral usa a foto mais recente só se ela for dos últimos 14 dias
     if (!entry && artEntry && daysBetween(parse(artEntry.date), today()) > 14) artEntry = null;
-    $$('#dart-fmt button').forEach(b => b.setAttribute('aria-pressed', b.dataset.fmt === artFormat));
     $('#dart-share').hidden = !(navigator.canShare && navigator.canShare({ files: [new File([new Blob()], 'x.png', { type: 'image/png' })] }));
     if (view.open) view.close();
     art.showModal();
     await renderArt();
   }
-  const artName = () => { const c = artEntry ? ctxOf(artEntry) : ctxFor(iso(new Date())); return `growmetria-${c ? `dia-${c.day}` : iso(new Date())}-${artFormat}.png`; };
+  const artName = () => { const c = artEntry ? ctxOf(artEntry) : ctxFor(iso(new Date())); return `growmetria-${c ? `dia-${c.day}` : iso(new Date())}.png`; };
   $('#d-art').addEventListener('click', () => openArt(null));
   $('#dview-art').addEventListener('click', () => openArt(entries.find(x => x.id === viewId)));
-  $('#dart-fmt').addEventListener('click', e => {
-    const b = e.target.closest('[data-fmt]'); if (!b || b.dataset.fmt === artFormat) return;
-    artFormat = b.dataset.fmt;
-    $$('#dart-fmt button').forEach(x => x.setAttribute('aria-pressed', x === b));
-    renderArt();
-  });
   $('#dart-save').addEventListener('click', () => {
     if (!artBlob) return;
     const a = Object.assign(document.createElement('a'), { href: artUrl, download: artName() });
