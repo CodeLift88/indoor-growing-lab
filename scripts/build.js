@@ -204,7 +204,7 @@ function diaryPage() {
   const main = `  <header class="article__head">
     <p class="kicker">Ferramenta · fica só no seu navegador</p>
     <h1 class="article__title">Diário de cultivo</h1>
-    <p class="article__lead">Anote regas, adubo, medições e o que você observa. Em poucas semanas aparecem padrões que a memória não guarda.</p>
+    <p class="article__lead">Fotografe a planta, anote regas, adubo e medições. Cada registro guarda o dia do cultivo e a fase, e as fotos viram uma linha do tempo do grão à colheita.</p>
   </header>
 
   <section class="dstat" id="dstat" aria-label="Resumo do cultivo" aria-live="polite"></section>
@@ -213,17 +213,38 @@ function diaryPage() {
     <form class="dform" id="dform" autocomplete="off">
       <p class="ctl__label">Nova anotação</p>
       <div class="dtypes" id="dtypes" role="radiogroup" aria-label="Tipo de anotação"></div>
-      <label class="dfield"><span class="ctl__label">Data</span><input type="date" id="d-date" class="date" /></label>
+      <div class="dphoto">
+        <label class="dphoto__pick" id="dphoto-pick">
+          <input type="file" id="d-photo" accept="image/*" />
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.4-2h6.2L16.5 7h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="12.5" r="3.5"/></svg>
+          <span><b>Adicionar foto</b><small>Câmera ou galeria</small></span>
+        </label>
+        <figure class="dphoto__prev" id="dphoto-prev" hidden>
+          <img id="dphoto-img" alt="Prévia da foto" />
+          <figcaption id="dphoto-size"></figcaption>
+          <button type="button" id="dphoto-del" aria-label="Remover foto">×</button>
+        </figure>
+        <p class="dphoto__note">A foto fica só no seu aparelho. Ao salvar, apagamos a localização gravada na imagem.</p>
+      </div>
+      <div class="dwhen">
+        <label class="dfield"><span class="ctl__label">Data</span><input type="date" id="d-date" class="date" /></label>
+        <p class="dctx" id="d-ctx" aria-live="polite"></p>
+      </div>
       <label class="dfield"><span class="ctl__label">O que aconteceu</span>
         <textarea id="d-note" rows="3" maxlength="2000" placeholder="Ex.: 1,5 L de água, escorreu um pouco pelo fundo."></textarea></label>
       <details class="dmeasure" id="d-measure">
         <summary>Medições <span>opcional</span></summary>
         <div class="dmgrid" id="d-mgrid"></div>
+        <p class="dvpd" id="d-vpd" hidden></p>
       </details>
-      <button type="submit" class="btn btn--primary dsave">Salvar anotação</button>
+      <button type="submit" class="btn btn--primary dsave">Salvar no diário</button>
     </form>
 
     <div class="dlog">
+      <section class="dgallery" id="dgallery" hidden aria-labelledby="dgallery-t">
+        <div class="dgallery__head"><p class="ctl__label" id="dgallery-t">Linha do tempo</p><p class="dgallery__cap" id="dgallery-cap"></p></div>
+        <div class="dgallery__strip" id="dgallery-strip"></div>
+      </section>
       <figure class="dchart" id="dchart" hidden>
         <p class="ctl__label">Crescimento</p>
         <svg viewBox="0 0 560 160" id="dchart-svg" role="img" aria-labelledby="dchart-cap"></svg>
@@ -240,15 +261,34 @@ function diaryPage() {
 
   <section class="dtools" aria-labelledby="dtools-title">
     <h2 class="ctl__label" id="dtools-title">Seus dados</h2>
-    <p>O diário fica salvo apenas neste navegador. Se limpar os dados do navegador ou trocar de celular, ele some. Baixe uma cópia de vez em quando.</p>
+    <p>O diário e as fotos ficam salvos apenas neste navegador, nada vai para a internet. Se limpar os dados do navegador ou trocar de celular, eles somem. Baixe uma cópia de vez em quando: ela inclui as fotos.</p>
     <div class="dtools__btns">
       <button type="button" class="btn" id="d-export">Baixar cópia</button>
       <label class="btn dtools__file">Restaurar cópia<input type="file" id="d-import" accept="application/json,.json" /></label>
       <button type="button" class="btn dtools__danger" id="d-clear">Apagar tudo</button>
     </div>
     <p class="dtools__more">A data de início e o tipo de planta vêm do <a href="calculadoras/calendario.html">calendário</a>.</p>
-  </section>`;
-  return shell({ base: '', file: 'diario.html', title: 'Diário de cultivo', desc: 'Anote regas, adubo, medições e problemas do seu cultivo. Grátis, sem cadastro, salvo só no seu navegador.', img: 'diario', type: 'website', current: 'diario', main, scripts: ['plan.js', 'diario.js'] });
+  </section>
+
+  <dialog class="dview" id="dview" aria-labelledby="dview-t">
+    <div class="dview__top">
+      <span class="dview__n" id="dview-n"></span>
+      <button type="button" class="dview__x" id="dview-close" aria-label="Fechar">×</button>
+    </div>
+    <div class="dview__stage">
+      <button type="button" class="dview__nav" id="dview-prev" aria-label="Foto anterior">←</button>
+      <img id="dview-img" alt="" />
+      <button type="button" class="dview__nav" id="dview-next" aria-label="Próxima foto">→</button>
+    </div>
+    <div class="dview__info">
+      <p class="dview__ctx" id="dview-ctx"></p>
+      <h2 class="dview__t" id="dview-t"></h2>
+      <p class="dview__note" id="dview-note"></p>
+      <div id="dview-m"></div>
+      <button type="button" class="btn dview__save" id="dview-save">Baixar foto</button>
+    </div>
+  </dialog>`;
+  return shell({ base: '', file: 'diario.html', title: 'Diário de cultivo', desc: 'Fotos, regas, adubo e medições do seu cultivo, com o dia e a fase de cada registro. Grátis, sem cadastro, salvo só no seu aparelho.', img: 'diario', type: 'website', current: 'diario', main, scripts: ['plan.js', 'diario.js'] });
 }
 
 

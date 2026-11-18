@@ -45,6 +45,7 @@ Uma por sintoma, sua ou com licença de uso. Luz branca, de perto, horizontal, m
 - [ ] Revisar o modo escuro com a identidade nova
 - [ ] Fazer links antigos (`#luz`, `#clima`...) levarem à ferramenta certa
 - [ ] Aviso ao trocar o nível de detalhe
+- [ ] Diário, segunda entrega: card para compartilhar (foto + dia + fase + dados, com a marca) e comparação antes e depois
 - [ ] Novos guias: treinamento (LST e poda), secagem e cura, nutrição básica, segurança elétrica
 
 ## Quando o domínio chegar (técnico)
