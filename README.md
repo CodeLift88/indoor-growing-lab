@@ -18,6 +18,8 @@ Site estático, sem framework. Funciona abrindo `index.html` direto no navegador
 | `diario.html` + `diario.js` | Diário de cultivo, salvo só no navegador (página gerada, lógica no .js) |
 | `sw.js` + `manifest.webmanifest` | Modo app: instalar na tela inicial e abrir sem internet |
 | `assets/icons/*.png` | Ícones do app (gerados por `scripts/icons.js`) |
+| `assets/logo.svg`, `logo-claro.svg`, `logo-horizontal.svg` | Logo em vetor: símbolo para fundo claro, para fundo escuro e assinatura com o nome. Cores: tinta `#16190F`, papel `#F2EEE4`, líquido `#D4F25A` |
+| `assets/logo-mark.svg` | Favicon (símbolo claro sobre fundo escuro arredondado) |
 | `privacidade.html` | Privacidade e contato (gerada) |
 | `sobre.html` | Quem somos: Equipe Indoor Growing Lab (gerada) |
 | `guias/*.html` | Páginas dos guias (geradas, não edite à mão) |

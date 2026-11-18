@@ -8,12 +8,12 @@ const path = require('path');
 const { chromium } = require('playwright');
 
 const OUT = path.resolve(__dirname, '..', 'assets', 'icons');
-const sprout = `<path d="M16 27V13M16 13c0-4.5-3.4-7.3-6.2-7.8-.4 3.4.9 7 6.2 7.8Zm0 0c0-4.5 3.4-7.3 6.2-7.8.4 3.4-.9 7-6.2 7.8Zm0 5c-2.8-3.9-6.7-4.5-9.5-3.4 1.1 2.9 4.9 4.8 9.5 3.4m0 0c2.8-3.9 6.7-4.5 9.5-3.4-1.1 2.9-4.9 4.8-9.5 3.4" fill="none" stroke="#f2eee4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="27" r="2" fill="#d4f25a"/>`;
+const flask = `<path d="M29.8 73.2H70.2L72.6 77.2C74 79.6 74.6 81.6 74.6 84C74.6 88.4 71 91.8 66.4 91.8H33.6C29 91.8 25.4 88.4 25.4 84C25.4 81.6 26 79.6 27.4 77.2Z" fill="#d4f25a"/><path d="M40.8 47C40.8 44.5 37.4 44 37.4 40.5C37.4 38.5 38.8 37.3 41 37.3H59.4C61.6 37.3 63 38.5 63 40.5C63 44 59.6 44.5 59.6 47V54.6L73 77.2C74.4 79.6 75 81.6 75 84C75 88.4 71.4 91.8 66.8 91.8H33.6C29 91.8 25.4 88.4 25.4 84C25.4 81.6 26 79.6 27.4 77.2L40.8 54.6Z" fill="none" stroke="#f2eee4" stroke-width="5.6" stroke-linejoin="round"/><path d="M50.2 26.8C49.6 21 47 15 42 11.5C37.5 8.6 31 8.6 27.2 9.4C26 9.7 25.8 10.8 26 12.2C26.6 18 30 24 36 26.8C39.5 28.3 43 27.6 45.5 28.6C47.2 29.4 47.8 31 47.8 33V73.2H52.6V33.4C52.6 31.4 53.8 29.9 56.5 29.7C60 29.4 64.5 29.4 68.4 26.4C71.6 24 73.4 19 73.6 14.6C73.7 13.4 73 12.7 72 12.6C67.5 12 61 12.4 56.5 15.4C52.6 18 50.6 22.4 50.2 26.8Z" fill="#f2eee4"/>`;
 
 // maskable: fundo cheio e desenho dentro da zona segura (80% central)
 const svg = (size, maskable) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 32 32">
   <rect width="32" height="32" ${maskable ? '' : 'rx="7"'} fill="#16190f"/>
-  <g transform="${maskable ? 'translate(4.8 4.4) scale(.7)' : 'translate(2.4 1.6) scale(.85)'}">${sprout}</g>
+  <svg x="${maskable ? 6.4 : 3.2}" y="${maskable ? 6.4 : 3.2}" width="${maskable ? 19.2 : 25.6}" height="${maskable ? 19.2 : 25.6}" viewBox="5 6 90 90">${flask}</svg>
 </svg>`;
 
 (async () => {
@@ -23,7 +23,7 @@ const svg = (size, maskable) => `<svg xmlns="http://www.w3.org/2000/svg" width="
   for (const [name, size, maskable] of [['icon-180', 180, false], ['icon-192', 192, false], ['icon-512', 512, false], ['icon-maskable-512', 512, true]]) {
     await page.setViewportSize({ width: size, height: size });
     await page.setContent(`<html><body style="margin:0;background:transparent">${svg(size, maskable)}</body></html>`);
-    await page.locator('svg').screenshot({ path: path.join(OUT, `${name}.png`), omitBackground: true });
+    await page.locator('body > svg').screenshot({ path: path.join(OUT, `${name}.png`), omitBackground: true });
   }
   await browser.close();
   console.log('Ícones gerados em assets/icons/.');

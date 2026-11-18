@@ -1267,3 +1267,6 @@ html[data-theme="dark"] .term-pop__t { color: #4c7a2b; }
 .byline a { color: var(--ink); text-underline-offset: 3px; }
 .about__lead { margin: -12px 0 28px; max-width: 60ch; font: 400 clamp(1.15rem, 1.8vw, 1.4rem)/1.4 var(--f-display); color: var(--ink-2); }
 .about__lead a { color: var(--ink); text-underline-offset: 3px; font-family: var(--f-body); font-size: .8em; font-weight: 600; }
+
+.wordmark__leaf { width: 26px; height: 26px; }
+.masthead.on-night .wordmark__leaf path[fill="#d4f25a"] { fill: #d4f25a; }

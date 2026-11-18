@@ -49,22 +49,22 @@ function card({ title, kicker, size }) {
   body { width: 1200px; height: 630px; background: #f2eee4; color: #16190f; font-family: 'Fraunces', serif; position: relative; overflow: hidden; }
   .top { position: absolute; left: 72px; right: 72px; top: 56px; display: flex; justify-content: space-between; align-items: center; }
   .mark { display: flex; align-items: center; gap: 12px; font-size: 30px; }
-  .mark svg { width: 34px; height: 34px; }
+  .mark svg { width: 40px; height: 40px; }
   .mark em { font-weight: 400; }
   .kick { font: 500 20px 'IBM Plex Mono', monospace; color: #6a6e60; }
   h1 { position: absolute; left: 72px; top: 150px; width: 780px; font-weight: 400; font-size: ${size}px; line-height: .98; letter-spacing: -.03em; font-variation-settings: "opsz" 144; text-wrap: balance; }
   h1 em { font-weight: 300; }
   .foot { position: absolute; left: 72px; right: 72px; bottom: 52px; padding-top: 22px; border-top: 2px solid #16190f; display: flex; align-items: center; gap: 14px; font: 500 20px 'IBM Plex Mono', monospace; color: #3a3f31; }
   .dot { width: 16px; height: 16px; border-radius: 50%; background: #d4f25a; box-shadow: 0 0 0 2px #16190f; }
-  .leaf { position: absolute; right: -80px; top: 110px; width: 560px; transform: rotate(-14deg); }
+  .leaf { position: absolute; right: 64px; top: 112px; width: 330px; height: 330px; }
   .lf { fill: #c9e38a; stroke: #16190f; stroke-width: 2.2; stroke-linejoin: round; }
   .rib { stroke: #16190f; stroke-width: 1.4; opacity: .55; }
 </style></head><body>
   <div class="top">
-    <div class="mark"><svg viewBox="0 0 24 24"><path d="M12 22V9M12 9C12 5 9 2.5 6.5 2c-.3 3 .8 6.2 5.5 7Zm0 0c0-4 3-6.5 5.5-7 .3 3-.8 6.2-5.5 7Zm0 4.5C9.5 10 6 9.5 3.5 10.5c1 2.6 4.4 4.3 8.5 3m0 0c2.5-3.5 6-4 8.5-3-1 2.6-4.4 4.3-8.5 3" fill="none" stroke="#16190f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Indoor Growing <em>Lab</em></span></div>
+    <div class="mark"><svg viewBox="5 6 90 90"><path d="M29.8 73.2H70.2L72.6 77.2C74 79.6 74.6 81.6 74.6 84C74.6 88.4 71 91.8 66.4 91.8H33.6C29 91.8 25.4 88.4 25.4 84C25.4 81.6 26 79.6 27.4 77.2Z" fill="#d4f25a"/><path d="M40.8 47C40.8 44.5 37.4 44 37.4 40.5C37.4 38.5 38.8 37.3 41 37.3H59.4C61.6 37.3 63 38.5 63 40.5C63 44 59.6 44.5 59.6 47V54.6L73 77.2C74.4 79.6 75 81.6 75 84C75 88.4 71.4 91.8 66.8 91.8H33.6C29 91.8 25.4 88.4 25.4 84C25.4 81.6 26 79.6 27.4 77.2L40.8 54.6Z" fill="none" stroke="#16190f" stroke-width="5.6" stroke-linejoin="round"/><path d="M50.2 26.8C49.6 21 47 15 42 11.5C37.5 8.6 31 8.6 27.2 9.4C26 9.7 25.8 10.8 26 12.2C26.6 18 30 24 36 26.8C39.5 28.3 43 27.6 45.5 28.6C47.2 29.4 47.8 31 47.8 33V73.2H52.6V33.4C52.6 31.4 53.8 29.9 56.5 29.7C60 29.4 64.5 29.4 68.4 26.4C71.6 24 73.4 19 73.6 14.6C73.7 13.4 73 12.7 72 12.6C67.5 12 61 12.4 56.5 15.4C52.6 18 50.6 22.4 50.2 26.8Z" fill="#16190f"/></svg><span>Indoor Growing <em>Lab</em></span></div>
     <span class="kick">${esc(kicker)}</span>
   </div>
-  ${fanLeaf()}
+  <svg class="leaf" viewBox="5 6 90 90" aria-hidden="true"><path d="M29.8 73.2H70.2L72.6 77.2C74 79.6 74.6 81.6 74.6 84C74.6 88.4 71 91.8 66.4 91.8H33.6C29 91.8 25.4 88.4 25.4 84C25.4 81.6 26 79.6 27.4 77.2Z" fill="#d4f25a"/><path d="M40.8 47C40.8 44.5 37.4 44 37.4 40.5C37.4 38.5 38.8 37.3 41 37.3H59.4C61.6 37.3 63 38.5 63 40.5C63 44 59.6 44.5 59.6 47V54.6L73 77.2C74.4 79.6 75 81.6 75 84C75 88.4 71.4 91.8 66.8 91.8H33.6C29 91.8 25.4 88.4 25.4 84C25.4 81.6 26 79.6 27.4 77.2L40.8 54.6Z" fill="none" stroke="#16190f" stroke-width="5.6" stroke-linejoin="round"/><path d="M50.2 26.8C49.6 21 47 15 42 11.5C37.5 8.6 31 8.6 27.2 9.4C26 9.7 25.8 10.8 26 12.2C26.6 18 30 24 36 26.8C39.5 28.3 43 27.6 45.5 28.6C47.2 29.4 47.8 31 47.8 33V73.2H52.6V33.4C52.6 31.4 53.8 29.9 56.5 29.7C60 29.4 64.5 29.4 68.4 26.4C71.6 24 73.4 19 73.6 14.6C73.7 13.4 73 12.7 72 12.6C67.5 12 61 12.4 56.5 15.4C52.6 18 50.6 22.4 50.2 26.8Z" fill="#16190f"/></svg>
   <h1>${title}</h1>
   <div class="foot"><span class="dot"></span>Calculadoras e guias de cultivo indoor · conteúdo +18</div>
 </body></html>`;
