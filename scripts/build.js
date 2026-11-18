@@ -125,7 +125,7 @@ ${main}
 <footer class="foot">
   <div class="foot__legal">
     <p><strong>Conteúdo informativo e de redução de danos, para maiores de 18 anos.</strong> No Brasil, cultivar cannabis sem autorização judicial continua proibido. Em 2024 o STF decidiu que portar ou cultivar para uso pessoal deixou de ser crime e passou a ser infração administrativa. Até 40 g ou 6 plantas fêmeas presume-se uso pessoal, mas isso não é uma autorização: outros indícios ainda podem levar a outro enquadramento. Consulte a legislação do seu país antes de qualquer coisa.</p>
-    <p class="foot__links"><a href="${base}diario.html">Meu diário</a> · <a href="${base}sobre.html">Quem somos</a> · <a href="${base}privacidade.html">Privacidade e contato</a></p>
+    <p class="foot__links"><a href="${base}diario.html">Meu diário</a> · <a href="${base}sobre.html">Quem somos</a> · <a href="${base}como-fazemos.html">Como fazemos</a> · <a href="${base}privacidade.html">Privacidade e contato</a></p>
   </div>
   <nav class="foot__nav" aria-label="Atalhos">
     ${foot.map(([id, label]) => `<a href="${footHref(id)}">${label}</a>`).join('\n    ')}
@@ -152,7 +152,7 @@ function page(g) {
     <p class="kicker">Guia ${n} · ${esc(g.readTime)} de leitura</p>
     <h1 class="article__title">${esc(g.title)}</h1>
     <p class="article__lead">${esc(g.excerpt)}</p>
-    <p class="byline">Por <a href="../sobre.html">Equipe Growmetria</a> · revisado em ${UPDATED}</p>
+    <p class="byline">Por <a href="../sobre.html">Equipe Growmetria</a> · revisado em ${UPDATED} · <a href="../como-fazemos.html">como fazemos</a></p>
   </header>
 
   <div class="article__grid">
@@ -464,14 +464,101 @@ function privacyPage() {
 fs.mkdirSync(path.join(ROOT, 'guias'), { recursive: true });
 D.guides.forEach(g => fs.writeFileSync(path.join(ROOT, 'guias', `${g.id}.html`), page(g)));
 
+function methodPage() {
+  const main = `  <header class="article__head">
+    <p class="kicker">Atualizada em ${UPDATED}</p>
+    <h1 class="article__title">Como fazemos</h1>
+    <p class="article__lead">Toda conta do site é aberta. Aqui está de onde vem cada número, quais fontes usamos e como funcionam as indicações de equipamento.</p>
+  </header>
+
+  <div class="article__grid">
+    <div class="article__body">
+      <p class="tldr"><span class="tldr__k">Em poucas palavras</span>Não somos agrônomos nem profissionais de saúde. Por isso não pedimos que você acredite na gente: mostramos a fórmula, a faixa de referência e a fonte de cada número, para você conferir.</p>
+      <div class="prose">
+        <h2>1. De onde vêm os números</h2>
+        <p>As calculadoras usam fórmulas conhecidas da física de plantas e faixas de referência publicadas em pesquisas. Os resultados são <strong>estimativas</strong>: cada grow tem sua genética, seu LED e seu clima. Use como ponto de partida e ajuste olhando a planta.</p>
+
+        <h3>Luz do dia (DLI)</h3>
+        <p>DLI é a quantidade de luz que a planta recebe no dia inteiro. A conta é:</p>
+        <p><strong>DLI = PPFD × horas de luz × 3.600 ÷ 1.000.000</strong> (resultado em mol/m²/dia)</p>
+        <table>
+          <thead><tr><th>Fase</th><th>DLI de referência</th><th>Com CO₂ extra</th></tr></thead>
+          <tbody>
+            <tr><td>Muda</td><td>10 a 20</td><td>até 22</td></tr>
+            <tr><td>Vegetativo</td><td>20 a 40</td><td>até 45</td></tr>
+            <tr><td>Floração</td><td>30 a 45</td><td>até 60</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Clima (VPD)</h3>
+        <p>VPD é o quanto o ar "puxa" água da folha. Calculamos a pressão de vapor com a equação de Tetens e consideramos a folha 1,5 °C mais fria que o ar (no nível avançado dá para mudar esse valor):</p>
+        <p><strong>VPD = pressão de saturação na temperatura da folha − pressão de vapor do ar</strong>, com a pressão de saturação = 0,6108 × e<sup>17,27 × T ÷ (T + 237,3)</sup> kPa.</p>
+        <table>
+          <thead><tr><th>Fase</th><th>VPD de referência</th></tr></thead>
+          <tbody>
+            <tr><td>Muda</td><td>0,4 a 0,8 kPa</td></tr>
+            <tr><td>Vegetativo</td><td>0,8 a 1,2 kPa</td></tr>
+            <tr><td>Floração</td><td>1,2 a 1,5 kPa</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Potência do LED</h3>
+        <p>Sempre em <strong>watts reais</strong>, os que o LED puxa da tomada, nunca o "equivalente" da caixa. A indicação por tamanho de grow fica entre 320 e 420 W reais por m² na floração, a faixa em que LEDs atuais entregam a luz de referência acima.</p>
+
+        <h3>Exaustão</h3>
+        <p><strong>Vazão = volume do grow × 60 × trocas de ar por minuto</strong>, com acréscimo de 25% para o filtro de carvão e de 15% para cada curva do duto. Indicamos o exaustor que entrega essa vazão trabalhando a no máximo 70% da força, para sobrar folga e fazer menos barulho.</p>
+
+        <h3>Conta de luz</h3>
+        <p><strong>kWh por semana = (watts do LED × uso na fase × horas de luz + outros aparelhos × 24) × 7 ÷ 1.000</strong>. O LED roda a 35% na muda, 75% no vegetativo e 100% na floração. A tarifa padrão é R$ 0,85 por kWh; troque pela da sua conta, que varia por estado e bandeira.</p>
+
+        <h3>Calendário</h3>
+        <p>1 semana de germinação, 2 de muda, o vegetativo que você escolher (4 semanas, se não mudar), 9 de floração, 2 de secagem e 2 de cura mínima. Nas autoflorescentes, 2 semanas de vegetativo e 6 de floração, com 18 h de luz o ciclo todo. A data da colheita é uma <strong>estimativa</strong>: quem decide são os tricomas.</p>
+
+        <h2>2. Fontes que usamos</h2>
+        <ul>
+          <li>Monteith e Unsworth, <em>Principles of Environmental Physics</em>: pressão de vapor e a equação de Tetens.</li>
+          <li>Rodriguez-Morrison, Llewellyn e Zheng (2021), <em>Frontiers in Plant Science</em>: resposta da cannabis a níveis crescentes de luz em cultivo indoor.</li>
+          <li>Chandra e colegas (2008), <em>Physiology and Molecular Biology of Plants</em>: fotossíntese da cannabis em diferentes intensidades de luz, temperaturas e níveis de CO₂.</li>
+          <li>Fichas técnicas dos fabricantes de LED: consumo real em watts e PPF (µmol/s).</li>
+          <li>Supremo Tribunal Federal, Recurso Extraordinário 635.659 (2024): o texto jurídico do rodapé.</li>
+        </ul>
+
+        <h2>3. Como escrevemos os guias</h2>
+        <ul>
+          <li><strong>Linguagem de gente.</strong> Sigla só depois de explicada, e o glossário embutido explica os termos técnicos ao passar o dedo ou o mouse.</li>
+          <li><strong>Três níveis.</strong> As calculadoras mostram mais ou menos detalhe conforme você escolhe: nunca plantei, já fiz um ciclo, quero otimizar.</li>
+          <li><strong>Data de revisão.</strong> Cada guia mostra quando foi revisado pela última vez.</li>
+          <li><strong>Sem revisão profissional, por enquanto.</strong> Ainda não temos um agrônomo revisando os textos. Quando um guia passar por revisão técnica, o nome de quem revisou vai aparecer nele.</li>
+          <li><strong>Correções.</strong> Achou um número errado? Escreva para nós pela <a href="privacidade.html">página de contato</a>. Corrigimos e atualizamos a data de revisão.</li>
+        </ul>
+
+        <h2>4. Como funcionam as indicações de equipamento</h2>
+        <ul>
+          <li>Indicamos pelo que dá para medir: watts reais, luz entregue (PPF), tamanho de grow que o aparelho atende, garantia e venda no Brasil.</li>
+          <li>Alguns links poderão ser de afiliado: se você comprar por eles, a loja nos paga uma comissão, sem custo extra para você. Esses links ficam marcados com ✦.</li>
+          <li>A comissão nunca muda a ordem nem o que é indicado. Se um produto não serve para o seu grow, o site diz, mesmo que o link pague.</li>
+        </ul>
+
+        <h2>5. Seus dados</h2>
+        <p>Não há cadastro. O que você escolhe nas calculadoras e o que anota no diário ficam só no seu aparelho. Detalhes na <a href="privacidade.html">página de privacidade</a>.</p>
+
+        <h2>6. O que este site não é</h2>
+        <p>Não é orientação médica nem jurídica. Para uso medicinal, fale com um médico. Para dúvidas sobre a lei, fale com um advogado.</p>
+      </div>
+    </div>
+  </div>`;
+  return shell({ base: '', file: 'como-fazemos.html', title: 'Como fazemos', desc: 'De onde vêm os números do Growmetria: fórmulas, faixas de referência, fontes e como funcionam as indicações de equipamento.', img: 'home', type: 'website', current: '', main });
+}
+
 fs.writeFileSync(path.join(ROOT, 'privacidade.html'), privacyPage());
+fs.writeFileSync(path.join(ROOT, 'como-fazemos.html'), methodPage());
 fs.writeFileSync(path.join(ROOT, 'diario.html'), diaryPage());
 fs.writeFileSync(path.join(ROOT, 'sobre.html'), aboutPage());
 fs.mkdirSync(path.join(ROOT, 'calculadoras'), { recursive: true });
 D.tools.forEach(t => fs.writeFileSync(path.join(ROOT, t.file), toolPage(t)));
 D.pages.forEach(p => fs.writeFileSync(path.join(ROOT, p.file), toolPage(p, { noNext: true, noSetup: true, current: p.current })));
 
-const urls = [SITE, ...D.tools.map(t => SITE + t.file), ...D.pages.map(p => SITE + p.file), ...D.guides.map(g => `${SITE}guias/${g.id}.html`), `${SITE}diario.html`, `${SITE}sobre.html`, `${SITE}privacidade.html`];
+const urls = [SITE, ...D.tools.map(t => SITE + t.file), ...D.pages.map(p => SITE + p.file), ...D.guides.map(g => `${SITE}guias/${g.id}.html`), `${SITE}diario.html`, `${SITE}sobre.html`, `${SITE}como-fazemos.html`, `${SITE}privacidade.html`];
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url><loc>${u}</loc></url>`).join('\n')}\n</urlset>\n`);
 fs.writeFileSync(path.join(ROOT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}sitemap.xml\n`);

@@ -19,6 +19,7 @@ Lista viva do que falta para o site crescer. Marque com `[x]` o que for concluí
 ### Para dar credibilidade
 - [ ] Fotos reais dos 14 sintomas do diagnóstico (lista de arquivos abaixo)
 - [ ] E-mail de contato com o domínio (ex.: contato@seudominio.com.br)
+- [x] Página "Como fazemos" (fórmulas, faixas, fontes, afiliados)
 - [ ] Revisão dos guias por alguém com experiência de cultivo (pH, temperaturas, tempos)
 - [ ] Revisão do aviso jurídico por um advogado antes de divulgar em larga escala
 
