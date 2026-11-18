@@ -1290,6 +1290,7 @@
         const span = cycle.offsetHeight - vh;
         const p = clamp(-r.top / span);
         setStage(Math.min(N - 1, Math.floor(p * N)));
+        cycle.classList.toggle('hint-off', p > 0.03);
         $('#rail-fill').style.transform = `scaleX(${p.toFixed(4)})`;
         anim.tg = growthAt(p); anim.tb = budsAt(p);
         if (!plantTicking) { plantTicking = true; requestAnimationFrame(plantTick); }

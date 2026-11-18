@@ -1353,7 +1353,7 @@ html[data-theme="dark"] .term-pop__t { color: #4c7a2b; }
 /* rótulos em mono: a Martian é larga, então um pouco menores */
 .kicker, .ctl__label, .verdict__kicker, .stage__dur, .specs dt, .toc__n, .toc__m, .path__num,
 .tool__n, .tool__now, .guide__meta, .guide__n, .disclosure, .math summary, .byline, .crumbs,
-.tl__date, .dtile__k, .dgroup__date, .fit, .hw__cat, .level-chip, .rail__steps button, .cycle__count {
+.tl__date, .dtile__k, .dgroup__date, .fit, .hw__cat, .level-chip, .cycle__count {
   font-size: .6875rem; letter-spacing: 0;
 }
 .math__body { font-size: .75rem; }
@@ -1365,3 +1365,19 @@ body { line-height: 1.62; }
 .sec-head__title, .chapter__title, .about__title { letter-spacing: -0.03em; }
 .article__title { font-weight: 700; letter-spacing: -0.025em; line-height: 1.02; }
 .verdict__word, .diag__cause, .dtile__v { letter-spacing: -0.025em; }
+
+/* ===== correções da revisão de UI ===== */
+.rail__steps button { font-size: .6875rem; }
+/* 3. dica de rolagem some assim que a pessoa rola */
+.cycle.hint-off .scene__hint { opacity: 0; }
+/* 5. coluna da direita dos guias cabe "Equipamentos · 5 min →" */
+.guide > a { grid-template-columns: 48px minmax(0, 5fr) minmax(0, 4fr) 200px; }
+.guide__meta { white-space: normal; }
+@media (max-width: 1000px) { .guide > a { grid-template-columns: 40px minmax(0, 1fr) 170px; } }
+@media (max-width: 760px) {
+  /* 1. no celular, só os pontinhos das fases */
+  .rail__steps button { font-size: 0 !important; }
+  /* 2. no celular o menu já lista as seções */
+  .hero__all, .chips { display: none; }
+  .guide > a { grid-template-columns: 1fr; }
+}
