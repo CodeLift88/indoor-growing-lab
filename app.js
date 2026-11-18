@@ -5,6 +5,12 @@
 (() => {
   'use strict';
 
+  // modo app: funciona offline depois da primeira visita (só em http/https)
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    const swUrl = new URL('sw.js', document.currentScript ? document.currentScript.src : location.href);
+    addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(() => {}));
+  }
+
   const D = window.IGL_DATA;
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -738,6 +744,7 @@
   const SYM = { BRL: 'R$', USD: 'US$', EUR: '€' };
   const money = (v, cur, d = 0) => `${SYM[cur]} ${v.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d })}`;
 
+  const siteUrl = () => ($('link[rel="canonical"]') || location).href.split('?')[0].split('#')[0];
   const DAY = 864e5;
   const fmtDate = (d, long) => d.toLocaleDateString('pt-BR', long ? { day: 'numeric', month: 'long' } : { day: 'numeric', month: 'short' }).replace('.', '');
   const addWeeks = (d, w) => new Date(d.getTime() + w * 7 * DAY);
@@ -752,7 +759,8 @@
     const vegW = Number($('#in-veg').value), tariff = Number($('#in-tariff').value);
     const cur = $('#in-currency').value;
     const auto = S.auto;
-    const vegN = auto ? 2 : vegW, florN = auto ? 6 : 9;
+    const PLAN = window.IGL_PLAN.build(startDate(), auto, vegW);
+    const vegN = PLAN.vegN, florN = PLAN.florN;
     $('#in-veg').disabled = auto;
     setText('#out-watts', `${watts} W`);
     setText('#out-extra', `${extra} W`);
@@ -768,21 +776,10 @@
     const monthAvg = (total / plan.length) * 30 / 7;
     const top = ['muda', 'veg', 'flor'].reduce((a, ph) => weekKwh(ph) > weekKwh(a) ? ph : a, 'muda');
 
-    // cronograma: 1 semana de germinação antes da luz
-    const t0 = startDate();
-    const tLight = addWeeks(t0, 1);
-    const tFlor = addWeeks(tLight, 2 + vegN);
-    const tHarvest = addWeeks(tFlor, florN);
-    const steps = [
-      { date: t0, title: 'Germinação', desc: 'Semente no papel toalha ou direto no substrato, no escuro.', guide: 'germinacao' },
-      { date: tLight, title: 'Muda', desc: 'Primeiras folhas. Luz suave, 18 h por dia.' },
-      { date: addWeeks(tLight, 2), title: 'Vegetativo', desc: auto ? 'Crescimento rápido. A auto decide sozinha quando florescer.' : 'Construir estrutura. Você escolhe quanto tempo fica aqui.' },
-      { date: tFlor, title: auto ? 'Começa a florescer sozinha' : 'Virar o timer para 12 h', desc: auto ? 'Não mexa na luz: continua em 18 h.' : '12 h de luz e 12 h de escuro total, sem vazamento.', key: true },
-      { date: addWeeks(tHarvest, -2), title: 'Comece a olhar os tricomas', desc: 'Lupa de 60× a cada 2 ou 3 dias.' },
-      { date: tHarvest, title: 'Colheita estimada', desc: 'A data certa quem diz são os tricomas, não o calendário.', key: true },
-      { date: addWeeks(tHarvest, 2), title: 'Fim da secagem, começa a cura', desc: 'Potes de vidro, abrindo todo dia na primeira semana.' },
-      { date: addWeeks(tHarvest, 4), title: 'Cura mínima', desc: 'Sabor e aroma seguem melhorando por até 8 semanas.' }
-    ];
+    // cronograma (plan.js é a fonte única das datas)
+    const t0 = PLAN.steps[0].date, tLight = PLAN.tLight, tHarvest = PLAN.tHarvest;
+    const steps = PLAN.steps;
+    S.plan = PLAN;
     const now = new Date();
     let nowIdx = -1;
     steps.forEach((s, i) => { if (s.date <= now) nowIdx = i; });
@@ -790,7 +787,7 @@
       <li class="tl ${i < nowIdx ? 'is-past' : ''} ${i === nowIdx ? 'is-now' : ''} ${s.key ? 'is-key' : ''}">
         <span class="tl__date">${fmtDate(s.date)}</span>
         <span class="tl__body"><span class="tl__title">${esc(s.title)}${i === nowIdx ? ' <em class="tl__now">você está aqui</em>' : ''}</span>
-        <span class="tl__desc">${esc(s.desc)}${s.guide ? ` <a href="guias/${s.guide}.html">Ver guia</a>` : ''}</span></span>
+        <span class="tl__desc">${esc(s.desc)}${s.guide ? ` <a href="guias/${s.guide}.html">Ver guia</a>` : ''}${s.key ? ` <a class="tl__gcal" href="${esc(window.IGL_PLAN.googleLink(s, siteUrl()))}" target="_blank" rel="noopener">+ Google Agenda</a>` : ''}</span></span>
       </li>`).join('');
 
     swapWord($('#en-harvest'), fmtDate(tHarvest, true));
@@ -885,6 +882,17 @@
   startIn.value = store.get('igl-start') || isoToday();
   startIn.addEventListener('change', () => { store.set('igl-start', startIn.value); updateEnergy(); updateSetup(); });
   $('#start-today').addEventListener('click', () => { startIn.value = isoToday(); store.set('igl-start', startIn.value); updateEnergy(); updateSetup(); });
+
+  const vegIn = $('#in-veg');
+  if (store.get('igl-veg')) vegIn.value = store.get('igl-veg');
+  vegIn.addEventListener('input', () => store.set('igl-veg', vegIn.value));
+
+  // baixar o calendário para a agenda do celular
+  $('#ics-btn').addEventListener('click', () => {
+    if (!S.plan) return;
+    window.IGL_PLAN.download('meu-cultivo.ics', window.IGL_PLAN.ics(S.plan, siteUrl()), 'text/calendar;charset=utf-8');
+    toast('Calendário baixado. Abra o arquivo para adicionar à sua agenda.');
+  });
 
   ['#in-extra', '#in-veg', '#in-tariff', '#in-currency'].forEach(s => $(s).addEventListener('input', () => {
     fillRanges(); updateEnergy(); updateSetup();
@@ -1194,7 +1202,7 @@
   const masthead = $('#masthead');
   const setupBar = $('#setup');
   const calcStart = $('#kit'), calcEnd = $('#diagnostico');
-  const navLinks = $$('#main-nav a');
+  const navLinks = $$('#main-nav a[href^="#"]');
   const navTargets = navLinks.map(a => $(a.getAttribute('href')));
   const setupLinks = $$('#setup a');
   const setupTargets = setupLinks.map(a => $(a.getAttribute('href')));
@@ -1234,6 +1242,47 @@
     });
   }
 
+  /* ------------------------------------------------------------------
+     COMPARTILHAR O SETUP: o link abre as calculadoras já preenchidas
+     ------------------------------------------------------------------ */
+  const SHARE = [['ppfd', '#in-ppfd'], ['h', '#in-hours'], ['temp', '#in-temp'], ['rh', '#in-rh'], ['off', '#in-off'], ['b', '#in-bends'], ['a', '#in-ach'], ['w', '#in-watts'], ['x', '#in-extra'], ['v', '#in-veg'], ['tf', '#in-tariff']];
+  function shareUrl() {
+    const q = new URLSearchParams({ t: S.tent, k: S.auto ? 'auto' : 'foto', p: S.phase });
+    SHARE.forEach(([k, sel]) => q.set(k, $(sel).value));
+    if ($('#in-co2').checked) q.set('co2', '1');
+    if (!$('#in-filter').checked) q.set('f', '0');
+    q.set('c', $('#in-currency').value);
+    return `${siteUrl()}?${q}#calculadoras`;
+  }
+  // aplica um setup vindo de link; não grava nada no navegador de quem abriu
+  function applyShared() {
+    const q = new URLSearchParams(location.search);
+    if (!q.has('t')) return false;
+    if (D.tents[q.get('t')]) {
+      S.tent = q.get('t');
+      const r = $(`input[name="tent"][value="${S.tent}"]`); if (r) r.checked = true;
+    }
+    if (q.has('k')) S.auto = q.get('k') === 'auto';
+    if (D.phases[q.get('p')]) S.phase = q.get('p');
+    SHARE.forEach(([k, sel]) => {
+      const v = q.get(k), input = $(sel);
+      if (v !== null && v !== '' && !isNaN(Number(v))) input.value = clamp(Number(v), Number(input.min), Number(input.max));
+    });
+    $('#in-co2').checked = q.get('co2') === '1';
+    $('#in-filter').checked = q.get('f') !== '0';
+    if (['BRL', 'USD', 'EUR'].includes(q.get('c'))) $('#in-currency').value = q.get('c');
+    S.wattsTouched = q.has('w');
+    return true;
+  }
+  $('#share-btn').addEventListener('click', async () => {
+    const url = shareUrl();
+    if (navigator.share) {
+      try { await navigator.share({ title: 'Meu setup de cultivo', text: 'Olha o meu setup no Indoor Growing Lab:', url }); return; } catch (e) { if (e.name === 'AbortError') return; }
+    }
+    try { await navigator.clipboard.writeText(url); toast('Link do seu setup copiado.'); }
+    catch { window.prompt('Copie o link do seu setup:', url); }
+  });
+
   /* revelação ao rolar */
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
@@ -1253,9 +1302,12 @@
   renderGuides();
   renderSymptoms();
   renderDiagnosis();
+  const shared = applyShared();
   $$(`[data-bind="kind"] input[value="${S.auto ? 'auto' : 'foto'}"]`).forEach(i => { i.checked = true; });
-  if (S.auto) applyPreset();
+  $$(`[data-bind="phase"] input[value="${S.phase}"]`).forEach(i => { i.checked = true; });
+  if (S.auto && !shared) applyPreset();
   applyLevel(S.level);
+  if (shared) setTimeout(() => toast('Você abriu um setup compartilhado. Mude o que quiser.'), 600);
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onScroll);
   onScroll();

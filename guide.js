@@ -1,6 +1,12 @@
 /* Indoor Growing Lab — páginas de guia: tema e menu */
 (() => {
   'use strict';
+
+  // modo app: funciona offline depois da primeira visita (só em http/https)
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    const swUrl = new URL('sw.js', document.currentScript ? document.currentScript.src : location.href);
+    addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(() => {}));
+  }
   const root = document.documentElement;
   const btn = document.getElementById('theme-btn');
   const meta = document.querySelector('meta[name="theme-color"]');

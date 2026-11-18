@@ -75,7 +75,10 @@ function card({ title, kicker, size }) {
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
 
-  const jobs = [{ file: 'home', title: 'Do grão à colheita, sem <em>chute.</em>', kicker: 'do iniciante ao avançado', size: 112 }]
+  const jobs = [
+    { file: 'home', title: 'Do grão à colheita, sem <em>chute.</em>', kicker: 'do iniciante ao avançado', size: 112 },
+    { file: 'diario', title: 'Seu diário de <em>cultivo.</em>', kicker: 'grátis · sem cadastro', size: 104 }
+  ]
     .concat(D.guides.map((g, i) => ({
       file: g.id,
       title: esc(g.title),

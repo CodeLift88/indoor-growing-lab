@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="no-js">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diário de cultivo · Indoor Growing Lab</title>
+  <meta name="description" content="Anote regas, adubo, medições e problemas do seu cultivo. Grátis, sem cadastro, salvo só no seu navegador." />
+  <link rel="canonical" href="https://codelift88.github.io/indoor-growing-lab/diario.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="Indoor Growing Lab" />
+  <meta property="og:title" content="Diário de cultivo" />
+  <meta property="og:description" content="Anote regas, adubo, medições e problemas do seu cultivo. Grátis, sem cadastro, salvo só no seu navegador." />
+  <meta property="og:url" content="https://codelift88.github.io/indoor-growing-lab/diario.html" />
+  <meta property="og:image" content="https://codelift88.github.io/indoor-growing-lab/assets/og/diario.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#f2eee4" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo-mark.svg" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-180.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Instrument+Sans:wght@400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    document.documentElement.classList.replace('no-js', 'js');
+    try { var t = localStorage.getItem('igl-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body class="page-guide">
+
+<a class="skip" href="#artigo">Pular para o conteúdo</a>
+
+<header class="masthead" id="masthead">
+  <a class="wordmark" href="index.html" aria-label="Indoor Growing Lab, início"><svg class="wordmark__leaf" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22V9M12 9C12 5 9 2.5 6.5 2c-.3 3 .8 6.2 5.5 7Zm0 0c0-4 3-6.5 5.5-7 .3 3-.8 6.2-5.5 7Zm0 4.5C9.5 10 6 9.5 3.5 10.5c1 2.6 4.4 4.3 8.5 3m0 0c2.5-3.5 6-4 8.5-3-1 2.6-4.4 4.3-8.5 3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Indoor Growing <em>Lab</em></span></a>
+  <nav class="masthead__nav" id="main-nav" aria-label="Seções">
+    <a href="index.html#ciclo" class="">O ciclo</a>
+    <a href="index.html#calculadoras" class="">Calculadoras</a>
+    <a href="index.html#diagnostico" class="">Diagnóstico</a>
+    <a href="index.html#equipamentos" class="">Equipamentos</a>
+    <a href="index.html#guias" class="">Guias</a>
+    <a href="diario.html" class="nav-diary is-current">Meu diário</a>
+  </nav>
+  <div class="masthead__tools">
+    <button type="button" class="theme-switch" id="theme-btn" role="switch" aria-checked="false" aria-label="Modo escuro" title="Mudar para o modo escuro">
+      <span class="theme-switch__thumb" aria-hidden="true"></span>
+      <svg class="theme-switch__icon theme-switch__icon--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" /></svg>
+      <svg class="theme-switch__icon theme-switch__icon--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" /></svg>
+    </button>
+    <button type="button" class="icon-btn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Abrir menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16" /></svg>
+    </button>
+  </div>
+</header>
+
+<main class="article" id="artigo">
+  <header class="article__head">
+    <p class="kicker">Ferramenta · fica só no seu navegador</p>
+    <h1 class="article__title">Diário de cultivo</h1>
+    <p class="article__lead">Anote regas, adubo, medições e o que você observa. Em poucas semanas aparecem padrões que a memória não guarda.</p>
+  </header>
+
+  <section class="dstat" id="dstat" aria-label="Resumo do cultivo" aria-live="polite"></section>
+
+  <div class="diary">
+    <form class="dform" id="dform" autocomplete="off">
+      <p class="ctl__label">Nova anotação</p>
+      <div class="dtypes" id="dtypes" role="radiogroup" aria-label="Tipo de anotação"></div>
+      <label class="dfield"><span class="ctl__label">Data</span><input type="date" id="d-date" class="date" /></label>
+      <label class="dfield"><span class="ctl__label">O que aconteceu</span>
+        <textarea id="d-note" rows="3" maxlength="2000" placeholder="Ex.: 1,5 L de água, escorreu um pouco pelo fundo."></textarea></label>
+      <details class="dmeasure" id="d-measure">
+        <summary>Medições <span>opcional</span></summary>
+        <div class="dmgrid" id="d-mgrid"></div>
+      </details>
+      <button type="submit" class="btn btn--primary dsave">Salvar anotação</button>
+    </form>
+
+    <div class="dlog">
+      <figure class="dchart" id="dchart" hidden>
+        <p class="ctl__label">Crescimento</p>
+        <svg viewBox="0 0 560 160" id="dchart-svg" role="img" aria-labelledby="dchart-cap"></svg>
+        <figcaption id="dchart-cap"></figcaption>
+      </figure>
+      <div class="dlog__head">
+        <p class="ctl__label">Histórico</p>
+        <div class="pills" id="dfilter" role="group" aria-label="Filtrar por tipo"></div>
+      </div>
+      <ol class="dlist" id="dlist"></ol>
+      <p class="empty" id="dempty"></p>
+    </div>
+  </div>
+
+  <section class="dtools" aria-labelledby="dtools-title">
+    <h2 class="ctl__label" id="dtools-title">Seus dados</h2>
+    <p>O diário fica salvo apenas neste navegador. Se limpar os dados do navegador ou trocar de celular, ele some. Baixe uma cópia de vez em quando.</p>
+    <div class="dtools__btns">
+      <button type="button" class="btn" id="d-export">Baixar cópia</button>
+      <label class="btn dtools__file">Restaurar cópia<input type="file" id="d-import" accept="application/json,.json" /></label>
+      <button type="button" class="btn dtools__danger" id="d-clear">Apagar tudo</button>
+    </div>
+    <p class="dtools__more">A data de início e o tipo de planta vêm do <a href="index.html#energia">calendário</a>.</p>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot__legal">
+    <p><strong>Conteúdo informativo e de redução de danos, para maiores de 18 anos.</strong> No Brasil, cultivar cannabis sem autorização ainda é ilegal. Desde 2024 o STF trata o cultivo para uso pessoal (até 6 plantas fêmeas) como infração administrativa, não como crime. Consulte a legislação do seu país antes de qualquer coisa.</p>
+    <p class="foot__links"><a href="diario.html">Meu diário</a> · <a href="privacidade.html">Privacidade e contato</a></p>
+  </div>
+  <nav class="foot__nav" aria-label="Atalhos">
+    <a href="index.html#ciclo">O ciclo</a>
+    <a href="index.html#kit">Espaço</a>
+    <a href="index.html#luz">Luz</a>
+    <a href="index.html#clima">Clima</a>
+    <a href="index.html#ar">Exaustão</a>
+    <a href="index.html#energia">Calendário e conta</a>
+    <a href="index.html#diagnostico">Diagnóstico</a>
+    <a href="index.html#equipamentos">Equipamentos</a>
+    <a href="index.html#guias">Guias</a>
+  </nav>
+  <p class="foot__mark">Indoor Growing <em>Lab</em></p>
+</footer>
+
+<script src="glossary.js"></script>
+<script src="guide.js"></script>
+<script src="plan.js"></script>
+<script src="diario.js"></script>
+</body>
+</html>

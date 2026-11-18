@@ -53,9 +53,10 @@ function related(g) {
 }
 
 // moldura comum: head, cabeçalho e rodapé. base = '../' dentro de guias/, '' na raiz
-function shell({ base, file, title, desc, img, type, current, main }) {
+function shell({ base, file, title, desc, img, type, current, main, scripts = [] }) {
   const url = SITE + file;
-  const nav = [['ciclo', 'O ciclo'], ['calculadoras', 'Calculadoras'], ['diagnostico', 'Diagnóstico'], ['equipamentos', 'Equipamentos'], ['guias', 'Guias']];
+  const nav = [['ciclo', 'O ciclo'], ['calculadoras', 'Calculadoras'], ['diagnostico', 'Diagnóstico'], ['equipamentos', 'Equipamentos'], ['guias', 'Guias'], ['diario', 'Meu diário']];
+  const navHref = id => id === 'diario' ? `${base}diario.html` : `${base}index.html#${id}`;
   const foot = [['ciclo', 'O ciclo'], ['kit', 'Espaço'], ['luz', 'Luz'], ['clima', 'Clima'], ['ar', 'Exaustão'], ['energia', 'Calendário e conta'], ['diagnostico', 'Diagnóstico'], ['equipamentos', 'Equipamentos'], ['guias', 'Guias']];
   return `<!DOCTYPE html>
 <html lang="pt-BR" class="no-js">
@@ -77,6 +78,8 @@ function shell({ base, file, title, desc, img, type, current, main }) {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#f2eee4" />
   <link rel="icon" type="image/svg+xml" href="${base}assets/logo-mark.svg" />
+  <link rel="manifest" href="${base}manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="${base}assets/icons/icon-180.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Instrument+Sans:wght@400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -93,7 +96,7 @@ function shell({ base, file, title, desc, img, type, current, main }) {
 <header class="masthead" id="masthead">
   <a class="wordmark" href="${base}index.html" aria-label="Indoor Growing Lab, início">${leaf}<span>Indoor Growing <em>Lab</em></span></a>
   <nav class="masthead__nav" id="main-nav" aria-label="Seções">
-    ${nav.map(([id, label]) => `<a href="${base}index.html#${id}"${id === current ? ' class="is-current"' : ''}>${label}</a>`).join('\n    ')}
+    ${nav.map(([id, label]) => `<a href="${navHref(id)}" class="${[id === 'diario' ? 'nav-diary' : '', id === current ? 'is-current' : ''].join(' ').trim()}">${label}</a>`).join('\n    ')}
   </nav>
   <div class="masthead__tools">
     <button type="button" class="theme-switch" id="theme-btn" role="switch" aria-checked="false" aria-label="Modo escuro" title="Mudar para o modo escuro">
@@ -114,7 +117,7 @@ ${main}
 <footer class="foot">
   <div class="foot__legal">
     <p><strong>Conteúdo informativo e de redução de danos, para maiores de 18 anos.</strong> No Brasil, cultivar cannabis sem autorização ainda é ilegal. Desde 2024 o STF trata o cultivo para uso pessoal (até 6 plantas fêmeas) como infração administrativa, não como crime. Consulte a legislação do seu país antes de qualquer coisa.</p>
-    <p class="foot__links"><a href="${base}privacidade.html">Privacidade e contato</a></p>
+    <p class="foot__links"><a href="${base}diario.html">Meu diário</a> · <a href="${base}privacidade.html">Privacidade e contato</a></p>
   </div>
   <nav class="foot__nav" aria-label="Atalhos">
     ${foot.map(([id, label]) => `<a href="${base}index.html#${id}">${label}</a>`).join('\n    ')}
@@ -124,6 +127,7 @@ ${main}
 
 <script src="${base}glossary.js"></script>
 <script src="${base}guide.js"></script>
+${scripts.map(src => `<script src="${base}${src}"></script>`).join('\n')}
 </body>
 </html>
 `;
@@ -176,6 +180,59 @@ function page(g) {
   return shell({ base: '../', file: `guias/${g.id}.html`, title: g.title, desc: g.excerpt, img: g.id, type: 'article', current: 'guias', main });
 }
 
+
+/* Diário de cultivo: a página é estática; diario.js faz o resto no navegador */
+function diaryPage() {
+  const main = `  <header class="article__head">
+    <p class="kicker">Ferramenta · fica só no seu navegador</p>
+    <h1 class="article__title">Diário de cultivo</h1>
+    <p class="article__lead">Anote regas, adubo, medições e o que você observa. Em poucas semanas aparecem padrões que a memória não guarda.</p>
+  </header>
+
+  <section class="dstat" id="dstat" aria-label="Resumo do cultivo" aria-live="polite"></section>
+
+  <div class="diary">
+    <form class="dform" id="dform" autocomplete="off">
+      <p class="ctl__label">Nova anotação</p>
+      <div class="dtypes" id="dtypes" role="radiogroup" aria-label="Tipo de anotação"></div>
+      <label class="dfield"><span class="ctl__label">Data</span><input type="date" id="d-date" class="date" /></label>
+      <label class="dfield"><span class="ctl__label">O que aconteceu</span>
+        <textarea id="d-note" rows="3" maxlength="2000" placeholder="Ex.: 1,5 L de água, escorreu um pouco pelo fundo."></textarea></label>
+      <details class="dmeasure" id="d-measure">
+        <summary>Medições <span>opcional</span></summary>
+        <div class="dmgrid" id="d-mgrid"></div>
+      </details>
+      <button type="submit" class="btn btn--primary dsave">Salvar anotação</button>
+    </form>
+
+    <div class="dlog">
+      <figure class="dchart" id="dchart" hidden>
+        <p class="ctl__label">Crescimento</p>
+        <svg viewBox="0 0 560 160" id="dchart-svg" role="img" aria-labelledby="dchart-cap"></svg>
+        <figcaption id="dchart-cap"></figcaption>
+      </figure>
+      <div class="dlog__head">
+        <p class="ctl__label">Histórico</p>
+        <div class="pills" id="dfilter" role="group" aria-label="Filtrar por tipo"></div>
+      </div>
+      <ol class="dlist" id="dlist"></ol>
+      <p class="empty" id="dempty"></p>
+    </div>
+  </div>
+
+  <section class="dtools" aria-labelledby="dtools-title">
+    <h2 class="ctl__label" id="dtools-title">Seus dados</h2>
+    <p>O diário fica salvo apenas neste navegador. Se limpar os dados do navegador ou trocar de celular, ele some. Baixe uma cópia de vez em quando.</p>
+    <div class="dtools__btns">
+      <button type="button" class="btn" id="d-export">Baixar cópia</button>
+      <label class="btn dtools__file">Restaurar cópia<input type="file" id="d-import" accept="application/json,.json" /></label>
+      <button type="button" class="btn dtools__danger" id="d-clear">Apagar tudo</button>
+    </div>
+    <p class="dtools__more">A data de início e o tipo de planta vêm do <a href="index.html#energia">calendário</a>.</p>
+  </section>`;
+  return shell({ base: '', file: 'diario.html', title: 'Diário de cultivo', desc: 'Anote regas, adubo, medições e problemas do seu cultivo. Grátis, sem cadastro, salvo só no seu navegador.', img: 'diario', type: 'website', current: 'diario', main, scripts: ['plan.js', 'diario.js'] });
+}
+
 /* Página de privacidade e contato. Mantenha fiel ao que o site realmente faz. */
 const REPO = 'https://github.com/CodeLift88/indoor-growing-lab';
 function privacyPage() {
@@ -198,6 +255,7 @@ function privacyPage() {
             <tr><td>Tipo de planta</td><td>Ajustar luz e calendário para auto ou fotoperiódica.</td></tr>
             <tr><td>Data de início do cultivo</td><td>Montar o seu calendário.</td></tr>
             <tr><td>Itens marcados na lista do primeiro cultivo</td><td>Lembrar o que você já tem.</td></tr>
+            <tr><td>Anotações do diário de cultivo</td><td>Mostrar seu histórico. Você pode baixar uma cópia ou apagar tudo na própria página do diário.</td></tr>
           </tbody>
         </table>
         <p>Para apagar tudo, limpe os dados deste site nas configurações do navegador.</p>
@@ -206,6 +264,7 @@ function privacyPage() {
         <ul>
           <li>Não há cadastro, login nem formulário.</li>
           <li>Não usamos ferramentas de estatística de visitas nem anúncios.</li>
+          <li>O modo app (instalar na tela inicial) só guarda uma cópia das páginas no seu aparelho para abrir sem internet.</li>
           <li>Não vendemos nem compartilhamos dados, porque não coletamos nenhum.</li>
         </ul>
 
@@ -238,10 +297,11 @@ fs.mkdirSync(path.join(ROOT, 'guias'), { recursive: true });
 D.guides.forEach(g => fs.writeFileSync(path.join(ROOT, 'guias', `${g.id}.html`), page(g)));
 
 fs.writeFileSync(path.join(ROOT, 'privacidade.html'), privacyPage());
+fs.writeFileSync(path.join(ROOT, 'diario.html'), diaryPage());
 
-const urls = [SITE, ...D.guides.map(g => `${SITE}guias/${g.id}.html`), `${SITE}privacidade.html`];
+const urls = [SITE, ...D.guides.map(g => `${SITE}guias/${g.id}.html`), `${SITE}diario.html`, `${SITE}privacidade.html`];
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url><loc>${u}</loc></url>`).join('\n')}\n</urlset>\n`);
 fs.writeFileSync(path.join(ROOT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}sitemap.xml\n`);
 
-console.log(`${D.guides.length} guias gerados em guias/, privacidade.html, sitemap.xml e robots.txt atualizados.`);
+console.log(`${D.guides.length} guias gerados em guias/, diario.html, privacidade.html, sitemap.xml e robots.txt atualizados.`);

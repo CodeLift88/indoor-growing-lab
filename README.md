@@ -14,6 +14,10 @@ Site estático, sem framework. Funciona abrindo `index.html` direto no navegador
 | `data.js` | **Conteúdo**: tendas, fases, equipamentos, guias, lista de compras |
 | `guide.js` | Tema e menu das páginas de guia |
 | `glossary.js` | Glossário embutido (PPFD, VPD, pH…), usado em todas as páginas |
+| `plan.js` | Cronograma do cultivo (datas, agenda .ics), usado pela home e pelo diário |
+| `diario.html` + `diario.js` | Diário de cultivo, salvo só no navegador (página gerada, lógica no .js) |
+| `sw.js` + `manifest.webmanifest` | Modo app: instalar na tela inicial e abrir sem internet |
+| `assets/icons/*.png` | Ícones do app (gerados por `scripts/icons.js`) |
 | `privacidade.html` | Privacidade e contato (gerada) |
 | `guias/*.html` | Páginas dos guias (geradas, não edite à mão) |
 | `assets/og/*.png` | Imagens de prévia ao compartilhar links (geradas) |
@@ -42,6 +46,10 @@ Dentro do texto de um guia (`html`):
 Para adicionar um termo ao glossário, inclua uma linha na lista `TERMS` em `glossary.js`.
 
 Os sintomas da ferramenta de diagnóstico ficam em `diagnoses`, no `data.js`. Cada um aponta para um desenho (`illo`) definido em `app.js`.
+
+## Modo app
+
+O `sw.js` busca sempre a versão nova quando há internet e guarda uma cópia para usar sem conexão. Ao mudar a lista de arquivos principais (`CORE`), aumente o número em `CACHE` (por exemplo, `igl-v2`).
 
 ## Links de afiliado
 

@@ -18,6 +18,8 @@
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" type="image/svg+xml" href="assets/logo-mark.svg" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-180.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Instrument+Sans:wght@400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -46,6 +48,7 @@
     <a href="#diagnostico">Diagnóstico</a>
     <a href="#equipamentos">Equipamentos</a>
     <a href="#guias">Guias</a>
+    <a href="diario.html" class="nav-diary">Meu diário</a>
   </nav>
 
   <div class="masthead__tools">
@@ -113,6 +116,7 @@
           <li><a href="#diagnostico"><span class="toc__n">07</span><span class="toc__t">O que há de errado com a planta?</span><span class="toc__m">diagnóstico por sintoma</span></a></li>
           <li><a href="#equipamentos"><span class="toc__n">08</span><span class="toc__t">Equipamentos</span><span class="toc__m">6 indicações</span></a></li>
           <li><a href="#guias"><span class="toc__n">09</span><span class="toc__t">Guias práticos</span><span class="toc__m">11 leituras curtas</span></a></li>
+          <li><a href="diario.html"><span class="toc__n">10</span><span class="toc__t">Diário de cultivo</span><span class="toc__m">ferramenta, só no seu navegador</span></a></li>
         </ol>
       </aside>
     </div>
@@ -636,8 +640,19 @@
       </figure>
 
       <div class="tl-wrap" data-reveal>
-        <p class="ctl__label">Seu calendário</p>
+        <div class="tl-head">
+          <p class="ctl__label">Seu calendário</p>
+          <button type="button" class="btn btn--primary btn--sm" id="ics-btn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M4 10h16M9 3v4M15 3v4" /></svg>
+            Adicionar à agenda
+          </button>
+        </div>
+        <p class="tl-help">Baixa os marcos com lembrete às 9 h. Funciona no iPhone, no Google Agenda e no Outlook.</p>
         <ol class="timeline" id="timeline"></ol>
+        <a class="diary-cta" href="diario.html">
+          <span class="kicker">Durante o cultivo</span>
+          <span class="diary-cta__t">Anote regas, medições e problemas no seu diário <span aria-hidden="true">→</span></span>
+        </a>
       </div>
 
       <details class="math lvl-2" data-reveal>
@@ -761,7 +776,7 @@
 <footer class="foot">
   <div class="foot__legal">
     <p><strong>Conteúdo informativo e de redução de danos, para maiores de 18 anos.</strong> No Brasil, cultivar cannabis sem autorização ainda é ilegal. Desde 2024 o STF trata o cultivo para uso pessoal (até 6 plantas fêmeas) como infração administrativa, não como crime. Consulte a legislação do seu país antes de qualquer coisa.</p>
-    <p class="foot__links"><a href="privacidade.html">Privacidade e contato</a></p>
+    <p class="foot__links"><a href="diario.html">Meu diário</a> · <a href="privacidade.html">Privacidade e contato</a></p>
   </div>
   <nav class="foot__nav" aria-label="Atalhos">
     <a href="#ciclo">O ciclo</a>
@@ -785,11 +800,16 @@
   <a href="#ar"><span class="setup__k">Ar</span><span id="s-ar">268 m³/h</span></a>
   <a href="#energia"><span class="setup__k">Conta</span><span id="s-en">R$ 165/mês</span></a>
   <a href="#energia" class="setup__wide"><span class="setup__k">Colheita</span><span id="s-harvest">—</span></a>
+  <button type="button" class="setup__share" id="share-btn" aria-label="Compartilhar meu setup">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5" /><circle cx="6" cy="12" r="2.5" /><circle cx="18" cy="19" r="2.5" /><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4" /></svg>
+    <span>Compartilhar</span>
+  </button>
 </aside>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="data.js"></script>
+<script src="plan.js"></script>
 <script src="app.js"></script>
 <script src="glossary.js"></script>
 </body>
