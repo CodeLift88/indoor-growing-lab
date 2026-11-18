@@ -1547,3 +1547,27 @@ html.age-leaving body > *:not(.gate):not(.gate__leaf) { filter: blur(0) saturate
 @media (prefers-reduced-motion: reduce) {
   .gate__btn, .gate__sprout { animation: none; }
 }
+
+/* ===== revisão de tamanhos (nov. 2026) ===== */
+/* logo: proporcional ao título e ao peso do cabeçalho */
+.wordmark { font-size: 1.375rem; gap: 10px; }
+.wordmark svg, .wordmark__leaf { width: 32px; height: 32px; }
+.masthead { padding-top: 12px; padding-bottom: 12px; }
+/* rótulos que a pessoa precisa ler: 12 px (as etiquetas decorativas seguem em 11) */
+.kicker, .ctl__label, .tool__now, .verdict__kicker, .crumbs, .byline, .guide__meta, .level-chip,
+.ficha__list dt, .ficha__kicker, .ficha__phase, .setup__k, .dtile__k, .tldr__k, .prose th, .prose td::before { font-size: .75rem; }
+@media (max-width: 760px) {
+  .wordmark { font-size: 1.1875rem; gap: 8px; }
+  .wordmark svg, .wordmark__leaf { width: 28px; height: 28px; }
+  .tool__name, .tool-group--setup .tool__name { font-size: 1.375rem; }
+  /* área de toque mínima de 44 px no celular */
+  .menu-btn { width: 44px; height: 44px; }
+  .theme-switch { transform: scale(1.1); transform-origin: right center; margin-left: 4px; }
+  /* no celular o nível fica no menu da hero e nas ferramentas; a bolinha sozinha confundia */
+  .level-chip { display: none; }
+}
+@media (max-width: 520px) {
+  .ficha__list dt { font-size: .6875rem; }
+}
+.ficha__kicker, .ficha__phase { font-size: .6875rem; }
+@media (max-width: 520px) { .hero__kicker { font-size: .6875rem; } }
