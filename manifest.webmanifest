@@ -1,6 +1,6 @@
 {
-  "name": "Indoor Growing Lab",
-  "short_name": "Growing Lab",
+  "name": "Growmetria",
+  "short_name": "Growmetria",
   "description": "Calculadoras, calendário, diário e guias de cultivo indoor.",
   "lang": "pt-BR",
   "start_url": "./",

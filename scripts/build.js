@@ -59,19 +59,19 @@ function shell({ base, file, title, desc, img, type, current, main, scripts = []
   const url = SITE + file;
   const nav = [['ciclo', 'O ciclo'], ['ferramentas', 'Ferramentas'], ['diagnostico', 'Diagnóstico'], ['equipamentos', 'Equipamentos'], ['guias', 'Guias'], ['diario', 'Meu diário']];
   const navHref = id => base + (D.routes[id] || `index.html#${id}`);
-  const foot = [['ciclo', 'O ciclo'], ['kit', 'Espaço'], ['luz', 'Luz'], ['clima', 'Clima'], ['ar', 'Exaustão'], ['energia', 'Calendário e conta'], ['diagnostico', 'Diagnóstico'], ['equipamentos', 'Equipamentos'], ['guias', 'Guias']];
+  const foot = [['ciclo', 'O ciclo'], ['kit', 'Espaço'], ['luz', 'Luz'], ['clima', 'Clima'], ['ar', 'Exaustão'], ['energia', 'Calendário e conta'], ['diagnostico', 'Diagnóstico'], ['equipamentos', 'Equipamentos'], ['guias', 'Manual do Grow']];
   const footHref = id => base + (D.routes[id] || `index.html#${id}`);
   return `<!DOCTYPE html>
 <html lang="pt-BR" class="no-js" data-level="1">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${esc(title)} · Indoor Growing Lab</title>
+  <title>${esc(title)} · Growmetria</title>
   <meta name="description" content="${esc(desc)}" />
   <link rel="canonical" href="${url}" />
   <meta property="og:type" content="${type}" />
   <meta property="og:locale" content="pt_BR" />
-  <meta property="og:site_name" content="Indoor Growing Lab" />
+  <meta property="og:site_name" content="Growmetria" />
   <meta property="og:title" content="${esc(title)}" />
   <meta property="og:description" content="${esc(desc)}" />
   <meta property="og:url" content="${url}" />
@@ -101,7 +101,7 @@ function shell({ base, file, title, desc, img, type, current, main, scripts = []
 <a class="skip" href="#artigo">Pular para o conteúdo</a>
 
 <header class="masthead" id="masthead">
-  <a class="wordmark" href="${base}index.html" aria-label="Indoor Growing Lab, início">${leaf}<span>Indoor Growing <em>Lab</em></span></a>
+  <a class="wordmark" href="${base}index.html" aria-label="Growmetria, início">${leaf}<span>Grow<em>metria</em></span></a>
   <nav class="masthead__nav" id="main-nav" aria-label="Seções">
     ${nav.map(([id, label]) => `<a href="${navHref(id)}" class="${[id === 'diario' ? 'nav-diary' : '', id === current ? 'is-current' : ''].join(' ').trim()}">${label}</a>`).join('\n    ')}
   </nav>
@@ -129,7 +129,7 @@ ${main}
   <nav class="foot__nav" aria-label="Atalhos">
     ${foot.map(([id, label]) => `<a href="${footHref(id)}">${label}</a>`).join('\n    ')}
   </nav>
-  <p class="foot__mark">Indoor Growing <em>Lab</em></p>
+  <p class="foot__mark">Grow<em>metria</em></p>
 </footer>
 
 ${scripts.map(src => `<script src="${base}${src}"></script>`).join('\n')}
@@ -144,13 +144,13 @@ function page(g) {
   const n = String(D.guides.indexOf(g) + 1).padStart(2, '0');
   const hw = D.hardware.find(h => h.id === g.hw);
   const more = related(g);
-  const main = `  <nav class="crumbs" aria-label="Você está em"><a href="../index.html#guias">Guias</a><span aria-hidden="true">/</span><span>${esc(g.clusterLabel)}</span></nav>
+  const main = `  <nav class="crumbs" aria-label="Você está em"><a href="../index.html#guias">Manual do Grow</a><span aria-hidden="true">/</span><span>${esc(g.clusterLabel)}</span></nav>
 
   <header class="article__head">
     <p class="kicker">Guia ${n} · ${esc(g.readTime)} de leitura</p>
     <h1 class="article__title">${esc(g.title)}</h1>
     <p class="article__lead">${esc(g.excerpt)}</p>
-    <p class="byline">Por <a href="../sobre.html">Equipe Indoor Growing Lab</a> · revisado em ${UPDATED}</p>
+    <p class="byline">Por <a href="../sobre.html">Equipe Growmetria</a> · revisado em ${UPDATED}</p>
   </header>
 
   <div class="article__grid">
@@ -190,8 +190,8 @@ function page(g) {
     headline: g.title, description: g.excerpt, inLanguage: 'pt-BR',
     image: `${SITE}assets/og/${g.id}.png`, mainEntityOfPage: `${SITE}guias/${g.id}.html`,
     dateModified: MODIFIED,
-    author: { '@type': 'Organization', name: 'Equipe Indoor Growing Lab', url: `${SITE}sobre.html` },
-    publisher: { '@type': 'Organization', name: 'Indoor Growing Lab', url: SITE, logo: { '@type': 'ImageObject', url: `${SITE}assets/icons/icon-512.png` } }
+    author: { '@type': 'Organization', name: 'Equipe Growmetria', url: `${SITE}sobre.html` },
+    publisher: { '@type': 'Organization', name: 'Growmetria', url: SITE, logo: { '@type': 'ImageObject', url: `${SITE}assets/icons/icon-512.png` } }
   };
   return shell({ base: '../', file: `guias/${g.id}.html`, title: g.title, desc: g.excerpt, img: g.id, type: 'article', current: 'guias', main, ld });
 }
@@ -288,7 +288,7 @@ ${opts.noSetup ? '' : partial('setup', base)}
 function aboutPage() {
   const main = `  <header class="article__head">
     <p class="kicker">Quem somos</p>
-    <h1 class="article__title">Equipe Indoor Growing Lab</h1>
+    <h1 class="article__title">Equipe Growmetria</h1>
     <p class="article__lead">Somos apaixonados pela cultura, pela planta e pelos benefícios que ela pode trazer à saúde de quem precisa. Este site é o guia que gostaríamos de ter tido no primeiro cultivo.</p>
   </header>
 
@@ -329,12 +329,12 @@ function aboutPage() {
       </div>
       <a class="aside-card aside-card--calc" href="index.html#guias">
         <span class="kicker">Comece por aqui</span>
-        <span class="aside-card__title">Guias práticos <span aria-hidden="true">→</span></span>
+        <span class="aside-card__title">Manual do Grow <span aria-hidden="true">→</span></span>
         <span class="aside-card__desc">Leituras curtas, do grão à colheita.</span>
       </a>
     </aside>
   </div>`;
-  return shell({ base: '', file: 'sobre.html', title: 'Quem somos', desc: 'A equipe do Indoor Growing Lab: apaixonados pela cultura, pela planta e pelos benefícios que ela pode trazer à saúde de quem precisa.', img: 'home', type: 'website', current: '', main });
+  return shell({ base: '', file: 'sobre.html', title: 'Quem somos', desc: 'A equipe do Growmetria: apaixonados pela cultura, pela planta e pelos benefícios que ela pode trazer à saúde de quem precisa.', img: 'home', type: 'website', current: '', main });
 }
 
 /* Página de privacidade e contato. Mantenha fiel ao que o site realmente faz. */
@@ -393,7 +393,7 @@ function privacyPage() {
       </div>
     </aside>
   </div>`;
-  return shell({ base: '', file: 'privacidade.html', title: 'Privacidade e contato', desc: 'O Indoor Growing Lab não tem cadastro, não usa cookies próprios e não coleta dados pessoais.', img: 'home', type: 'website', current: '', main });
+  return shell({ base: '', file: 'privacidade.html', title: 'Privacidade e contato', desc: 'O Growmetria não tem cadastro, não usa cookies próprios e não coleta dados pessoais.', img: 'home', type: 'website', current: '', main });
 }
 
 fs.mkdirSync(path.join(ROOT, 'guias'), { recursive: true });

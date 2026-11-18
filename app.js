@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Indoor Growing Lab — lógica do site
+   Growmetria — lógica do site
    Sem dependências. Conteúdo em data.js.
    ========================================================================== */
 (() => {
@@ -1342,7 +1342,7 @@
   $('#share-btn').addEventListener('click', async () => {
     const url = shareUrl();
     if (navigator.share) {
-      try { await navigator.share({ title: 'Meu setup de cultivo', text: 'Olha o meu setup no Indoor Growing Lab:', url }); return; } catch (e) { if (e.name === 'AbortError') return; }
+      try { await navigator.share({ title: 'Meu setup de cultivo', text: 'Olha o meu setup no Growmetria:', url }); return; } catch (e) { if (e.name === 'AbortError') return; }
     }
     try { await navigator.clipboard.writeText(url); toast('Link do seu setup copiado.'); }
     catch { window.prompt('Copie o link do seu setup:', url); }

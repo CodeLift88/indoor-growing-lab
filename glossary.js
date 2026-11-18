@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Indoor Growing Lab — glossário embutido
+   Growmetria — glossário embutido
    Marca a primeira ocorrência de cada termo por seção e mostra a explicação
    ao passar o mouse, focar ou tocar. Usado na home e nas páginas de guia.
    ========================================================================== */

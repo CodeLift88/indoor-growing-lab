@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Indoor Growing Lab — conteúdo (estufas, fases, equipamentos, guias)
+   Growmetria — conteúdo (estufas, fases, equipamentos, guias)
    Editar aqui não exige mexer no app.js.
    ========================================================================== */
 

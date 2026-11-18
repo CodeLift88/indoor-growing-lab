@@ -1,4 +1,4 @@
-/* Indoor Growing Lab — páginas de guia: tema e menu */
+/* Growmetria — páginas de guia: tema e menu */
 (() => {
   'use strict';
 

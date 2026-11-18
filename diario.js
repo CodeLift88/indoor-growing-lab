@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Indoor Growing Lab — diário de cultivo
+   Growmetria — diário de cultivo
    Tudo fica no localStorage do navegador ('igl-diary'). Nada vai para servidor.
    ========================================================================== */
 (() => {

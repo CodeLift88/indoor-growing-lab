@@ -6,12 +6,14 @@ Lista viva do que falta para o site crescer. Marque com `[x]` o que for concluí
 
 ### Para subir e crescer
 - [ ] Fazer o merge do pull request #1 e, em **Settings → Pages**, trocar o branch para `master`
+- [ ] Reservar o @growmetria no Instagram e o domínio `growmetria.com.br` (se der, também `grometria.com.br` para redirecionar)
+- [ ] Pedir o registro da marca **Growmetria** no INPI (classes 41 e 35) antes de divulgar em larga escala: no Brasil a marca é de quem pede primeiro
 - [ ] Comprar o domínio e mandar o nome (eu troco o endereço em todo o site e passo o DNS)
 - [ ] Criar o Google Search Console (tipo "Domínio") e mandar o registro TXT de verificação
 - [ ] Criar uma conta grátis no GoatCounter (estatísticas sem cookies) e mandar o nome do site
 
 ### Decisões de texto (me responder para eu ajustar)
-- [ ] **Equipe ou só você?** Se for só você, trocar "Equipe Indoor Growing Lab" e "Conheça a equipe" pela marca "Indoor Growing Lab" ou por uma assinatura em primeira pessoa (nome ou apelido). Equipe inventada derruba a confiança de parceiros e do Google quando descoberta.
+- [ ] **Equipe ou só você?** Se for só você, trocar "Equipe Growmetria" e "Conheça a equipe" pela marca "Growmetria" ou por uma assinatura em primeira pessoa (nome ou apelido). Equipe inventada derruba a confiança de parceiros e do Google quando descoberta.
 - [ ] **Frase sobre saúde na home** ("benefícios que ela pode trazer à saúde"). Alegação de saúde costuma fazer lojas e programas de afiliado recusarem parceria. Sugestão: tirar da home ("apaixonados pela cultura canábica e pelo cultivo bem feito") e manter a parte de saúde só em "Quem somos", com o aviso médico.
 
 ### Para dar credibilidade

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Indoor Growing Lab — cronograma do cultivo
+   Growmetria — cronograma do cultivo
    Fonte única das datas, usada pela home (calendário) e pelo diário.
    ========================================================================== */
 (() => {
@@ -40,7 +40,7 @@
   const icsEsc = s => String(s).replace(/\\/g, '\\\\').replace(/[,;]/g, m => '\\' + m).replace(/\n/g, '\\n');
   function ics(plan, siteUrl) {
     const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
-    const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Indoor Growing Lab//Calendario//PT-BR', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'X-WR-CALNAME:Meu cultivo'];
+    const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Growmetria//Calendario//PT-BR', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'X-WR-CALNAME:Meu cultivo'];
     plan.steps.forEach((s, i) => {
       const end = new Date(s.date.getTime() + DAY);
       lines.push('BEGIN:VEVENT',

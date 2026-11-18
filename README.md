@@ -1,4 +1,4 @@
-# Indoor Growing Lab
+# Growmetria
 
 Guia de cultivo indoor do iniciante ao avançado: o ciclo completo animado e calculadoras de espaço, luz, clima, exaustão e conta de luz.
 
@@ -21,7 +21,7 @@ Site estático, sem framework. Funciona abrindo `index.html` direto no navegador
 | `assets/logo.svg`, `logo-claro.svg`, `logo-horizontal.svg` | Logo em vetor: símbolo para fundo claro, para fundo escuro e assinatura com o nome. Cores: tinta `#16190F`, papel `#F2EEE4`, líquido `#D4F25A` |
 | `assets/logo-mark.svg` | Favicon (símbolo claro sobre fundo escuro arredondado) |
 | `privacidade.html` | Privacidade e contato (gerada) |
-| `sobre.html` | Quem somos: Equipe Indoor Growing Lab (gerada) |
+| `sobre.html` | Quem somos: Equipe Growmetria (gerada) |
 | `partials/*.html` | Conteúdo de cada ferramenta (espaço, luz, clima, exaustão, calendário, diagnóstico, equipamentos) e a barra de resumo. Edite aqui |
 | `calculadoras/*.html`, `diagnostico.html`, `equipamentos.html` | Páginas das ferramentas (geradas a partir de `partials/`, não edite à mão) |
 | `guias/*.html` | Páginas dos guias (geradas, não edite à mão) |
