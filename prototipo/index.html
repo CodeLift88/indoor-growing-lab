@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="no-js" data-level="1">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indoor Growing Lab — Do grão à colheita, sem chute</title>
+  <meta name="description" content="Guia de cultivo indoor do iniciante ao avançado: o ciclo completo fase a fase e calculadoras de clima, luz e energia explicadas sem sigla." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Instrument+Sans:wght@400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="proto.css" />
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+</head>
+<body>
+
+<a class="skip" href="#ciclo">Pular para o conteúdo</a>
+
+<header class="masthead" id="masthead">
+  <a class="wordmark" href="#topo" aria-label="Indoor Growing Lab, início">
+    <svg class="wordmark__leaf" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22V9M12 9C12 5 9 2.5 6.5 2c-.3 3 .8 6.2 5.5 7Zm0 0c0-4 3-6.5 5.5-7 .3 3-.8 6.2-5.5 7Zm0 4.5C9.5 10 6 9.5 3.5 10.5c1 2.6 4.4 4.3 8.5 3m0 0c2.5-3.5 6-4 8.5-3-1 2.6-4.4 4.3-8.5 3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>Indoor Growing <em>Lab</em></span>
+  </a>
+  <nav class="masthead__nav" aria-label="Seções">
+    <a href="#ciclo">O ciclo</a>
+    <a href="#clima">Clima</a>
+    <span class="masthead__soon" title="Em construção">Kit inicial</span>
+  </nav>
+  <a class="level-chip" href="#nivel"><span class="level-chip__dot" aria-hidden="true"></span><span id="level-chip-text">Nunca plantei</span></a>
+</header>
+
+<main id="topo">
+
+  <!-- ============ ABERTURA ============ -->
+  <section class="hero" aria-labelledby="hero-title">
+    <p class="kicker hero__kicker">Guia de cultivo indoor · revisado em nov. 2026 · conteúdo +18</p>
+
+    <h1 class="hero__title" id="hero-title">
+      <span class="line"><span>Do grão à colheita,</span></span>
+      <span class="line"><span>sem <em>chute</em>.</span></span>
+    </h1>
+
+    <div class="hero__grid">
+      <div class="hero__main">
+        <p class="hero__lead">Quanta luz, que temperatura, qual umidade e quanto vai custar. Respostas diretas para quem nunca plantou, e a conta aberta para quem já planta.</p>
+
+        <fieldset class="paths" id="nivel">
+          <legend class="paths__legend">Por onde você começa?</legend>
+
+          <label class="path">
+            <input type="radio" name="level" value="1" checked />
+            <span class="path__num">01</span>
+            <span class="path__body">
+              <span class="path__title">Nunca plantei</span>
+              <span class="path__desc">Passo a passo, sem sigla. O que fazer e por quê.</span>
+            </span>
+            <svg class="path__tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+          </label>
+
+          <label class="path">
+            <input type="radio" name="level" value="2" />
+            <span class="path__num">02</span>
+            <span class="path__body">
+              <span class="path__title">Já fiz um ciclo</span>
+              <span class="path__desc">Números de referência por fase e o motivo de cada um.</span>
+            </span>
+            <svg class="path__tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+          </label>
+
+          <label class="path">
+            <input type="radio" name="level" value="3" />
+            <span class="path__num">03</span>
+            <span class="path__body">
+              <span class="path__title">Quero otimizar</span>
+              <span class="path__desc">VPD da folha, PPFD, DLI e as fórmulas abertas.</span>
+            </span>
+            <svg class="path__tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+          </label>
+        </fieldset>
+      </div>
+
+      <aside class="hero__index" aria-label="Nesta página">
+        <p class="kicker">Nesta página</p>
+        <ol class="toc">
+          <li><a href="#ciclo"><span class="toc__n">01</span><span class="toc__t">O ciclo completo</span><span class="toc__m">6 fases · ~4 meses</span></a></li>
+          <li><a href="#clima"><span class="toc__n">02</span><span class="toc__t">Clima: a planta está confortável?</span><span class="toc__m">calculadora</span></a></li>
+          <li class="toc__soon"><span class="toc__n">03</span><span class="toc__t">Kit inicial, luz e conta de luz</span><span class="toc__m">em construção</span></li>
+        </ol>
+      </aside>
+    </div>
+
+    <a class="scroll-cue" href="#ciclo"><span class="scroll-cue__line" aria-hidden="true"></span>Role para acompanhar um ciclo inteiro</a>
+  </section>
+
+  <!-- ============ O CICLO (rolagem fixa) ============ -->
+  <section class="cycle" id="ciclo" aria-labelledby="cycle-title">
+    <div class="cycle__pin">
+      <div class="cycle__head">
+        <h2 class="kicker kicker--night" id="cycle-title">01 · O ciclo completo</h2>
+        <p class="cycle__count" aria-hidden="true"><span id="cycle-count">01</span> / 06</p>
+      </div>
+
+      <div class="cycle__text">
+        <div class="stages" id="stages">
+          <article class="stage is-active" data-hours="0" data-glow="#6b5a3c">
+            <p class="stage__dur">Fase 1 · 3 a 7 dias</p>
+            <h3 class="stage__name">Germinação</h3>
+            <p class="stage__lead">A semente absorve água, racha e solta a primeira raiz. Ainda não precisa de luz forte: precisa de umidade e calor estável.</p>
+            <dl class="specs">
+              <div><dt>Luz</dt><dd>Não precisa até brotar</dd></div>
+              <div><dt>Temperatura</dt><dd>22–25 °C</dd></div>
+              <div><dt>Umidade</dt><dd>70–80%</dd></div>
+            </dl>
+            <p class="stage__tip"><strong>Erro comum:</strong> enterrar fundo demais. De 0,5 a 1 cm basta.</p>
+          </article>
+
+          <article class="stage" data-hours="18" data-glow="#bcd3f5">
+            <p class="stage__dur">Fase 2 · 2 a 3 semanas</p>
+            <h3 class="stage__name">Muda</h3>
+            <p class="stage__lead">Saem as primeiras folhas serrilhadas. A raiz ainda é pequena: pouca água, luz suave e ar úmido.</p>
+            <dl class="specs">
+              <div><dt>Luz</dt><dd>18 h por dia</dd></div>
+              <div class="lvl-2"><dt>Intensidade</dt><dd>PPFD 200–300</dd></div>
+              <div><dt>Temperatura</dt><dd>22–26 °C</dd></div>
+              <div><dt>Umidade</dt><dd>65–70%</dd></div>
+              <div class="lvl-3"><dt>VPD folha</dt><dd>0,4–0,8 kPa</dd></div>
+            </dl>
+            <p class="stage__tip"><strong>Erro comum:</strong> regar demais. Espere o vaso ficar leve antes da próxima rega.</p>
+          </article>
+
+          <article class="stage" data-hours="18" data-glow="#e6f0ff">
+            <p class="stage__dur">Fase 3 · 3 a 8 semanas</p>
+            <h3 class="stage__name">Vegetativo</h3>
+            <p class="stage__lead">Hora de construir estrutura: caule, galhos e folhas. Quanto mais tempo aqui, maior a planta. Você decide quando virar a chave.</p>
+            <dl class="specs">
+              <div><dt>Luz</dt><dd>18 h por dia</dd></div>
+              <div class="lvl-2"><dt>Intensidade</dt><dd>PPFD 400–600</dd></div>
+              <div><dt>Temperatura</dt><dd>22–28 °C</dd></div>
+              <div><dt>Umidade</dt><dd>55–65%</dd></div>
+              <div class="lvl-3"><dt>VPD folha</dt><dd>0,8–1,2 kPa</dd></div>
+            </dl>
+            <p class="stage__tip"><strong>Dica:</strong> dobrar e prender os galhos (LST) deixa a copa plana, e a luz chega por igual.</p>
+          </article>
+
+          <article class="stage" data-hours="12" data-glow="#ffb45e">
+            <p class="stage__dur">Fase 4 · 8 a 10 semanas</p>
+            <h3 class="stage__name">Floração</h3>
+            <p class="stage__lead">Com 12 horas de luz, a planta entende que o outono chegou e começa a formar flores. Agora o cheiro aparece.</p>
+            <dl class="specs">
+              <div><dt>Luz</dt><dd>12 h + 12 h escuro total</dd></div>
+              <div class="lvl-2"><dt>Intensidade</dt><dd>PPFD 700–900</dd></div>
+              <div><dt>Temperatura</dt><dd>20–26 °C</dd></div>
+              <div><dt>Umidade</dt><dd>40–50%</dd></div>
+              <div class="lvl-3"><dt>VPD folha</dt><dd>1,2–1,5 kPa</dd></div>
+            </dl>
+            <p class="stage__tip"><strong>Erro comum:</strong> luz vazando no período escuro. Até o LED de uma tomada confunde a planta.</p>
+          </article>
+
+          <article class="stage" data-hours="12" data-glow="#ff8f4d">
+            <p class="stage__dur">Fase 5 · o dia certo</p>
+            <h3 class="stage__name">Colheita</h3>
+            <p class="stage__lead">Não é pela data, é pelos tricomas, as glândulas de resina. Com uma lupa de 60×, procure a maioria leitosa e algumas âmbar.</p>
+            <dl class="specs">
+              <div><dt>Transparentes</dt><dd>Cedo demais</dd></div>
+              <div><dt>Leitosos</dt><dd>Ponto de pico</dd></div>
+              <div><dt>Âmbar</dt><dd>Efeito mais pesado</dd></div>
+            </dl>
+            <p class="stage__tip"><strong>Erro comum:</strong> colher pela cor dos pelinhos (pistilos). Eles enganam; os tricomas não.</p>
+          </article>
+
+          <article class="stage" data-hours="0" data-glow="#3a2e22">
+            <p class="stage__dur">Fase 6 · 3 a 8 semanas</p>
+            <h3 class="stage__name">Secagem e cura</h3>
+            <p class="stage__lead">Pendure no escuro por 7 a 14 dias e depois guarde em potes de vidro. É aqui que sabor e aroma se definem.</p>
+            <dl class="specs">
+              <div><dt>Luz</dt><dd>Escuro</dd></div>
+              <div><dt>Temperatura</dt><dd>18–20 °C</dd></div>
+              <div><dt>Umidade</dt><dd>55–60%</dd></div>
+              <div><dt>Pote</dt><dd>Abrir 10 min/dia na 1ª semana</dd></div>
+            </dl>
+            <p class="stage__tip"><strong>Erro comum:</strong> secar rápido no calor. Fica com gosto de grama e queima áspero.</p>
+          </article>
+        </div>
+
+        <div class="photo" aria-live="polite">
+          <svg class="photo__ring" viewBox="0 0 64 64" id="photo-ring" aria-hidden="true"></svg>
+          <div>
+            <p class="photo__label">Fotoperíodo</p>
+            <p class="photo__val" id="photo-val">Luz apagada</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cycle__scene" aria-hidden="true">
+        <svg viewBox="0 0 400 520" class="scene" id="scene">
+          <defs>
+            <linearGradient id="cone" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" class="glow-stop" stop-opacity=".55" />
+              <stop offset="1" class="glow-stop" stop-opacity="0" />
+            </linearGradient>
+            <radialGradient id="halo" cx=".5" cy=".5" r=".5">
+              <stop offset="0" class="glow-stop" stop-opacity=".9" />
+              <stop offset="1" class="glow-stop" stop-opacity="0" />
+            </radialGradient>
+            <clipPath id="loupe-clip"><circle cx="318" cy="158" r="54" /></clipPath>
+          </defs>
+
+          <!-- luminária -->
+          <g class="lamp">
+            <line x1="140" y1="0" x2="140" y2="30" />
+            <line x1="260" y1="0" x2="260" y2="30" />
+            <ellipse class="lamp__halo" cx="200" cy="40" rx="150" ry="34" fill="url(#halo)" />
+            <polygon class="lamp__cone" points="112,42 288,42 372,500 28,500" fill="url(#cone)" />
+            <rect class="lamp__body" x="104" y="30" width="192" height="12" rx="2" />
+            <g class="lamp__diodes"></g>
+          </g>
+
+          <!-- planta (gerada em JS) -->
+          <g id="plant" class="plant"></g>
+
+          <!-- vaso -->
+          <g class="pot">
+            <path class="pot__soil" d="M118 438 Q200 430 282 438" />
+            <path class="pot__body" d="M114 436 Q200 428 286 436 L276 500 Q200 508 124 500 Z" />
+            <path class="pot__seam" d="M120 452 Q200 446 280 452" />
+          </g>
+
+          <!-- lupa (colheita) -->
+          <g class="loupe" id="loupe">
+            <circle class="loupe__bg" cx="318" cy="158" r="54" />
+            <g clip-path="url(#loupe-clip)" id="trichomes"></g>
+            <circle class="loupe__rim" cx="318" cy="158" r="54" />
+            <line class="loupe__rim" x1="279" y1="197" x2="252" y2="226" />
+            <text class="loupe__txt" x="318" y="232" text-anchor="middle">60×</text>
+          </g>
+
+          <!-- pote (cura) -->
+          <g class="jar" id="jar">
+            <rect class="jar__lid" x="286" y="372" width="68" height="14" rx="3" />
+            <path class="jar__body" d="M290 386 h60 a8 8 0 0 1 8 8 v96 a10 10 0 0 1 -10 10 h-56 a10 10 0 0 1 -10 -10 v-96 a8 8 0 0 1 8 -8Z" />
+            <g class="jar__buds"></g>
+          </g>
+        </svg>
+      </div>
+
+      <nav class="rail" aria-label="Fases do ciclo">
+        <div class="rail__track"><div class="rail__fill" id="rail-fill"></div></div>
+        <ol class="rail__steps" id="rail-steps">
+          <li><button type="button" data-step="0">Germinação</button></li>
+          <li><button type="button" data-step="1">Muda</button></li>
+          <li><button type="button" data-step="2">Vegetativo</button></li>
+          <li><button type="button" data-step="3">Floração</button></li>
+          <li><button type="button" data-step="4">Colheita</button></li>
+          <li><button type="button" data-step="5">Cura</button></li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ============ CALCULADORA DE CLIMA ============ -->
+  <section class="climate" id="clima" aria-labelledby="climate-title">
+    <header class="sec-head" data-reveal>
+      <p class="kicker">02 · Calculadora de clima</p>
+      <h2 class="sec-head__title" id="climate-title">A planta está <em>confortável?</em></h2>
+      <p class="sec-head__lead">Temperatura e umidade, juntas, decidem se a folha “respira” no ritmo certo. Mexa nas duas e veja em que ponto do mapa você está.</p>
+    </header>
+
+    <div class="climate__grid">
+      <form class="controls" id="climate-form" data-reveal onsubmit="return false">
+        <fieldset class="seg">
+          <legend class="ctl__label">Fase da planta</legend>
+          <div class="seg__opts">
+            <label><input type="radio" name="phase" value="muda" /><span>Muda</span></label>
+            <label><input type="radio" name="phase" value="veg" checked /><span>Vegetativo</span></label>
+            <label><input type="radio" name="phase" value="flor" /><span>Floração</span></label>
+          </div>
+        </fieldset>
+
+        <div class="ctl">
+          <div class="ctl__row"><label class="ctl__label" for="in-temp">Temperatura do ar</label><output class="ctl__val" id="out-temp" for="in-temp">26,0 °C</output></div>
+          <input type="range" id="in-temp" min="16" max="35" step="0.5" value="26" />
+          <div class="ctl__scale"><span>16 °C</span><span>35 °C</span></div>
+        </div>
+
+        <div class="ctl">
+          <div class="ctl__row"><label class="ctl__label" for="in-rh">Umidade do ar</label><output class="ctl__val" id="out-rh" for="in-rh">60%</output></div>
+          <input type="range" id="in-rh" min="30" max="90" step="1" value="60" />
+          <div class="ctl__scale"><span>30%</span><span>90%</span></div>
+        </div>
+
+        <div class="ctl lvl-3">
+          <div class="ctl__row"><label class="ctl__label" for="in-off">Folha em relação ao ar</label><output class="ctl__val" id="out-off" for="in-off">−1,5 °C</output></div>
+          <input type="range" id="in-off" min="-4" max="2" step="0.5" value="-1.5" />
+          <p class="ctl__help">Sob LED a folha fica 1 a 2 °C mais fria que o ar. Meça com termômetro infravermelho.</p>
+        </div>
+      </form>
+
+      <div class="verdict" id="verdict" data-state="ok" data-reveal aria-live="polite">
+        <p class="verdict__kicker">Diagnóstico</p>
+        <p class="verdict__word" id="v-word">Confortável</p>
+        <p class="verdict__body" id="v-body"></p>
+        <p class="verdict__action" id="v-action"></p>
+        <div class="verdict__num lvl-2">
+          <span class="verdict__kpa"><span id="v-kpa">1,06</span> <small>kPa</small></span>
+          <span class="verdict__target">VPD da folha · alvo <span id="v-target">0,8–1,2</span></span>
+        </div>
+      </div>
+
+      <figure class="chart" data-reveal>
+        <svg viewBox="0 0 560 360" id="chart" role="img" aria-labelledby="chart-cap">
+          <rect class="z-dry" x="56" y="20" width="480" height="296" />
+          <path class="z-humid" id="z-humid" />
+          <path class="z-ok" id="z-ok" />
+          <g class="grid" id="chart-grid"></g>
+          <text class="z-label" id="lab-humid" x="70" y="44">úmido demais</text>
+          <text class="z-label" id="lab-dry" x="522" y="302" text-anchor="end">seco demais</text>
+          <text class="z-label z-label--ok" id="lab-ok">zona boa</text>
+          <g class="probe" id="probe">
+            <line class="probe__x" id="probe-x" />
+            <line class="probe__y" id="probe-y" />
+            <circle class="probe__pulse" r="14" />
+            <circle class="probe__dot" r="6.5" />
+          </g>
+        </svg>
+        <figcaption id="chart-cap">Mapa de temperatura × umidade. A faixa verde é onde a planta trabalha melhor na fase escolhida.</figcaption>
+      </figure>
+
+      <details class="math lvl-2" id="math" data-reveal>
+        <summary>Ver a matemática</summary>
+        <div class="math__body" id="math-body"></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="next" data-reveal>
+    <p class="kicker">03 · Em construção</p>
+    <p class="next__title">Kit inicial, força da luz e conta de luz.</p>
+    <p class="next__lead">As calculadoras atuais (tenda, LED, exaustor e energia) vão ganhar o mesmo tratamento.</p>
+  </section>
+</main>
+
+<footer class="foot">
+  <p><strong>Conteúdo informativo e de redução de danos, para maiores de 18 anos.</strong> No Brasil, cultivar cannabis sem autorização ainda é ilegal. Desde 2024 o STF trata o cultivo para uso pessoal (até 6 plantas fêmeas) como infração administrativa, não como crime. Consulte a legislação do seu país antes de qualquer coisa.</p>
+  <p class="foot__mark">Indoor Growing <em>Lab</em> · protótipo de direção visual</p>
+</footer>
+
+<script src="proto.js"></script>
+</body>
+</html>
