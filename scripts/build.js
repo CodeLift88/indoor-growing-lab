@@ -97,6 +97,7 @@ function page(g) {
   <nav class="masthead__nav" id="main-nav" aria-label="Seções">
     <a href="../index.html#ciclo">O ciclo</a>
     <a href="../index.html#calculadoras">Calculadoras</a>
+    <a href="../index.html#diagnostico">Diagnóstico</a>
     <a href="../index.html#equipamentos">Equipamentos</a>
     <a href="../index.html#guias" class="is-current">Guias</a>
   </nav>
@@ -166,6 +167,7 @@ function page(g) {
     <a href="../index.html#clima">Clima</a>
     <a href="../index.html#ar">Exaustão</a>
     <a href="../index.html#energia">Conta de luz</a>
+    <a href="../index.html#diagnostico">Diagnóstico</a>
     <a href="../index.html#equipamentos">Equipamentos</a>
     <a href="../index.html#guias">Guias</a>
   </nav>

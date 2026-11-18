@@ -922,6 +922,182 @@
   $('#guide-search').addEventListener('input', renderGuides);
 
   /* ------------------------------------------------------------------
+     07 · DIAGNÓSTICO POR SINTOMA
+     ------------------------------------------------------------------ */
+  const IL = { green: '#7fa650', dark: '#3d5c28', yellow: '#e2cd58', pale: '#eff0cf', brown: '#9a5a2b', ink: '#16190f', white: '#fbfaf3', soil: '#7a5a3c' };
+  let ilUid = 0;
+
+  // pseudo-aleatório determinístico, para os desenhos não mudarem a cada render
+  const rng = seed => () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+
+  function fanSvg(o) {
+    const n = o.n || 5, L = o.L || 46, spread = o.spread ?? 64, wid = o.wid || 0.14;
+    const P = o.droop ? 0 : 8;
+    let s = o.droop
+      ? `<line x1="0" y1="-44" x2="0" y2="14" stroke="${IL.ink}" stroke-width="1.6" /><g transform="translate(0 -40)">`
+      : `<line x1="0" y1="12" x2="0" y2="${-P}" stroke="${IL.ink}" stroke-width="1.4" /><g>`;
+    for (let k = 0; k < n; k++) {
+      const rel = n === 1 ? 0 : (k / (n - 1)) * 2 - 1;
+      const len = L * (1 - 0.45 * Math.pow(Math.abs(rel), 1.5));
+      const ang = o.droop ? 180 + rel * spread : rel * spread;
+      const d = leafletPath(len, len * wid, 14);
+      const id = `il${++ilUid}`;
+      s += `<g transform="translate(0 ${-P}) rotate(${ang.toFixed(1)})">`;
+      s += `<clipPath id="${id}"><path d="${d}" /></clipPath>`;
+      s += `<path d="${d}" fill="${o.fill}" />`;
+      if (o.inner) s += `<g clip-path="url(#${id})">${o.inner(len, k, rel)}</g>`;
+      s += `<line x1="0" y1="0" x2="0" y2="${(-len * 0.92).toFixed(1)}" stroke="${o.rib || IL.ink}" stroke-width="${o.ribW || 0.7}" ${o.ribW ? '' : 'opacity=".55"'} />`;
+      s += `<path d="${d}" fill="none" stroke="${IL.ink}" stroke-width="1" stroke-linejoin="round" />`;
+      if (o.over) s += o.over(len, k, rel);
+      s += `</g>`;
+    }
+    return s + `</g>`;
+  }
+
+  const ILLOS = {
+    n: () => fanSvg({ fill: IL.yellow, rib: '#b39d2e', ribW: 0.8 }),
+    mg: () => fanSvg({ fill: IL.yellow, rib: '#5d8a34', ribW: 2.6 }),
+    fe: () => fanSvg({ fill: IL.pale, rib: '#6f9a42', ribW: 2.2 }),
+    k: () => fanSvg({ fill: IL.green, inner: () => '' , over: (len, k) => {
+      const id = `ilk${++ilUid}`, d = leafletPath(len, len * 0.14, 14);
+      return `<clipPath id="${id}"><path d="${d}" /></clipPath><path d="${d}" fill="none" stroke="${IL.brown}" stroke-width="3.6" clip-path="url(#${id})" /><path d="${d}" fill="none" stroke="${IL.ink}" stroke-width="1" />`;
+    } }),
+    burn: () => fanSvg({ fill: IL.green, inner: len => `<rect x="-20" y="${-len - 1}" width="40" height="${(len * 0.2).toFixed(1)}" fill="${IL.brown}" />` }),
+    ca: () => fanSvg({ fill: IL.green, inner: (len, k) => {
+      const r = rng(k + 3);
+      return [0.3, 0.5, 0.68].map(t => `<circle cx="${((r() - 0.5) * 5).toFixed(1)}" cy="${(-len * t).toFixed(1)}" r="${(1.8 + r() * 1.6).toFixed(1)}" fill="${IL.brown}" />`).join('');
+    } }),
+    light: () => `<rect x="-40" y="-70" width="80" height="5" rx="1" fill="${IL.ink}" /><path d="M-36 -64 L-52 -40 M36 -64 L52 -40 M0 -64 V-58" stroke="#e0b64a" stroke-width="1.2" opacity=".8" />` +
+      fanSvg({ fill: IL.pale, rib: '#c9c69a', ribW: 0.8, inner: len => `<rect x="-20" y="${-len * 0.45}" width="40" height="${len * 0.45}" fill="${IL.green}" opacity=".55" />` }),
+    claw: () => fanSvg({ fill: IL.dark, L: 42, rib: '#2a3f1b', ribW: 0.8, over: len => `<path d="M0 ${-len} q 6 -1 5 7" fill="none" stroke="${IL.dark}" stroke-width="3" stroke-linecap="round" /><path d="M0 ${-len} q 6 -1 5 7" fill="none" stroke="${IL.ink}" stroke-width=".8" />` }),
+    over: () => fanSvg({ droop: true, fill: '#6f9644', wid: 0.17, spread: 46, L: 40 }),
+    under: () => fanSvg({ droop: true, fill: '#a9b96f', wid: 0.085, spread: 22, L: 44 }),
+    oidio: () => fanSvg({ fill: IL.green, inner: (len, k) => {
+      const r = rng(k + 11);
+      return [0.25, 0.45, 0.62, 0.8].map(t => `<circle cx="${((r() - 0.5) * 6).toFixed(1)}" cy="${(-len * t).toFixed(1)}" r="${(2.6 + r() * 2.4).toFixed(1)}" fill="${IL.white}" opacity=".92" />`).join('');
+    } }),
+    acaros: () => {
+      let web = '';
+      const tips = [-1, -0.5, 0, 0.5, 1].map(rel => { const len = 46 * (1 - 0.45 * Math.pow(Math.abs(rel), 1.5)); const a = (rel * 64 - 90) * Math.PI / 180; return [Math.cos(a) * len * 0.8, -8 + Math.sin(a) * len * 0.8]; });
+      for (let i = 0; i < tips.length - 1; i++) web += `<path d="M${tips[i][0].toFixed(1)} ${tips[i][1].toFixed(1)} Q ${((tips[i][0] + tips[i + 1][0]) / 2).toFixed(1)} ${((tips[i][1] + tips[i + 1][1]) / 2 + 6).toFixed(1)} ${tips[i + 1][0].toFixed(1)} ${tips[i + 1][1].toFixed(1)}" fill="none" stroke="#8f8b7c" stroke-width=".6" />`;
+      return fanSvg({ fill: IL.green, inner: (len, k) => {
+        const r = rng(k + 21); let s = '';
+        for (let i = 0; i < 12; i++) s += `<circle cx="${((r() - 0.5) * 7).toFixed(1)}" cy="${(-len * (0.12 + r() * 0.8)).toFixed(1)}" r=".9" fill="${IL.pale}" />`;
+        return s;
+      } }) + web;
+    },
+    gnats: () => {
+      let s = `<path d="M-56 2 H56" stroke="${IL.ink}" stroke-width="1.4" /><rect x="-56" y="2" width="112" height="12" fill="${IL.soil}" />`;
+      s += `<path d="M0 2 V-12" stroke="${IL.ink}" stroke-width="1.4" /><ellipse cx="-7" cy="-13" rx="7" ry="3.2" fill="${IL.green}" stroke="${IL.ink}" /><ellipse cx="7" cy="-13" rx="7" ry="3.2" fill="${IL.green}" stroke="${IL.ink}" />`;
+      [[-32, -22], [20, -36], [36, -12], [-10, -46], [-40, -48]].forEach(([x, y], i) => {
+        s += `<path d="M${x - 10} ${y + 6} q 5 -${4 + i} 10 -6" fill="none" stroke="#8f8b7c" stroke-width=".7" stroke-dasharray="1.5 2" />`;
+        s += `<ellipse cx="${x - 1.6}" cy="${y - 2}" rx="2.6" ry="1.4" fill="#d9d6c8" opacity=".9" transform="rotate(-30 ${x} ${y})" /><ellipse cx="${x + 1.6}" cy="${y - 2}" rx="2.6" ry="1.4" fill="#d9d6c8" opacity=".9" transform="rotate(30 ${x} ${y})" /><ellipse cx="${x}" cy="${y}" rx="1.4" ry="2.4" fill="${IL.ink}" />`;
+      });
+      return s;
+    },
+    botrytis: () => {
+      const cola = 'M0 -58 C 13 -48 19 -22 15 2 C 11 14 -11 14 -15 2 C -19 -22 -13 -48 0 -58Z';
+      let s = `<path d="M0 12 V24" stroke="${IL.ink}" stroke-width="1.8" />`;
+      // folhinhas de açúcar saindo do bud
+      [[-1, -6], [1, -20], [-1, -34]].forEach(([side, y]) => {
+        s += `<path d="M${side * 10} ${y} q ${side * 14} -4 ${side * 20} -16 q ${side * -10} 2 ${side * -20} 16Z" fill="#6f9644" stroke="${IL.ink}" stroke-width=".9" />`;
+      });
+      s += `<path d="${cola}" fill="#9dbb68" stroke="${IL.ink}" stroke-width="1.1" />`;
+      const r = rng(9);
+      for (let i = 0; i < 16; i++) {
+        const t = i / 15, y = -52 + t * 60, w = 13 * Math.sin(Math.PI * (0.15 + t * 0.75));
+        s += `<circle cx="${((r() - 0.5) * 2 * w).toFixed(1)}" cy="${y.toFixed(1)}" r="${(2.6 + r() * 1.6).toFixed(1)}" fill="#b5cc84" stroke="${IL.ink}" stroke-width=".5" />`;
+      }
+      s += `<path d="M-6 -30 C 2 -36 12 -28 10 -16 C 8 -6 -4 -4 -9 -12 C -13 -20 -12 -26 -6 -30Z" fill="#8d857a" stroke="#5e574e" stroke-width=".8" />`;
+      for (let i = 0; i < 22; i++) s += `<circle cx="${(-8 + r() * 17).toFixed(1)}" cy="${(-31 + r() * 26).toFixed(1)}" r="${(0.5 + r() * 0.8).toFixed(1)}" fill="#e2ddd2" />`;
+      for (let i = 0; i < 6; i++) { const y = -46 + i * 9, side = i % 2 ? 1 : -1; s += `<path d="M${side * 6} ${y} q ${side * 7} -2 ${side * 10} -8" fill="none" stroke="${IL.white}" stroke-width="1.1" stroke-linecap="round" />`; }
+      return s;
+    }
+  };
+
+  const illoSvg = kind => `<svg viewBox="-54 -72 108 92" aria-hidden="true">${ILLOS[kind]()}</svg>`;
+
+  let diagWhere = 'all', diagPick = null;
+  const symList = $('#symptoms');
+
+  function renderSymptoms() {
+    const list = D.diagnoses.filter(d => diagWhere === 'all' || d.where.includes(diagWhere));
+    symList.innerHTML = list.map(d => `
+      <button type="button" class="sym" role="radio" aria-checked="${d.id === diagPick}" data-sym="${d.id}">
+        ${illoSvg(d.illo)}
+        <span class="sym__label">${esc(d.label)}</span>
+      </button>`).join('');
+  }
+
+  const guideById = id => D.guides.find(g => g.id === id);
+
+  function renderDiagnosis() {
+    const box = $('#diag-result');
+    const d = D.diagnoses.find(x => x.id === diagPick);
+    if (!d) {
+      box.innerHTML = `
+        <p class="verdict__kicker">Antes de tudo</p>
+        <p class="diag__empty-title">Confira os quatro suspeitos de sempre.</p>
+        <p class="verdict__body">Rega, pH, luz e temperatura explicam a maioria dos problemas. Se algum deles estiver fora, corrija primeiro e observe as folhas novas por alguns dias.</p>
+        <ul class="suspects">
+          <li><a href="guias/rega.html"><span>01</span>Rega</a></li>
+          <li><a href="guias/folhas-amarelas.html"><span>02</span>pH</a></li>
+          <li><a href="#luz"><span>03</span>Luz</a></li>
+          <li><a href="#clima"><span>04</span>Temperatura</a></li>
+        </ul>
+        <p class="diag__hint">Escolha ao lado o que você está vendo.</p>`;
+      return;
+    }
+    const links = d.guides.map(guideById).filter(Boolean)
+      .map(g => `<a class="btn" href="guias/${g.id}.html">Guia: ${esc(g.title.split(':')[0])}</a>`);
+    if (d.calc) links.unshift(`<a class="btn btn--primary" href="${d.calc.href}">${esc(d.calc.label)}</a>`);
+    box.innerHTML = `
+      <div class="diag__card">
+        <div class="diag__head">
+          <div class="diag__illo">${illoSvg(d.illo)}</div>
+          <div>
+            <p class="verdict__kicker">Causa provável</p>
+            <p class="verdict__word verdict__word--ink diag__cause">${esc(d.cause)}</p>
+          </div>
+        </div>
+        <p class="verdict__body">${esc(d.why)}</p>
+        <p class="ctl__label diag__k">Faça agora</p>
+        <ol class="diag__steps">${d.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol>
+        <p class="diag__not"><strong>Não confunda:</strong> ${esc(d.notThis)}</p>
+        <p class="diag__tech lvl-3">${esc(d.tech)}</p>
+        <div class="diag__links">${links.join('')}</div>
+        <button type="button" class="diag__back" id="diag-back">↑ Escolher outro sintoma</button>
+      </div>`;
+    $('#diag-back').addEventListener('click', () => $('#diagnostico .diag__filter').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' }));
+    const card = $('.diag__card', box);
+    if (card && !reduced) card.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.22,1,.36,1)' });
+  }
+
+  $('#diag-where').addEventListener('click', e => {
+    const b = e.target.closest('.pill'); if (!b) return;
+    diagWhere = b.dataset.where;
+    $$('#diag-where .pill').forEach(p => p.classList.toggle('is-active', p === b));
+    renderSymptoms();
+  });
+  symList.addEventListener('click', e => {
+    const b = e.target.closest('.sym'); if (!b) return;
+    diagPick = b.dataset.sym === diagPick ? null : b.dataset.sym;
+    $$('.sym', symList).forEach(s => s.setAttribute('aria-checked', String(s.dataset.sym === diagPick)));
+    renderDiagnosis();
+    const box = $('#diag-result');
+    if (diagPick && innerWidth < 900) box.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+  });
+  // setas do teclado entre os sintomas
+  symList.addEventListener('keydown', e => {
+    if (!['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'].includes(e.key)) return;
+    const items = $$('.sym', symList), i = items.indexOf(document.activeElement);
+    if (i < 0) return;
+    e.preventDefault();
+    const next = items[(i + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length];
+    next.focus();
+  });
+
+  /* ------------------------------------------------------------------
      RESUMO DO SETUP + ROLAGEM
      ------------------------------------------------------------------ */
   function updateSetup() {
@@ -947,7 +1123,7 @@
 
   const masthead = $('#masthead');
   const setupBar = $('#setup');
-  const calcStart = $('#kit'), calcEnd = $('#equipamentos');
+  const calcStart = $('#kit'), calcEnd = $('#diagnostico');
   const navLinks = $$('#main-nav a');
   const navTargets = navLinks.map(a => $(a.getAttribute('href')));
   const setupLinks = $$('#setup a');
@@ -1005,6 +1181,8 @@
   initTheme();
   initMenu();
   renderGuides();
+  renderSymptoms();
+  renderDiagnosis();
   applyLevel(S.level);
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onScroll);

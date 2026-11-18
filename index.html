@@ -43,6 +43,7 @@
   <nav class="masthead__nav" id="main-nav" aria-label="Seções">
     <a href="#ciclo">O ciclo</a>
     <a href="#calculadoras">Calculadoras</a>
+    <a href="#diagnostico">Diagnóstico</a>
     <a href="#equipamentos">Equipamentos</a>
     <a href="#guias">Guias</a>
   </nav>
@@ -109,8 +110,9 @@
           <li><a href="#clima"><span class="toc__n">04</span><span class="toc__t">Clima da tenda</span><span class="toc__m">calculadora</span></a></li>
           <li><a href="#ar"><span class="toc__n">05</span><span class="toc__t">Exaustão e cheiro</span><span class="toc__m">calculadora</span></a></li>
           <li><a href="#energia"><span class="toc__n">06</span><span class="toc__t">Conta de luz</span><span class="toc__m">calculadora</span></a></li>
-          <li><a href="#equipamentos"><span class="toc__n">07</span><span class="toc__t">Equipamentos</span><span class="toc__m">6 indicações</span></a></li>
-          <li><a href="#guias"><span class="toc__n">08</span><span class="toc__t">Guias práticos</span><span class="toc__m">9 leituras curtas</span></a></li>
+          <li><a href="#diagnostico"><span class="toc__n">07</span><span class="toc__t">O que há de errado com a planta?</span><span class="toc__m">diagnóstico por sintoma</span></a></li>
+          <li><a href="#equipamentos"><span class="toc__n">08</span><span class="toc__t">Equipamentos</span><span class="toc__m">6 indicações</span></a></li>
+          <li><a href="#guias"><span class="toc__n">09</span><span class="toc__t">Guias práticos</span><span class="toc__m">11 leituras curtas</span></a></li>
         </ol>
       </aside>
     </div>
@@ -610,11 +612,39 @@
   </section>
 
   <!-- =================================================================
-       07 · EQUIPAMENTOS
+       07 · DIAGNÓSTICO
+       ================================================================= -->
+  <section class="calc diag" id="diagnostico" aria-labelledby="diag-title">
+    <header class="sec-head" data-reveal>
+      <p class="kicker">07 · Diagnóstico</p>
+      <h2 class="sec-head__title" id="diag-title">O que há de <em>errado</em> com a planta?</h2>
+      <p class="sec-head__lead">Escolha o que você está vendo. O site mostra a causa mais provável e o que fazer agora.</p>
+    </header>
+
+    <div class="diag__grid">
+      <div class="diag__pick" data-reveal>
+        <div class="diag__filter">
+          <p class="ctl__label" id="diag-where-label">Onde começou?</p>
+          <div class="pills" id="diag-where" role="group" aria-labelledby="diag-where-label">
+            <button type="button" class="pill is-active" data-where="all">Tudo</button>
+            <button type="button" class="pill" data-where="baixo">Folhas de baixo</button>
+            <button type="button" class="pill" data-where="topo">Folhas do topo</button>
+            <button type="button" class="pill" data-where="toda">Planta inteira</button>
+            <button type="button" class="pill" data-where="solo">Terra e flores</button>
+          </div>
+        </div>
+        <div class="symptoms" id="symptoms" role="radiogroup" aria-label="Sintomas"></div>
+      </div>
+      <div class="diag__result" id="diag-result" aria-live="polite" data-reveal></div>
+    </div>
+  </section>
+
+  <!-- =================================================================
+       08 · EQUIPAMENTOS
        ================================================================= -->
   <section class="shelf" id="equipamentos" aria-labelledby="hw-title">
     <header class="sec-head" data-reveal>
-      <p class="kicker">07 · Equipamentos</p>
+      <p class="kicker">08 · Equipamentos</p>
       <h2 class="sec-head__title" id="hw-title">O que <em>vale a pena</em> comprar.</h2>
       <p class="sec-head__lead">Poucas indicações, explicadas em uma linha. Marcamos o que serve na tenda que você escolheu.</p>
     </header>
@@ -639,11 +669,11 @@
   </section>
 
   <!-- =================================================================
-       08 · GUIAS
+       09 · GUIAS
        ================================================================= -->
   <section class="shelf" id="guias" aria-labelledby="guias-title">
     <header class="sec-head" data-reveal>
-      <p class="kicker">08 · Guias práticos</p>
+      <p class="kicker">09 · Guias práticos</p>
       <h2 class="sec-head__title" id="guias-title">Leituras <em>de cinco minutos.</em></h2>
       <p class="sec-head__lead">O porquê por trás das calculadoras, em linguagem de gente.</p>
     </header>
@@ -703,6 +733,7 @@
     <a href="#clima">Clima</a>
     <a href="#ar">Exaustão</a>
     <a href="#energia">Conta de luz</a>
+    <a href="#diagnostico">Diagnóstico</a>
     <a href="#equipamentos">Equipamentos</a>
     <a href="#guias">Guias</a>
   </nav>
