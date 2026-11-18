@@ -3,8 +3,8 @@
    Rede primeiro para tudo do site: quem está online sempre vê a versão nova.
    Sem internet, usa a última cópia guardada. Fontes do Google: cache primeiro.
    ========================================================================== */
-const CACHE = 'igl-v6';
-const CORE = ['./', 'index.html', 'styles.css', 'app.js', 'data.js', 'plan.js', 'glossary.js', 'guide.js',
+const CACHE = 'igl-v7';
+const CORE = ['./', 'index.html', 'styles.css', 'app.js', 'data.js', 'plan.js', 'glossary.js', 'guide.js', 'age.js',
   'diario.html', 'diario.js', 'privacidade.html', 'diagnostico.html', 'equipamentos.html',
   'calculadoras/espaco.html', 'calculadoras/luz.html', 'calculadoras/clima.html', 'calculadoras/exaustao.html',
   'calculadoras/calendario.html', 'assets/logo-mark.svg', 'manifest.webmanifest'];

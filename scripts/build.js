@@ -93,7 +93,8 @@ function shell({ base, file, title, desc, img, type, current, main, scripts = []
     try {
       var t = localStorage.getItem('igl-theme'); if (t) document.documentElement.dataset.theme = t;
       var l = localStorage.getItem('igl-level'); if (l) document.documentElement.dataset.level = l;
-    } catch (e) {}
+      if (localStorage.getItem('igl-age') !== '1') document.documentElement.classList.add('age-gate');
+    } catch (e) { document.documentElement.classList.add('age-gate'); }
   </script>
 </head>
 <body class="page-guide">
@@ -134,6 +135,7 @@ ${main}
 
 ${scripts.map(src => `<script src="${base}${src}"></script>`).join('\n')}
 <script src="${base}glossary.js"></script>
+<script src="${base}age.js"></script>
 ${noGuide ? '' : `<script src="${base}guide.js"></script>`}
 </body>
 </html>

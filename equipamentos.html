@@ -30,7 +30,8 @@
     try {
       var t = localStorage.getItem('igl-theme'); if (t) document.documentElement.dataset.theme = t;
       var l = localStorage.getItem('igl-level'); if (l) document.documentElement.dataset.level = l;
-    } catch (e) {}
+      if (localStorage.getItem('igl-age') !== '1') document.documentElement.classList.add('age-gate');
+    } catch (e) { document.documentElement.classList.add('age-gate'); }
   </script>
 </head>
 <body class="page-guide">
@@ -122,6 +123,7 @@
 <script src="plan.js"></script>
 <script src="app.js"></script>
 <script src="glossary.js"></script>
+<script src="age.js"></script>
 
 </body>
 </html>
