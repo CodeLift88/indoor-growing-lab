@@ -13,9 +13,11 @@ Site estático, sem framework. Funciona abrindo `index.html` direto no navegador
 | `app.js` | Lógica das calculadoras, ciclo animado, listas |
 | `data.js` | **Conteúdo**: tendas, fases, equipamentos, guias, lista de compras |
 | `guide.js` | Tema e menu das páginas de guia |
+| `glossary.js` | Glossário embutido (PPFD, VPD, pH…), usado em todas as páginas |
+| `privacidade.html` | Privacidade e contato (gerada) |
 | `guias/*.html` | Páginas dos guias (geradas, não edite à mão) |
 | `assets/og/*.png` | Imagens de prévia ao compartilhar links (geradas) |
-| `scripts/build.js` | Gera `guias/`, `sitemap.xml` e `robots.txt` a partir de `data.js` |
+| `scripts/build.js` | Gera `guias/`, `privacidade.html`, `sitemap.xml` e `robots.txt` a partir de `data.js` |
 | `scripts/og.js` | Gera as imagens de prévia |
 
 ## Editar conteúdo
@@ -36,6 +38,10 @@ Dentro do texto de um guia (`html`):
 - `href="#clima"` aponta para uma calculadora da página principal (`#kit`, `#luz`, `#clima`, `#ar`, `#energia`).
 - `href="guia:rega"` aponta para outro guia pelo `id`.
 - Tabelas com `<thead>` viram cartões empilhados no celular automaticamente.
+
+Para adicionar um termo ao glossário, inclua uma linha na lista `TERMS` em `glossary.js`.
+
+Os sintomas da ferramenta de diagnóstico ficam em `diagnoses`, no `data.js`. Cada um aponta para um desenho (`illo`) definido em `app.js`.
 
 ## Links de afiliado
 

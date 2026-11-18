@@ -2,7 +2,7 @@
 /* ==========================================================================
    Gera as páginas estáticas dos guias a partir de data.js.
    Uso:  node scripts/build.js
-   Saída: guias/<id>.html, sitemap.xml, robots.txt
+   Saída: guias/<id>.html, privacidade.html, sitemap.xml, robots.txt
    Sem dependências. Rode de novo sempre que editar um guia em data.js.
    ========================================================================== */
 'use strict';
@@ -52,37 +52,35 @@ function related(g) {
   return same.concat(rest).slice(0, 3);
 }
 
-function page(g) {
-  const n = String(D.guides.indexOf(g) + 1).padStart(2, '0');
-  const url = `${SITE}guias/${g.id}.html`;
-  const img = `${SITE}assets/og/${g.id}.png`;
-  const hw = D.hardware.find(h => h.id === g.hw);
-  const more = related(g);
-
+// moldura comum: head, cabeçalho e rodapé. base = '../' dentro de guias/, '' na raiz
+function shell({ base, file, title, desc, img, type, current, main }) {
+  const url = SITE + file;
+  const nav = [['ciclo', 'O ciclo'], ['calculadoras', 'Calculadoras'], ['diagnostico', 'Diagnóstico'], ['equipamentos', 'Equipamentos'], ['guias', 'Guias']];
+  const foot = [['ciclo', 'O ciclo'], ['kit', 'Espaço'], ['luz', 'Luz'], ['clima', 'Clima'], ['ar', 'Exaustão'], ['energia', 'Calendário e conta'], ['diagnostico', 'Diagnóstico'], ['equipamentos', 'Equipamentos'], ['guias', 'Guias']];
   return `<!DOCTYPE html>
 <html lang="pt-BR" class="no-js">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${esc(g.title)} · Indoor Growing Lab</title>
-  <meta name="description" content="${esc(g.excerpt)}" />
+  <title>${esc(title)} · Indoor Growing Lab</title>
+  <meta name="description" content="${esc(desc)}" />
   <link rel="canonical" href="${url}" />
-  <meta property="og:type" content="article" />
+  <meta property="og:type" content="${type}" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:site_name" content="Indoor Growing Lab" />
-  <meta property="og:title" content="${esc(g.title)}" />
-  <meta property="og:description" content="${esc(g.excerpt)}" />
+  <meta property="og:title" content="${esc(title)}" />
+  <meta property="og:description" content="${esc(desc)}" />
   <meta property="og:url" content="${url}" />
-  <meta property="og:image" content="${img}" />
+  <meta property="og:image" content="${SITE}assets/og/${img}.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#f2eee4" />
-  <link rel="icon" type="image/svg+xml" href="../assets/logo-mark.svg" />
+  <link rel="icon" type="image/svg+xml" href="${base}assets/logo-mark.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Instrument+Sans:wght@400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="${base}styles.css" />
   <script>
     document.documentElement.classList.replace('no-js', 'js');
     try { var t = localStorage.getItem('igl-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
@@ -93,13 +91,9 @@ function page(g) {
 <a class="skip" href="#artigo">Pular para o conteúdo</a>
 
 <header class="masthead" id="masthead">
-  <a class="wordmark" href="../index.html" aria-label="Indoor Growing Lab, início">${leaf}<span>Indoor Growing <em>Lab</em></span></a>
+  <a class="wordmark" href="${base}index.html" aria-label="Indoor Growing Lab, início">${leaf}<span>Indoor Growing <em>Lab</em></span></a>
   <nav class="masthead__nav" id="main-nav" aria-label="Seções">
-    <a href="../index.html#ciclo">O ciclo</a>
-    <a href="../index.html#calculadoras">Calculadoras</a>
-    <a href="../index.html#diagnostico">Diagnóstico</a>
-    <a href="../index.html#equipamentos">Equipamentos</a>
-    <a href="../index.html#guias" class="is-current">Guias</a>
+    ${nav.map(([id, label]) => `<a href="${base}index.html#${id}"${id === current ? ' class="is-current"' : ''}>${label}</a>`).join('\n    ')}
   </nav>
   <div class="masthead__tools">
     <button type="button" class="theme-switch" id="theme-btn" role="switch" aria-checked="false" aria-label="Modo escuro" title="Mudar para o modo escuro">
@@ -114,7 +108,32 @@ function page(g) {
 </header>
 
 <main class="article" id="artigo">
-  <nav class="crumbs" aria-label="Você está em"><a href="../index.html#guias">Guias</a><span aria-hidden="true">/</span><span>${esc(g.clusterLabel)}</span></nav>
+${main}
+</main>
+
+<footer class="foot">
+  <div class="foot__legal">
+    <p><strong>Conteúdo informativo e de redução de danos, para maiores de 18 anos.</strong> No Brasil, cultivar cannabis sem autorização ainda é ilegal. Desde 2024 o STF trata o cultivo para uso pessoal (até 6 plantas fêmeas) como infração administrativa, não como crime. Consulte a legislação do seu país antes de qualquer coisa.</p>
+    <p class="foot__links"><a href="${base}privacidade.html">Privacidade e contato</a></p>
+  </div>
+  <nav class="foot__nav" aria-label="Atalhos">
+    ${foot.map(([id, label]) => `<a href="${base}index.html#${id}">${label}</a>`).join('\n    ')}
+  </nav>
+  <p class="foot__mark">Indoor Growing <em>Lab</em></p>
+</footer>
+
+<script src="${base}glossary.js"></script>
+<script src="${base}guide.js"></script>
+</body>
+</html>
+`;
+}
+
+function page(g) {
+  const n = String(D.guides.indexOf(g) + 1).padStart(2, '0');
+  const hw = D.hardware.find(h => h.id === g.hw);
+  const more = related(g);
+  const main = `  <nav class="crumbs" aria-label="Você está em"><a href="../index.html#guias">Guias</a><span aria-hidden="true">/</span><span>${esc(g.clusterLabel)}</span></nav>
 
   <header class="article__head">
     <p class="kicker">Guia ${n} · ${esc(g.readTime)} de leitura · revisado em ${UPDATED}</p>
@@ -153,40 +172,76 @@ function page(g) {
         <span class="guide__meta">${esc(m.clusterLabel)} · ${esc(m.readTime)} <span class="guide__arrow" aria-hidden="true">→</span></span>
       </a></li>`).join('\n      ')}
     </ol>
-  </section>
-</main>
+  </section>`;
+  return shell({ base: '../', file: `guias/${g.id}.html`, title: g.title, desc: g.excerpt, img: g.id, type: 'article', current: 'guias', main });
+}
 
-<footer class="foot">
-  <div class="foot__legal">
-    <p><strong>Conteúdo informativo e de redução de danos, para maiores de 18 anos.</strong> No Brasil, cultivar cannabis sem autorização ainda é ilegal. Desde 2024 o STF trata o cultivo para uso pessoal (até 6 plantas fêmeas) como infração administrativa, não como crime. Consulte a legislação do seu país antes de qualquer coisa.</p>
-  </div>
-  <nav class="foot__nav" aria-label="Atalhos">
-    <a href="../index.html#ciclo">O ciclo</a>
-    <a href="../index.html#kit">Espaço</a>
-    <a href="../index.html#luz">Luz</a>
-    <a href="../index.html#clima">Clima</a>
-    <a href="../index.html#ar">Exaustão</a>
-    <a href="../index.html#energia">Conta de luz</a>
-    <a href="../index.html#diagnostico">Diagnóstico</a>
-    <a href="../index.html#equipamentos">Equipamentos</a>
-    <a href="../index.html#guias">Guias</a>
-  </nav>
-  <p class="foot__mark">Indoor Growing <em>Lab</em></p>
-</footer>
+/* Página de privacidade e contato. Mantenha fiel ao que o site realmente faz. */
+const REPO = 'https://github.com/CodeLift88/indoor-growing-lab';
+function privacyPage() {
+  const main = `  <header class="article__head">
+    <p class="kicker">Atualizada em ${UPDATED}</p>
+    <h1 class="article__title">Privacidade e contato</h1>
+    <p class="article__lead">Resumo: o site não tem cadastro, não usa cookies próprios e não coleta seus dados. O que você escolhe nas calculadoras fica só no seu navegador.</p>
+  </header>
 
-<script src="../glossary.js"></script>
-<script src="../guide.js"></script>
-</body>
-</html>
-`;
+  <div class="article__grid">
+    <div class="article__body">
+      <div class="prose">
+        <h3>1. O que o site guarda, e onde</h3>
+        <p>Para lembrar suas escolhas entre uma visita e outra, o site usa o <strong>armazenamento local do seu navegador</strong> (localStorage). Nada disso é enviado para nenhum servidor:</p>
+        <table>
+          <thead><tr><th>O que</th><th>Para quê</th></tr></thead>
+          <tbody>
+            <tr><td>Nível de leitura</td><td>Mostrar mais ou menos detalhe técnico.</td></tr>
+            <tr><td>Tema claro ou escuro</td><td>Abrir o site do jeito que você deixou.</td></tr>
+            <tr><td>Tipo de planta</td><td>Ajustar luz e calendário para auto ou fotoperiódica.</td></tr>
+            <tr><td>Data de início do cultivo</td><td>Montar o seu calendário.</td></tr>
+            <tr><td>Itens marcados na lista do primeiro cultivo</td><td>Lembrar o que você já tem.</td></tr>
+          </tbody>
+        </table>
+        <p>Para apagar tudo, limpe os dados deste site nas configurações do navegador.</p>
+
+        <h3>2. O que não fazemos</h3>
+        <ul>
+          <li>Não há cadastro, login nem formulário.</li>
+          <li>Não usamos ferramentas de estatística de visitas nem anúncios.</li>
+          <li>Não vendemos nem compartilhamos dados, porque não coletamos nenhum.</li>
+        </ul>
+
+        <h3>3. Serviços de terceiros</h3>
+        <ul>
+          <li><strong>GitHub Pages</strong> hospeda o site. Como qualquer servidor, o GitHub registra dados técnicos de acesso, como o endereço IP, por segurança. Veja a <a href="https://docs.github.com/pt/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">política de privacidade do GitHub</a>.</li>
+          <li><strong>Google Fonts</strong> fornece as fontes do site. Ao carregar a página, seu navegador faz um pedido aos servidores do Google. Veja a <a href="https://policies.google.com/privacy?hl=pt-BR" target="_blank" rel="noopener">política de privacidade do Google</a>.</li>
+          <li><strong>Lojas</strong>: ao clicar num link de loja, você sai deste site e passa a seguir a política daquela loja. Links de afiliado, quando existirem, ficam marcados com ✦ e podem fazer a loja registrar que você veio daqui.</li>
+        </ul>
+
+        <h3>4. Seus direitos</h3>
+        <p>Pela Lei Geral de Proteção de Dados (LGPD), você pode pedir informações sobre qualquer tratamento dos seus dados. Como o site não guarda dados pessoais em servidor, não há o que consultar ou apagar do nosso lado. Os dados locais você controla direto no navegador.</p>
+
+        <h3>5. Contato</h3>
+        <p>Dúvidas, correções nos guias ou sugestões de conteúdo: abra uma <a href="${REPO}/issues" target="_blank" rel="noopener">conversa no GitHub</a>. É público, então não inclua informações pessoais.</p>
+      </div>
+    </div>
+    <aside class="article__aside">
+      <div class="aside-card">
+        <span class="kicker">Em uma linha</span>
+        <span class="aside-card__title">Sem cadastro, sem rastreio.</span>
+        <span class="aside-card__desc">Suas escolhas ficam só no seu navegador.</span>
+      </div>
+    </aside>
+  </div>`;
+  return shell({ base: '', file: 'privacidade.html', title: 'Privacidade e contato', desc: 'O Indoor Growing Lab não tem cadastro, não usa cookies próprios e não coleta dados pessoais.', img: 'home', type: 'website', current: '', main });
 }
 
 fs.mkdirSync(path.join(ROOT, 'guias'), { recursive: true });
 D.guides.forEach(g => fs.writeFileSync(path.join(ROOT, 'guias', `${g.id}.html`), page(g)));
 
-const urls = [SITE, ...D.guides.map(g => `${SITE}guias/${g.id}.html`)];
+fs.writeFileSync(path.join(ROOT, 'privacidade.html'), privacyPage());
+
+const urls = [SITE, ...D.guides.map(g => `${SITE}guias/${g.id}.html`), `${SITE}privacidade.html`];
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url><loc>${u}</loc></url>`).join('\n')}\n</urlset>\n`);
 fs.writeFileSync(path.join(ROOT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}sitemap.xml\n`);
 
-console.log(`${D.guides.length} guias gerados em guias/, sitemap.xml e robots.txt atualizados.`);
+console.log(`${D.guides.length} guias gerados em guias/, privacidade.html, sitemap.xml e robots.txt atualizados.`);
