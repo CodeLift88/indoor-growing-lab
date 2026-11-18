@@ -70,56 +70,51 @@
        ABERTURA
        ================================================================= -->
   <section class="hero" aria-labelledby="hero-title">
-    <p class="kicker hero__kicker">Guia de cultivo indoor · revisado em nov. 2026 · conteúdo +18</p>
-
-    <h1 class="hero__title" id="hero-title">
-      <span class="line"><span>Do grão à colheita,</span></span>
-      <span class="line"><span>sem <em>chute</em>.</span></span>
-    </h1>
-
-    <div class="hero__grid">
-      <div class="hero__main">
-        <p class="hero__lead">Quanta luz, que temperatura, qual umidade e quanto vai custar. Respostas diretas para quem nunca plantou, e as contas à mostra para quem já planta.</p>
-
-        <fieldset class="paths" id="nivel">
-          <legend class="paths__legend">Por onde você começa? <span>Dá para trocar a qualquer momento.</span></legend>
-          <label class="path">
-            <input type="radio" name="level" value="1" checked />
-            <span class="path__num">01</span>
-            <span class="path__body"><span class="path__title">Nunca plantei</span><span class="path__desc">Passo a passo, sem sigla. O que fazer e por quê.</span></span>
-            <svg class="path__tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-          </label>
-          <label class="path">
-            <input type="radio" name="level" value="2" />
-            <span class="path__num">02</span>
-            <span class="path__body"><span class="path__title">Já fiz um ciclo</span><span class="path__desc">Números de referência por fase e o motivo de cada um.</span></span>
-            <svg class="path__tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-          </label>
-          <label class="path">
-            <input type="radio" name="level" value="3" />
-            <span class="path__num">03</span>
-            <span class="path__body"><span class="path__title">Quero otimizar</span><span class="path__desc">VPD da folha, PPFD, DLI e as fórmulas abertas.</span></span>
-            <svg class="path__tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-          </label>
-        </fieldset>
-      </div>
-
-      <aside class="hero__index" aria-label="Atalhos">
-        <p class="kicker">Veio com uma dúvida?</p>
-        <ul class="intents">
-          <li><a href="diagnostico.html"><span class="intents__q">Minha planta está com problema</span><span class="intents__a">Diagnóstico por sintoma <span aria-hidden="true">→</span></span></a></li>
-          <li><a href="calculadoras/espaco.html"><span class="intents__q">Vou montar meu grow</span><span class="intents__a">Espaço, luz e exaustor <span aria-hidden="true">→</span></span></a></li>
-          <li><a href="calculadoras/calendario.html"><span class="intents__q">Quando vou colher?</span><span class="intents__a">Calendário e conta de luz <span aria-hidden="true">→</span></span></a></li>
-          <li><a href="diario.html"><span class="intents__q">Já estou cultivando</span><span class="intents__a">Meu diário <span aria-hidden="true">→</span></span></a></li>
-        </ul>
-        <p class="kicker hero__all">Tudo nesta página</p>
-        <nav class="chips" aria-label="Seções da página">
-          <a href="#ciclo">Ciclo</a><a href="calculadoras/espaco.html">Espaço</a><a href="calculadoras/luz.html">Luz</a><a href="calculadoras/clima.html">Clima</a><a href="calculadoras/exaustao.html">Exaustão</a><a href="calculadoras/calendario.html">Calendário</a><a href="diagnostico.html">Diagnóstico</a><a href="equipamentos.html">Equipamentos</a><a href="#guias">Guias</a>
-        </nav>
-      </aside>
+    <div class="hero__head">
+      <p class="kicker hero__kicker">Cultivo indoor · revisado em nov. 2026 · +18</p>
+      <h1 class="hero__title" id="hero-title">
+        <span class="line"><span>Do grão à colheita,</span></span>
+        <span class="line"><span>sem <em>chute</em>.</span></span>
+      </h1>
+      <p class="hero__lead">Quanta luz, que clima, qual exaustor e quanto vai custar. Respostas diretas para quem nunca plantou, e as contas à mostra para quem já planta.</p>
     </div>
 
-    <p class="scroll-cue"><span class="scroll-cue__line" aria-hidden="true"></span><a href="#ciclo">Role para acompanhar um ciclo inteiro</a> <span class="scroll-cue__or">ou</span> <a href="#ferramentas">vá direto às ferramentas</a></p>
+    <aside class="ficha" aria-labelledby="ficha-title">
+      <div class="ficha__head">
+        <p class="ficha__kicker" id="ficha-title">Ficha do seu grow</p>
+        <p class="ficha__phase" id="f-phase">Vegetativo · 18 h de luz</p>
+      </div>
+      <div class="ficha__sizes" id="f-sizes" role="radiogroup" aria-label="Tamanho do grow"></div>
+      <dl class="ficha__list" aria-live="polite">
+        <div><dt>Grow</dt><dd id="f-grow">120×120 cm · 4 a 6 plantas</dd></div>
+        <div><dt>LED</dt><dd id="f-led">500 W reais</dd></div>
+        <div><dt>Clima</dt><dd id="f-clima">22–28 °C · 55–70%</dd></div>
+        <div><dt>Exaustor</dt><dd id="f-ar">268 m³/h · 150 mm (6")</dd></div>
+        <div><dt>Conta</dt><dd id="f-conta">—</dd></div>
+        <div><dt>Colheita</dt><dd id="f-colheita">—</dd></div>
+      </dl>
+      <a class="ficha__go" href="calculadoras/espaco.html">Ajustar para o meu grow <span aria-hidden="true">→</span></a>
+    </aside>
+
+    <div class="hero__ask">
+      <p class="kicker">Veio com uma dúvida?</p>
+      <ul class="intents">
+        <li><a href="diagnostico.html"><span class="intents__q">Minha planta está com problema</span><span class="intents__a">Diagnóstico por sintoma <span aria-hidden="true">→</span></span></a></li>
+        <li><a href="calculadoras/espaco.html"><span class="intents__q">Vou montar meu grow</span><span class="intents__a">Espaço, luz e exaustor <span aria-hidden="true">→</span></span></a></li>
+        <li><a href="calculadoras/calendario.html"><span class="intents__q">Quando vou colher?</span><span class="intents__a">Calendário e conta de luz <span aria-hidden="true">→</span></span></a></li>
+        <li><a href="diario.html"><span class="intents__q">Já estou cultivando</span><span class="intents__a">Meu diário <span aria-hidden="true">→</span></span></a></li>
+      </ul>
+    </div>
+
+    <div class="hero__foot">
+      <fieldset class="levels" id="nivel">
+        <legend class="levels__legend">Nível de detalhe</legend>
+        <label class="lv"><input type="radio" name="level" value="1" checked /><span>Nunca plantei</span></label>
+        <label class="lv"><input type="radio" name="level" value="2" /><span>Já fiz um ciclo</span></label>
+        <label class="lv"><input type="radio" name="level" value="3" /><span>Quero otimizar</span></label>
+      </fieldset>
+      <p class="scroll-cue"><span class="scroll-cue__line" aria-hidden="true"></span><a href="#ciclo">Role para acompanhar um ciclo inteiro</a> <span class="scroll-cue__or">ou</span> <a href="#ferramentas">vá direto às ferramentas</a></p>
+    </div>
   </section>
 
   <div id="conteudo"></div>

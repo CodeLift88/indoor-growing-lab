@@ -1256,6 +1256,74 @@
     setText('#t-ar', `${fmtInt(S.need)} m³/h · exaustor ${S.fan || ''}`.trim());
     setText('#t-cal', `Colheita em ${S.harvest} · ${S.month}/mês`);
     setText('#t-hw', `Marcamos o que serve no seu grow de ${t.label}`);
+    updateFicha();
+  }
+
+  /* FICHA DO GROW (hero da home): os mesmos números das calculadoras */
+  const ficha = document.getElementById('f-sizes');
+  const FICHA_SIZES = ['60x60', '80x80', '90x90', '120x60', '120x120'];
+  const CLIMA_ALVO = { muda: '22–26 °C · 65–75%', veg: '22–28 °C · 55–70%', flor: '20–26 °C · 40–50%' };
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const NUM = /\d{1,3}(?:\.\d{3})+(?:,\d+)?|\d+(?:,\d+)?/g;
+  const parseBR = s => Number(s.replace(/\./g, '').replace(',', '.'));
+  function tween(id, str) {
+    const node = document.getElementById(id);
+    if (!node || node.dataset.v === str) return;
+    const from = node.dataset.v ? (node.dataset.v.match(NUM) || []) : null;
+    const to = str.match(NUM) || [];
+    node.dataset.v = str;
+    node.classList.remove('is-new'); void node.offsetWidth; node.classList.add('is-new');
+    setTimeout(() => node.classList.remove('is-new'), 700);
+    const a = from && from.length === to.length ? from.map(parseBR) : to.map(() => 0);
+    if (REDUCED || !to.length) { node.textContent = str; return; }
+    const b = to.map(parseBR), t0 = performance.now(), dur = 650;
+    const frame = now => {
+      const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      let i = 0;
+      node.textContent = str.replace(NUM, m => {
+        const dec = (m.split(',')[1] || '').length, v = a[i] + (b[i] - a[i]) * e; i++;
+        return v.toLocaleString('pt-BR', { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: m.includes('.') });
+      });
+      if (k < 1 && node.dataset.v === str) requestAnimationFrame(frame);
+      else if (node.dataset.v === str) node.textContent = str;
+    };
+    requestAnimationFrame(frame);
+  }
+  function updateFicha() {
+    if (!ficha) return;
+    const sizes = FICHA_SIZES.includes(S.tent) ? FICHA_SIZES : FICHA_SIZES.concat(S.tent);
+    if (ficha.dataset.list !== sizes.join()) {
+      ficha.dataset.list = sizes.join();
+      ficha.innerHTML = sizes.map(k => `<button type="button" role="radio" data-tent="${k}">${D.tents[k].label.replace(' cm', '')}</button>`).join('');
+    }
+    $$('button', ficha).forEach(b => {
+      const on = b.dataset.tent === S.tent;
+      b.setAttribute('aria-checked', on); b.tabIndex = on ? 0 : -1;
+    });
+    const t = D.tents[S.tent], ph = D.phases[S.phase];
+    setText('#f-phase', `${S.auto ? 'Auto · ' : ''}${ph.label} · ${$('#in-hours').value} h de luz`);
+    tween('f-grow', `${t.label} · ${t.plants[0] === t.plants[1] ? `${t.plants[0]} planta` : `${t.plants[0]} a ${t.plants[1]} plantas`}`);
+    tween('f-led', `${$('#in-watts').value} W reais`);
+    tween('f-clima', S.level === '1' ? CLIMA_ALVO[S.phase] : `${CLIMA_ALVO[S.phase]} · VPD ${fmt(ph.vpd[0], 1)}–${fmt(ph.vpd[1], 1)}`);
+    tween('f-ar', `${fmtInt(S.need)} m³/h · ${S.fan || t.duct}`);
+    if (S.month) tween('f-conta', `${S.month}/mês`);
+    if (S.harvest) tween('f-colheita', S.harvest);
+  }
+  function pickTent(key) {
+    S.tent = key;
+    SAVED.tent = key; persist();
+    if (!S.wattsTouched) { $('#in-watts').value = D.tents[key].wattsBloom; saveInput($('#in-watts')); }
+    updateAll();
+  }
+  if (ficha) {
+    ficha.addEventListener('click', e => { const b = e.target.closest('button[data-tent]'); if (b) pickTent(b.dataset.tent); });
+    ficha.addEventListener('keydown', e => {
+      if (!['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'].includes(e.key)) return;
+      e.preventDefault();
+      const bs = $$('button', ficha), i = bs.findIndex(b => b.dataset.tent === S.tent);
+      const n = bs[(i + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1) + bs.length) % bs.length];
+      pickTent(n.dataset.tent); n.focus();
+    });
   }
 
   function updateAll() {
