@@ -82,16 +82,25 @@
     updateAll();
   }
 
+  // Claro é o padrão. O escuro só liga quando a pessoa escolhe.
   function initTheme() {
     const btn = $('#theme-btn');
+    const root = document.documentElement;
+    const sync = () => {
+      const dark = root.dataset.theme === 'dark';
+      btn.setAttribute('aria-checked', String(dark));
+      btn.title = dark ? 'Mudar para o modo claro' : 'Mudar para o modo escuro';
+      $('meta[name="theme-color"]').setAttribute('content', dark ? '#14160f' : '#f2eee4');
+    };
     btn.addEventListener('click', () => {
-      const root = document.documentElement;
-      const current = root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      const next = current === 'dark' ? 'light' : 'dark';
+      const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      root.classList.add('theme-anim');
       root.dataset.theme = next;
       store.set('igl-theme', next);
-      $('meta[name="theme-color"]').setAttribute('content', next === 'dark' ? '#14160f' : '#f2eee4');
+      sync();
+      setTimeout(() => root.classList.remove('theme-anim'), 500);
     });
+    sync();
   }
 
   function initMenu() {
@@ -835,20 +844,26 @@
         <p class="hw__price">${esc(h.priceRange)}</p>
         <span class="fit ${fits ? 'is-fit' : ''}">${fits ? `Serve na sua tenda de ${D.tents[S.tent].label}` : 'Feito para outros tamanhos'}</span>
         <div class="hw__actions">
-          <a class="btn btn--primary" href="${h.officialUrl}" target="_blank" rel="noopener sponsored">Loja oficial ${ext}</a>
-          <a class="btn" href="${h.amazonUrl}" target="_blank" rel="noopener sponsored">Amazon ${ext}</a>
+          ${shopLink(h.officialUrl, h.officialAffiliate, 'Loja oficial', true)}
+          ${h.amazonUrl ? shopLink(h.amazonUrl, h.amazonAffiliate, 'Ver na Amazon', false) : ''}
         </div>
-        <button type="button" class="coupon" data-coupon="${esc(h.coupon)}" data-brand="${esc(h.brand)}">Cupom ${esc(h.coupon)} · copiar</button>
+        ${h.coupon ? `<button type="button" class="coupon" data-coupon="${esc(h.coupon)}" data-brand="${esc(h.brand)}">Cupom ${esc(h.coupon)} · copiar</button>` : ''}
       </div>`;
   }
 
   let hwKey = '';
+  // link de loja: só leva "sponsored" e a marca ✦ quando for de afiliado
+  function shopLink(url, affiliate, label, primary) {
+    return `<a class="btn ${primary ? 'btn--primary' : ''}" href="${esc(url)}" target="_blank" rel="noopener${affiliate ? ' sponsored' : ''}">${label}${affiliate ? ' <span class="aff" title="Link de afiliado">✦</span>' : ''} ${ext}</a>`;
+  }
+
   function renderHardware(force) {
     const key = `${hwCat}|${S.tent}|${$('#hw-fit').checked}`;
     if (key === hwKey && force !== true) return;
     hwKey = key;
     const onlyFit = $('#hw-fit').checked;
     const list = D.hardware.filter(h => (hwCat === 'all' || h.category === hwCat) && (!onlyFit || h.tentFit.includes(S.tent)));
+    $('#hw-disclosure').hidden = !D.hardware.some(h => h.officialAffiliate || h.amazonAffiliate || h.coupon);
     $('#hw-list').innerHTML = list.length
       ? list.map((h, i) => `<article class="hw" style="animation-delay:${i * 50}ms">${hwCard(h)}</article>`).join('')
       : '<p class="empty">Nenhuma indicação para esse filtro e tamanho de tenda.</p>';

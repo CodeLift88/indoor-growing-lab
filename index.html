@@ -38,8 +38,10 @@
 
   <div class="masthead__tools">
     <a class="level-chip" href="#nivel" title="Mudar o nível de detalhe"><span class="level-chip__dot" aria-hidden="true"></span><span id="level-chip-text">Nunca plantei</span></a>
-    <button type="button" class="icon-btn" id="theme-btn" aria-label="Alternar tema claro ou escuro">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" /><path d="M12 4a8 8 0 0 0 0 16Z" class="fill" /></svg>
+    <button type="button" class="theme-switch" id="theme-btn" role="switch" aria-checked="false" aria-label="Modo escuro" title="Mudar para o modo escuro">
+      <span class="theme-switch__thumb" aria-hidden="true"></span>
+      <svg class="theme-switch__icon theme-switch__icon--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" /></svg>
+      <svg class="theme-switch__icon theme-switch__icon--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" /></svg>
     </button>
     <button type="button" class="icon-btn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Abrir menu">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16" /></svg>
@@ -621,7 +623,7 @@
       </label>
     </div>
 
-    <p class="disclosure">Links de afiliado: se você comprar por eles, o site recebe uma comissão e você não paga a mais.</p>
+    <p class="disclosure" id="hw-disclosure" hidden>Links marcados com ✦ são de afiliado: se você comprar por eles, o site recebe uma comissão e você não paga a mais.</p>
     <div class="hw-list" id="hw-list"></div>
   </section>
 
@@ -668,7 +670,7 @@
       </div>
       <div>
         <h3>Como o site se paga</h3>
-        <p>As calculadoras e os guias são gratuitos. Quando você compra pelos links ou cupons das lojas oficiais, o site recebe uma comissão. A indicação vem primeiro; a comissão não muda a ordem.</p>
+        <p>As calculadoras e os guias são gratuitos. Alguns links de loja poderão ser de afiliado: eles ficam marcados, e a comissão nunca muda a ordem nem o que é indicado.</p>
       </div>
       <div>
         <h3>Só equipamento e jardinagem</h3>

@@ -43,24 +43,6 @@
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #14160f;
-    --paper-2: #1c1f16;
-    --ink: #ece8dc;
-    --ink-2: #c9c6b9;
-    --muted: #9a9d8f;
-    --line: #33372b;
-    --ok: #a6d36a;
-    --humid: #7fb6d6;
-    --dry: #e8916c;
-    --z-ok: #3b4d22;
-    --z-humid: #1f3340;
-    --z-dry: #3f2a20;
-    --night: #0a0b07;
-    color-scheme: dark;
-  }
-}
 :root[data-theme="dark"] {
   --paper: #14160f; --paper-2: #1c1f16; --ink: #ece8dc; --ink-2: #c9c6b9;
   --muted: #9a9d8f; --line: #33372b; --ok: #a6d36a; --humid: #7fb6d6; --dry: #e8916c;
@@ -896,3 +878,34 @@ html[data-level="1"] .lvl-2-inline { display: none; }
   .fanbar-txt { font-size: 15px; }
   .fanbar-sub { font-size: 12px; }
 }
+
+/* interruptor de tema: sol | lua, com marcador deslizante */
+.theme-switch {
+  position: relative; display: inline-grid; grid-template-columns: 1fr 1fr; align-items: center;
+  width: 64px; height: 32px; padding: 0 3px; flex: none;
+  border: 1px solid currentColor; border-radius: 999px;
+  background: none; color: inherit; cursor: pointer;
+}
+.theme-switch__thumb {
+  position: absolute; top: 3px; left: 3px; width: 28px; height: 24px; border-radius: 999px;
+  background: var(--accent); box-shadow: inset 0 0 0 1px var(--ink);
+  transition: transform .35s var(--ease-out);
+}
+.theme-switch[aria-checked="true"] .theme-switch__thumb { transform: translateX(28px); }
+.theme-switch__icon {
+  position: relative; width: 16px; height: 16px; justify-self: center;
+  fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+  transition: opacity .25s;
+}
+.theme-switch__icon--sun, .theme-switch[aria-checked="true"] .theme-switch__icon--moon { color: var(--accent-ink); opacity: 1; }
+.theme-switch__icon--moon, .theme-switch[aria-checked="true"] .theme-switch__icon--sun { color: inherit; opacity: .55; }
+.theme-switch[aria-checked="true"] .theme-switch__icon--moon { color: #16190f; }
+.theme-switch:hover .theme-switch__icon { opacity: 1; }
+.theme-switch:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+/* transição suave só no momento da troca */
+html.theme-anim, html.theme-anim body, html.theme-anim .masthead, html.theme-anim .calc, html.theme-anim .hw, html.theme-anim .setup {
+  transition: background-color .4s ease, color .4s ease, border-color .4s ease;
+}
+
+.aff { font-size: .75em; }

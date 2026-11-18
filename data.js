@@ -43,6 +43,10 @@ window.IGL_DATA = {
     { id: 'ph',      item: 'Medidor de pH', lvl: 2,       why: 'Necessário em fibra de coco e hidroponia; dispensável em terra viva.' }
   ],
 
+  /* Equipamentos.
+     Quando tiver links de afiliado: troque officialUrl/amazonUrl pelo link
+     e marque officialAffiliate/amazonAffiliate como true. Cupom real vai em
+     coupon: 'CODIGO'. O aviso de afiliado aparece sozinho. */
   hardware: [
     {
       id: 'vivosun-vsfd6500',
@@ -54,7 +58,9 @@ window.IGL_DATA = {
       why: 'Gasta pouca energia e esquenta pouco.',
       specs: [['Potência', '400 a 450 W reais'], ['Cobertura', 'Tendas de 120×60 e 120×120 cm'], ['Destaque', 'Chips Samsung e ventilador embutido no centro da luz']],
       priceRange: 'US$ 389 – 469',
-      coupon: 'IGLAB10',
+      coupon: null,
+      officialAffiliate: false,
+      amazonAffiliate: false,
       officialUrl: 'https://vivosun.com/',
       amazonUrl: 'https://www.amazon.com/s?k=Vivosun+AeroLight+LED+Grow+Light'
     },
@@ -68,7 +74,9 @@ window.IGL_DATA = {
       why: 'Espalha a luz por igual, até nos cantos da tenda.',
       specs: [['Potência', '480 W reais, com dimmer'], ['Cobertura', 'Tenda de 120×120 cm'], ['Destaque', 'Chips Samsung LM301H Evo']],
       priceRange: 'US$ 459 – 519',
-      coupon: 'IGLABSF',
+      coupon: null,
+      officialAffiliate: false,
+      amazonAffiliate: false,
       officialUrl: 'https://www.spider-farmer.com/',
       amazonUrl: 'https://www.amazon.com/s?k=Spider+Farmer+SE5000'
     },
@@ -82,7 +90,9 @@ window.IGL_DATA = {
       why: 'Silencioso o bastante para dormir no mesmo quarto.',
       specs: [['Potência', '40 W, até 683 m³/h'], ['Cobertura', 'Tendas de 90×90 a 150×150 cm'], ['Destaque', 'Acelera sozinho quando a tenda esquenta']],
       priceRange: 'US$ 149 – 169',
-      coupon: 'IGLABAC',
+      coupon: null,
+      officialAffiliate: false,
+      amazonAffiliate: false,
       officialUrl: 'https://acinfinity.com/',
       amazonUrl: 'https://www.amazon.com/s?k=AC+Infinity+Cloudline+Pro+T6'
     },
@@ -96,7 +106,9 @@ window.IGL_DATA = {
       why: 'Avisa no celular se a luz falhar ou a tenda esquentar.',
       specs: [['Conexão', 'Wi-Fi, com bateria para quedas de energia'], ['Cobertura', 'Qualquer tamanho de tenda'], ['Destaque', 'Mostra o VPD pronto na tela']],
       priceRange: 'US$ 199 – 499',
-      coupon: 'IGLABPULSE',
+      coupon: null,
+      officialAffiliate: false,
+      amazonAffiliate: false,
       officialUrl: 'https://pulsegrow.com/',
       amazonUrl: 'https://www.amazon.com/s?k=Pulse+One+Grow+Room+Monitor'
     },
@@ -110,7 +122,9 @@ window.IGL_DATA = {
       why: 'Só regar com água: sem medir pH nem misturar fertilizante.',
       specs: [['Tipo', 'Terra com vida microbiana que alimenta a planta'], ['Uso', 'Vasos grandes de feltro ou canteiros'], ['Destaque', 'Orgânico: difícil queimar a planta por excesso']],
       priceRange: 'US$ 65 – 240',
-      coupon: 'IGLABSOIL',
+      coupon: null,
+      officialAffiliate: false,
+      amazonAffiliate: false,
       officialUrl: 'https://buildasoil.com/',
       amazonUrl: 'https://www.amazon.com/s?k=BuildASoil+Craft+Blend'
     },
@@ -124,7 +138,9 @@ window.IGL_DATA = {
       why: 'Rega e ilumina sozinha. Água uma vez a cada 3 semanas.',
       specs: [['Potência', '13 W'], ['Capacidade', '9 mudas (ervas, pimentas, tomates)'], ['Destaque', 'Liga e desliga a luz automaticamente']],
       priceRange: 'US$ 229 – 289',
-      coupon: 'IGLABCG',
+      coupon: null,
+      officialAffiliate: false,
+      amazonAffiliate: false,
       officialUrl: 'https://www.clickandgrow.com/',
       amazonUrl: 'https://www.amazon.com/s?k=Click+and+Grow+Smart+Garden+9'
     }
