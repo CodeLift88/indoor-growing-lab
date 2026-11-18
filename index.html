@@ -6,6 +6,17 @@
   <title>Indoor Growing Lab — Do grão à colheita, sem chute</title>
   <meta name="description" content="Guia de cultivo indoor do iniciante ao avançado: o ciclo completo fase a fase e calculadoras de espaço, luz, clima, exaustão e conta de luz, explicadas sem sigla." />
   <meta name="theme-color" content="#f2eee4" />
+  <link rel="canonical" href="https://codelift88.github.io/indoor-growing-lab/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="Indoor Growing Lab" />
+  <meta property="og:title" content="Indoor Growing Lab: do grão à colheita, sem chute" />
+  <meta property="og:description" content="Calculadoras de luz, clima, exaustão e conta de luz, e guias práticos de cultivo indoor, do iniciante ao avançado." />
+  <meta property="og:url" content="https://codelift88.github.io/indoor-growing-lab/" />
+  <meta property="og:image" content="https://codelift88.github.io/indoor-growing-lab/assets/og/home.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" type="image/svg+xml" href="assets/logo-mark.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,7 +110,7 @@
           <li><a href="#ar"><span class="toc__n">05</span><span class="toc__t">Exaustão e cheiro</span><span class="toc__m">calculadora</span></a></li>
           <li><a href="#energia"><span class="toc__n">06</span><span class="toc__t">Conta de luz</span><span class="toc__m">calculadora</span></a></li>
           <li><a href="#equipamentos"><span class="toc__n">07</span><span class="toc__t">Equipamentos</span><span class="toc__m">6 indicações</span></a></li>
-          <li><a href="#guias"><span class="toc__n">08</span><span class="toc__t">Guias práticos</span><span class="toc__m">6 leituras curtas</span></a></li>
+          <li><a href="#guias"><span class="toc__n">08</span><span class="toc__t">Guias práticos</span><span class="toc__m">9 leituras curtas</span></a></li>
         </ol>
       </aside>
     </div>
@@ -640,6 +651,7 @@
     <div class="filters" data-reveal>
       <div class="pills" id="guide-filters" role="group" aria-label="Filtrar por assunto">
         <button type="button" class="pill is-active" data-cat="all">Tudo</button>
+        <button type="button" class="pill" data-cat="cuidados">Cuidados</button>
         <button type="button" class="pill" data-cat="luz">Luz e espaço</button>
         <button type="button" class="pill" data-cat="clima">Clima</button>
         <button type="button" class="pill" data-cat="ar">Exaustão</button>
@@ -705,22 +717,6 @@
   <a href="#ar"><span class="setup__k">Ar</span><span id="s-ar">268 m³/h</span></a>
   <a href="#energia"><span class="setup__k">Conta</span><span id="s-en">R$ 165/mês</span></a>
 </aside>
-
-<!-- Leitor dos guias -->
-<dialog class="reader" id="reader" aria-labelledby="reader-title">
-  <div class="reader__bar">
-    <p class="kicker" id="reader-kicker"></p>
-    <button type="button" class="icon-btn" id="reader-close" aria-label="Fechar guia">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
-    </button>
-  </div>
-  <article class="reader__body">
-    <h2 class="reader__title" id="reader-title"></h2>
-    <p class="reader__summary" id="reader-summary"></p>
-    <div class="reader__content" id="reader-content"></div>
-    <aside class="reader__hw" id="reader-hw"></aside>
-  </article>
-</dialog>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 

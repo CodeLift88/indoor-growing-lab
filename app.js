@@ -903,12 +903,12 @@
       (!q || norm(g.title + ' ' + g.excerpt + ' ' + g.summary + ' ' + g.html.replace(/<[^>]+>/g, ' ')).includes(q)));
     $('#guide-list').innerHTML = list.map((g, i) => `
       <li class="guide" style="animation-delay:${i * 40}ms">
-        <button type="button" data-guide="${g.id}">
+        <a href="guias/${g.id}.html">
           <span class="guide__n">${String(D.guides.indexOf(g) + 1).padStart(2, '0')}</span>
           <span class="guide__title">${esc(g.title)}</span>
           <span class="guide__ex">${esc(g.excerpt)}</span>
           <span class="guide__meta">${esc(g.clusterLabel)} · ${esc(g.readTime)} <span class="guide__arrow" aria-hidden="true">→</span></span>
-        </button>
+        </a>
       </li>`).join('');
     $('#guide-empty').hidden = list.length > 0;
   }
@@ -920,26 +920,6 @@
     renderGuides();
   });
   $('#guide-search').addEventListener('input', renderGuides);
-
-  const reader = $('#reader');
-  function openGuide(id) {
-    const g = D.guides.find(x => x.id === id); if (!g) return;
-    const h = D.hardware.find(x => x.id === g.hw);
-    setText('#reader-kicker', `${g.clusterLabel} · ${g.readTime} de leitura`);
-    setText('#reader-title', g.title);
-    setText('#reader-summary', g.summary);
-    $('#reader-content').innerHTML = g.html;
-    $('#reader-hw').innerHTML = h ? `<p class="kicker">Equipamento citado</p>${hwCard(h, true)}` : '';
-    if (typeof reader.showModal === 'function') reader.showModal(); else reader.setAttribute('open', '');
-    reader.scrollTop = 0;
-  }
-  const closeGuide = () => { if (reader.open) reader.close(); };
-  $('#guide-list').addEventListener('click', e => { const b = e.target.closest('[data-guide]'); if (b) openGuide(b.dataset.guide); });
-  $('#reader-close').addEventListener('click', closeGuide);
-  reader.addEventListener('click', e => {
-    if (e.target === reader) closeGuide();
-    if (e.target.closest('[data-close]')) closeGuide();
-  });
 
   /* ------------------------------------------------------------------
      RESUMO DO SETUP + ROLAGEM

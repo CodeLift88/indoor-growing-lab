@@ -148,7 +148,162 @@ window.IGL_DATA = {
 
   guides: [
     {
+      id: 'germinacao',
+      cluster: 'cuidados',
+      clusterLabel: 'Cuidados',
+      readTime: '5 min',
+      title: 'Germinação passo a passo: do grão à primeira folha',
+      excerpt: 'Papel toalha ou direto no substrato? Temperatura, profundidade e os erros que mais matam mudas na primeira semana.',
+      summary: 'Calor estável (22–26 °C), umidade sem encharcar e escuro até a raiz aparecer. Plante a 0,5–1 cm de profundidade, raiz para baixo.',
+      calc: { href: '#clima', label: 'Calculadora de clima' },
+      hw: 'pulse-pro-monitor',
+      html: `
+        <p>A germinação é a fase mais curta do cultivo, de 1 a 7 dias, e a que mais assusta quem está começando. A boa notícia: a semente já traz tudo de que precisa. Seu trabalho é só dar <strong>água, calor e escuro</strong> na medida certa.</p>
+
+        <h3>1. Escolha o método</h3>
+        <p>Os dois funcionam. A diferença é quanto você mexe na semente.</p>
+        <table>
+          <thead><tr><th>Método</th><th>Como é</th><th>Para quem</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Papel toalha</strong></td><td>Semente entre duas folhas úmidas, num prato tampado, até a raiz sair.</td><td>Quer ver acontecer e descartar o que não germinou.</td></tr>
+            <tr><td><strong>Direto no substrato</strong></td><td>Semente plantada já no copo ou vaso definitivo.</td><td>Quer mexer o mínimo. A raiz nunca é tocada.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>2. Papel toalha, passo a passo</h3>
+        <ol>
+          <li><strong>Umedeça, não encharque.</strong> O papel deve estar molhado, mas sem poça. Água parada afoga a semente.</li>
+          <li><strong>Feche e guarde no escuro</strong>, entre 22 e 26 °C. Em cima da geladeira ou do roteador costuma ser um bom lugar.</li>
+          <li><strong>Confira a cada 12 horas.</strong> Se o papel secou, borrife um pouco de água.</li>
+          <li><strong>Quando a raiz tiver 0,5 a 1 cm</strong>, plante. Não espere ficar comprida: ela quebra fácil.</li>
+        </ol>
+
+        <h3>3. Na hora de plantar</h3>
+        <ul>
+          <li><strong>Profundidade:</strong> de 0,5 a 1 cm. Mais fundo, a muda gasta energia demais para chegar à superfície.</li>
+          <li><strong>Raiz para baixo</strong>, segurando a semente pela casca, nunca pela raiz.</li>
+          <li><strong>Substrato úmido, não molhado.</strong> Aperte um punhado: se pingar, está molhado demais.</li>
+          <li><strong>Cubra de leve</strong>, sem compactar a terra por cima.</li>
+        </ul>
+
+        <h3>4. Os primeiros dias acima da terra</h3>
+        <p>A primeira coisa a aparecer são duas folhinhas redondas, os <em>cotilédones</em>. Depois vêm as primeiras folhas serrilhadas. A partir daqui a muda precisa de luz suave (18 h por dia) e ar úmido, entre 65% e 70%.</p>
+
+        <h3>Erros comuns</h3>
+        <ul>
+          <li><strong>Regar demais.</strong> O caule fino apodrece rente à terra e a muda tomba (o “tombamento”). Molhe só em volta, pouco de cada vez.</li>
+          <li><strong>Luz forte cedo demais.</strong> A muda queima ou para de crescer. Use o LED na potência mínima e mais alto.</li>
+          <li><strong>Desistir cedo.</strong> Algumas sementes levam até 7 dias. Se passar disso sem sinal, aí sim, provavelmente não vai germinar.</li>
+        </ul>`
+    },
+    {
+      id: 'rega',
+      cluster: 'cuidados',
+      clusterLabel: 'Cuidados',
+      readTime: '5 min',
+      title: 'Rega: quanto e quando molhar (o erro nº 1 de quem começa)',
+      excerpt: 'Mais plantas morrem de excesso de água do que de falta. Aprenda o teste do peso do vaso e nunca mais regue no chute.',
+      summary: 'Regue quando o vaso estiver leve e os primeiros 2–3 cm do substrato secos. Molhe tudo de uma vez, depois espere secar de novo.',
+      calc: { href: '#clima', label: 'Calculadora de clima' },
+      hw: 'buildasoil-living-soil',
+      html: `
+        <p>Quem começa costuma regar por carinho: um pouco todo dia. O problema é que <strong>a raiz também precisa de ar</strong>. Substrato sempre molhado sufoca a raiz, a planta murcha mesmo com água sobrando e abre espaço para fungos.</p>
+
+        <h3>1. A regra: molhe bem, depois deixe secar</h3>
+        <p>O ciclo saudável é <strong>molhar o vaso inteiro e esperar ele secar</strong> antes da próxima rega. Nesse intervalo, a raiz cresce procurando água, e é isso que deixa a planta forte.</p>
+
+        <h3>2. Como saber a hora: três testes</h3>
+        <ol>
+          <li><strong>Peso do vaso.</strong> O melhor de todos. Levante o vaso logo depois de regar e grave a sensação. Quando ele estiver bem leve, é hora.</li>
+          <li><strong>Dedo na terra.</strong> Enfie o dedo 2 a 3 cm. Se sair seco, pode regar. Se sair úmido, espere.</li>
+          <li><strong>Aparência da planta.</strong> Folhas levemente caídas e moles, com o vaso leve, indicam sede. Folhas caídas e <em>duras</em>, com o vaso pesado, indicam excesso.</li>
+        </ol>
+
+        <h3>3. Quanto colocar</h3>
+        <ul>
+          <li><strong>Mudas:</strong> pouca água, em círculo a uns 5 cm do caule. A raiz ainda é pequena.</li>
+          <li><strong>Plantas maiores:</strong> regue devagar até toda a terra ficar úmida. Uma referência é cerca de 25% do volume do vaso (2,5 L num vaso de 11 L).</li>
+          <li><strong>Fibra de coco:</strong> regue até escorrer 10% a 20% pelo fundo. Isso evita acúmulo de sais.</li>
+          <li><strong>Terra viva:</strong> regue sem deixar escorrer muito, para não lavar a vida e os nutrientes da terra.</li>
+        </ul>
+
+        <h3>4. Excesso ou falta? Como diferenciar</h3>
+        <table>
+          <thead><tr><th>Sinal</th><th>Excesso de água</th><th>Falta de água</th></tr></thead>
+          <tbody>
+            <tr><td>Folhas</td><td>Caídas, cheias, duras, viradas para baixo</td><td>Caídas, finas, moles, sem força</td></tr>
+            <tr><td>Vaso</td><td>Pesado</td><td>Leve</td></tr>
+            <tr><td>Substrato</td><td>Úmido há dias, cheiro de mofo</td><td>Seco e soltando da borda</td></tr>
+          </tbody>
+        </table>
+
+        <h3>5. A água</h3>
+        <ul>
+          <li><strong>Temperatura ambiente.</strong> Água gelada dá choque na raiz.</li>
+          <li><strong>Água da torneira</strong> costuma servir. Em terra viva, um filtro de carvão ajuda a tirar o cloro, que prejudica a vida do solo.</li>
+          <li><strong>pH:</strong> em terra, entre 6,0 e 7,0. Em fibra de coco ou hidroponia, entre 5,5 e 6,5. Fora disso a planta não absorve os nutrientes, mesmo que eles estejam lá.</li>
+        </ul>
+
+        <h3>Erros comuns</h3>
+        <ul>
+          <li><strong>Regar por calendário</strong> (“toda segunda e quinta”). A sede muda com o tamanho da planta, a fase e o clima da tenda.</li>
+          <li><strong>Vaso grande para muda pequena.</strong> A terra demora demais para secar. Comece num copo ou vaso pequeno e transplante depois.</li>
+          <li><strong>Prato cheio embaixo do vaso.</strong> Esvazie depois de 15 minutos, senão a raiz fica de molho.</li>
+        </ul>`
+    },
+    {
+      id: 'folhas-amarelas',
+      cluster: 'cuidados',
+      clusterLabel: 'Cuidados',
+      readTime: '6 min',
+      title: 'Folhas amarelas ou manchadas: o que a planta está dizendo',
+      excerpt: 'Antes de comprar adubo, olhe onde o problema começou. A posição da folha já diz metade do diagnóstico.',
+      summary: 'Antes de adubar, confira nesta ordem: rega, pH, luz e temperatura. A maioria das “deficiências” é um desses quatro.',
+      calc: { href: '#luz', label: 'Calculadora de luz' },
+      hw: 'pulse-pro-monitor',
+      html: `
+        <p>Folha amarela é o sintoma que mais gera pânico, e o que mais leva a gastos desnecessários com fertilizante. Na maioria das vezes, <strong>a comida está no vaso, mas a planta não consegue absorver</strong>, por causa de rega, pH, luz ou temperatura.</p>
+
+        <h3>1. Primeiro, onde começou?</h3>
+        <p>Alguns nutrientes “andam” dentro da planta e outros não. Por isso a posição da folha é a melhor pista:</p>
+        <ul>
+          <li><strong>Folhas de baixo (velhas) primeiro:</strong> a planta está tirando nutrientes delas para mandar ao topo. Pense em nitrogênio, magnésio ou potássio.</li>
+          <li><strong>Folhas do topo (novas) primeiro:</strong> o nutriente não chega. Pense em pH errado, ferro, cálcio ou luz demais.</li>
+        </ul>
+
+        <h3>2. Tabela rápida</h3>
+        <table>
+          <thead><tr><th>O que você vê</th><th>Causa provável</th><th>O que fazer</th></tr></thead>
+          <tbody>
+            <tr><td>Folhas de baixo amarelando por inteiro, de baixo para cima</td><td>Falta de nitrogênio</td><td>No vegetativo, reforce o adubo. Nas últimas semanas de floração, é normal.</td></tr>
+            <tr><td>Amarelo entre as nervuras, que ficam verdes, nas folhas velhas</td><td>Falta de magnésio</td><td>CalMag na rega. Comum sob LED e em fibra de coco.</td></tr>
+            <tr><td>Manchas marrons, cor de ferrugem, em folhas do meio</td><td>Falta de cálcio</td><td>CalMag e conferir o pH.</td></tr>
+            <tr><td>Bordas queimadas e secas, das pontas para dentro, em folhas velhas</td><td>Falta de potássio</td><td>Conferir pH. Na floração, adubo de floração.</td></tr>
+            <tr><td>Folhas novas amarelo-claras, quase brancas, com nervuras verdes</td><td>Ferro bloqueado, quase sempre por pH alto</td><td>Corrigir o pH da água antes de qualquer adubo.</td></tr>
+            <tr><td>Só as pontas queimadas, marrons e secas</td><td>Excesso de adubo</td><td>Reduza a dose. Em coco, regue só com água até escorrer.</td></tr>
+            <tr><td>Folhas do topo desbotadas, perto do LED</td><td>Luz demais</td><td>Suba o LED ou baixe o dimmer. Confira na calculadora de luz.</td></tr>
+            <tr><td>Folhas verde-escuras, viradas para baixo como garras</td><td>Excesso de nitrogênio ou de rega</td><td>Reduza o adubo e espaçe as regas.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>3. Antes de adubar, confira nesta ordem</h3>
+        <ol>
+          <li><strong>Rega:</strong> o vaso está secando entre as regas? Veja o <a href="guia:rega">guia de rega</a>.</li>
+          <li><strong>pH:</strong> fora da faixa (6,0–7,0 em terra, 5,5–6,5 em coco), a planta “passa fome” com comida no prato.</li>
+          <li><strong>Luz:</strong> topo desbotado é luz, não falta de nutriente.</li>
+          <li><strong>Temperatura e umidade:</strong> frio e ar parado travam a absorção. Confira na <a href="#clima" data-close>calculadora de clima</a>.</li>
+        </ol>
+
+        <h3>Erros comuns</h3>
+        <ul>
+          <li><strong>Adubar mais quando a folha amarela.</strong> Se o problema era pH, mais adubo só piora.</li>
+          <li><strong>Mudar várias coisas de uma vez.</strong> Corrija uma, espere 3 a 5 dias e observe as folhas <em>novas</em>. As antigas não voltam a ficar verdes.</li>
+          <li><strong>Se assustar no fim da floração.</strong> Folhas amarelando nas últimas semanas são normais: a planta está usando as reservas.</li>
+        </ul>`
+    },
+    {
       id: 'led-watts-reais',
+      calc: { href: '#luz', label: 'Calculadora de luz' },
       cluster: 'luz',
       clusterLabel: 'Luz LED',
       readTime: '4 min',
@@ -170,6 +325,7 @@ window.IGL_DATA = {
     },
     {
       id: 'clima-vpd',
+      calc: { href: '#clima', label: 'Calculadora de clima' },
       cluster: 'clima',
       clusterLabel: 'Clima',
       readTime: '5 min',
@@ -190,6 +346,7 @@ window.IGL_DATA = {
     },
     {
       id: 'cheiro-e-calor',
+      calc: { href: '#ar', label: 'Calculadora de exaustão' },
       cluster: 'ar',
       clusterLabel: 'Exaustão',
       readTime: '4 min',
@@ -206,6 +363,7 @@ window.IGL_DATA = {
     },
     {
       id: 'marcas-2026',
+      calc: { href: '#kit', label: 'Calculadora do kit' },
       cluster: 'equipamentos',
       clusterLabel: 'Equipamentos',
       readTime: '5 min',
@@ -222,6 +380,7 @@ window.IGL_DATA = {
     },
     {
       id: 'terra-coco-hidro',
+      calc: { href: '#kit', label: 'Lista do primeiro cultivo' },
       cluster: 'substratos',
       clusterLabel: 'Substrato',
       readTime: '5 min',
@@ -238,6 +397,7 @@ window.IGL_DATA = {
     },
     {
       id: 'apartamento-120x60',
+      calc: { href: '#kit', label: 'Calculadora do kit' },
       cluster: 'luz',
       clusterLabel: 'Espaço',
       readTime: '4 min',
