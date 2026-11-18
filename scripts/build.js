@@ -174,6 +174,7 @@ function page(g) {
   <p class="foot__mark">Indoor Growing <em>Lab</em></p>
 </footer>
 
+<script src="../glossary.js"></script>
 <script src="../guide.js"></script>
 </body>
 </html>

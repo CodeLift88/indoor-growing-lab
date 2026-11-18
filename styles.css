@@ -1056,3 +1056,27 @@ input[type="range"]:disabled { opacity: .35; cursor: not-allowed; }
   .wk-date { font-size: 13px; }
   .setup__wide { display: none !important; }
 }
+
+/* ============ GLOSSÁRIO ============ */
+.term {
+  border: 0; padding: 0; margin: 0; background: none; color: inherit; font: inherit; line-height: inherit;
+  cursor: help; text-decoration: underline dotted; text-decoration-color: var(--muted);
+  text-decoration-thickness: 1.5px; text-underline-offset: 3px; border-radius: 2px;
+  transition: background .2s, text-decoration-color .2s;
+}
+.term:hover, .term[aria-describedby] { background: color-mix(in srgb, var(--accent) 35%, transparent); text-decoration-color: var(--ink); }
+.cycle .term { text-decoration-color: var(--night-muted); }
+.cycle .term:hover, .cycle .term[aria-describedby] { background: color-mix(in srgb, var(--glow) 25%, transparent); text-decoration-color: var(--night-ink); }
+.term:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.term-pop {
+  position: fixed; z-index: 260; padding: 12px 14px; border-radius: 6px;
+  background: var(--ink); color: var(--paper);
+  font: 400 .875rem/1.5 var(--f-body);
+  box-shadow: 0 12px 30px -12px rgba(0, 0, 0, .5);
+  animation: pop-in .18s var(--ease-out);
+}
+.term-pop.is-above { animation-name: pop-in-up; }
+@keyframes pop-in { from { opacity: 0; transform: translateY(-4px); } }
+@keyframes pop-in-up { from { opacity: 0; transform: translateY(4px); } }
+.term-pop__t { display: block; margin-bottom: 2px; font: 500 .6875rem var(--f-mono); color: var(--accent); }
+html[data-theme="dark"] .term-pop__t { color: #4c7a2b; }
