@@ -8,6 +8,8 @@
 
   // [chave, padrão, título, explicação]
   const TERMS = [
+    ['grow', /grow/iu, 'Grow', 'Como a comunidade chama o espaço de cultivo indoor: a estufa, a luz, o exaustor e tudo o que está montado.'],
+    ['estufa', /estufas?/iu, 'Estufa (grow box)', 'A “barraca” de cultivo: estrutura fechada, forrada por dentro com material que reflete a luz, que isola luz, cheiro e clima.'],
     ['ppfd', /PPFD/u, 'PPFD', 'A força da luz que chega às folhas, em µmol/m²/s. Quanto maior, mais forte.'],
     ['dli', /DLI/u, 'DLI', 'A luz total do dia: a força (PPFD) somada ao longo das horas ligada. Medida em mol/m²/dia.'],
     ['vpd', /VPD/u, 'VPD', 'Diz se o ar está seco ou úmido do ponto de vista da folha. Na faixa certa, a planta transpira e se alimenta no ritmo ideal.'],
@@ -25,7 +27,7 @@
     ['substrato', /substrato/iu, 'Substrato', 'Onde as raízes ficam: terra, fibra de coco ou outro material.'],
     ['oidio', /o[ií]dio/iu, 'Oídio', 'Fungo que forma um pó branco sobre as folhas. Aparece com ar úmido e parado.'],
     ['dimmer', /dimmer/iu, 'Dimmer', 'O controle do LED que regula a potência, como o de uma luz de casa.'],
-    ['pressao', /press[aã]o negativa/iu, 'Pressão negativa', 'Quando o exaustor tira mais ar do que entra: a tenda fica levemente “chupada” e o ar só sai passando pelo filtro.']
+    ['pressao', /press[aã]o negativa/iu, 'Pressão negativa', 'Quando o exaustor tira mais ar do que entra: a estufa fica levemente “chupada” e o ar só sai passando pelo filtro.']
   ];
   // palavra inteira, sem pegar pedaço de outra palavra (inclui acentos)
   const RX = TERMS.map(([key, re, title, def]) => ({

@@ -52,7 +52,7 @@
   </nav>
 
   <div class="masthead__tools">
-    <a class="level-chip" href="#nivel" title="Mudar o nível de detalhe"><span class="level-chip__dot" aria-hidden="true"></span><span id="level-chip-text">Nunca plantei</span></a>
+    <a class="level-chip" href="#nivel" title="Mudar o nível de detalhe"><span class="level-chip__dot" aria-hidden="true"></span><span id="level-chip-text">Iniciante</span></a>
     <button type="button" class="theme-switch" id="theme-btn" role="switch" aria-checked="false" aria-label="Modo escuro" title="Mudar para o modo escuro">
       <span class="theme-switch__thumb" aria-hidden="true"></span>
       <svg class="theme-switch__icon theme-switch__icon--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" /></svg>
@@ -79,7 +79,7 @@
 
     <div class="hero__grid">
       <div class="hero__main">
-        <p class="hero__lead">Quanta luz, que temperatura, qual umidade e quanto vai custar. Respostas diretas para quem nunca plantou, e a conta aberta para quem já planta.</p>
+        <p class="hero__lead">Quanta luz, que temperatura, qual umidade e quanto vai custar. Respostas diretas para quem nunca plantou, e as contas à mostra para quem já planta.</p>
 
         <fieldset class="paths" id="nivel">
           <legend class="paths__legend">Por onde você começa? <span>Dá para trocar a qualquer momento.</span></legend>
@@ -104,24 +104,22 @@
         </fieldset>
       </div>
 
-      <aside class="hero__index" aria-label="Nesta página">
-        <p class="kicker">Nesta página</p>
-        <ol class="toc">
-          <li><a href="#ciclo"><span class="toc__n">01</span><span class="toc__t">O ciclo completo</span><span class="toc__m">6 fases · ~4 meses</span></a></li>
-          <li><a href="#kit"><span class="toc__n">02</span><span class="toc__t">Seu espaço e o kit</span><span class="toc__m">calculadora</span></a></li>
-          <li><a href="#luz"><span class="toc__n">03</span><span class="toc__t">Luz do dia</span><span class="toc__m">calculadora</span></a></li>
-          <li><a href="#clima"><span class="toc__n">04</span><span class="toc__t">Clima da tenda</span><span class="toc__m">calculadora</span></a></li>
-          <li><a href="#ar"><span class="toc__n">05</span><span class="toc__t">Exaustão e cheiro</span><span class="toc__m">calculadora</span></a></li>
-          <li><a href="#energia"><span class="toc__n">06</span><span class="toc__t">Cronograma e conta de luz</span><span class="toc__m">calendário + calculadora</span></a></li>
-          <li><a href="#diagnostico"><span class="toc__n">07</span><span class="toc__t">O que há de errado com a planta?</span><span class="toc__m">diagnóstico por sintoma</span></a></li>
-          <li><a href="#equipamentos"><span class="toc__n">08</span><span class="toc__t">Equipamentos</span><span class="toc__m">6 indicações</span></a></li>
-          <li><a href="#guias"><span class="toc__n">09</span><span class="toc__t">Guias práticos</span><span class="toc__m">11 leituras curtas</span></a></li>
-          <li><a href="diario.html"><span class="toc__n">10</span><span class="toc__t">Diário de cultivo</span><span class="toc__m">ferramenta, só no seu navegador</span></a></li>
-        </ol>
+      <aside class="hero__index" aria-label="Atalhos">
+        <p class="kicker">Veio com uma dúvida?</p>
+        <ul class="intents">
+          <li><a href="#diagnostico"><span class="intents__q">Minha planta está com problema</span><span class="intents__a">Diagnóstico por sintoma <span aria-hidden="true">→</span></span></a></li>
+          <li><a href="#kit"><span class="intents__q">Vou montar meu grow</span><span class="intents__a">Espaço, luz e exaustor <span aria-hidden="true">→</span></span></a></li>
+          <li><a href="#energia"><span class="intents__q">Quando vou colher?</span><span class="intents__a">Calendário e conta de luz <span aria-hidden="true">→</span></span></a></li>
+          <li><a href="diario.html"><span class="intents__q">Já estou cultivando</span><span class="intents__a">Meu diário <span aria-hidden="true">→</span></span></a></li>
+        </ul>
+        <p class="kicker hero__all">Tudo nesta página</p>
+        <nav class="chips" aria-label="Seções da página">
+          <a href="#ciclo">Ciclo</a><a href="#kit">Espaço</a><a href="#luz">Luz</a><a href="#clima">Clima</a><a href="#ar">Exaustão</a><a href="#energia">Calendário</a><a href="#diagnostico">Diagnóstico</a><a href="#equipamentos">Equipamentos</a><a href="#guias">Guias</a>
+        </nav>
       </aside>
     </div>
 
-    <a class="scroll-cue" href="#ciclo"><span class="scroll-cue__line" aria-hidden="true"></span>Role para acompanhar um ciclo inteiro</a>
+    <p class="scroll-cue"><span class="scroll-cue__line" aria-hidden="true"></span><a href="#ciclo">Role para acompanhar um ciclo inteiro</a> <span class="scroll-cue__or">ou</span> <a href="#calculadoras">vá direto às calculadoras</a></p>
   </section>
 
   <div id="conteudo"></div>
@@ -133,7 +131,7 @@
     <div class="cycle__pin">
       <div class="cycle__head">
         <h2 class="kicker kicker--night" id="cycle-title">01 · O ciclo completo</h2>
-        <p class="cycle__count" aria-hidden="true"><span id="cycle-count">01</span> / 06</p>
+        <p class="cycle__right"><span class="cycle__count" aria-hidden="true"><span id="cycle-count">01</span> / 06</span><a class="cycle__skip" href="#calculadoras">Pular o ciclo →</a></p>
       </div>
 
       <div class="cycle__text">
@@ -248,12 +246,14 @@
             <rect class="lamp__body" x="104" y="30" width="192" height="12" rx="2" />
             <g class="lamp__diodes"></g>
           </g>
+          <text class="scene__hint" x="200" y="300" text-anchor="middle">role para ver a planta crescer ↓</text>
           <g id="plant" class="plant"></g>
           <g class="pot">
             <path class="pot__soil" d="M118 438 Q200 430 282 438" />
             <path class="pot__body" d="M114 436 Q200 428 286 436 L276 500 Q200 508 124 500 Z" />
             <path class="pot__seam" d="M120 452 Q200 446 280 452" />
           </g>
+          <g id="seed-layer"></g>
           <g class="loupe" id="loupe">
             <circle class="loupe__bg" cx="318" cy="158" r="54" />
             <g clip-path="url(#loupe-clip)" id="trichomes"></g>
@@ -290,7 +290,7 @@
     <div class="chapter__inner" data-reveal>
       <p class="kicker">Calculadoras · 02 a 06</p>
       <h2 class="chapter__title" id="calc-title">Monte o setup <em>na ordem certa.</em></h2>
-      <p class="chapter__lead">Cada resposta alimenta a próxima: a tenda define a luz, a luz define o calor, o calor define o exaustor, e tudo isso vira conta de luz.</p>
+      <p class="chapter__lead">Cada resposta alimenta a próxima: o tamanho do grow define a luz, a luz define o calor, o calor define o exaustor, e tudo isso vira conta de luz.</p>
       <ol class="flow">
         <li><a href="#kit"><span>02</span>Espaço</a></li>
         <li><a href="#luz"><span>03</span>Luz</a></li>
@@ -308,13 +308,13 @@
     <header class="sec-head" data-reveal>
       <p class="kicker">02 · Seu espaço</p>
       <h2 class="sec-head__title" id="kit-title">Que tamanho de <em>espaço</em> você tem?</h2>
-      <p class="sec-head__lead">Escolha a tenda. A partir dela, o site calcula a luz, o exaustor e quantas plantas cabem com folga.</p>
+      <p class="sec-head__lead">Escolha o tamanho do seu grow. A partir dele, o site calcula a luz, o exaustor e quantas plantas cabem com folga.</p>
     </header>
 
     <div class="calc__grid">
       <form class="controls" data-reveal onsubmit="return false">
         <fieldset class="tents" id="tent-picker">
-          <legend class="ctl__label">Tamanho da tenda</legend>
+          <legend class="ctl__label">Tamanho do grow</legend>
         </fieldset>
         <fieldset class="seg seg--2" data-bind="kind">
           <legend class="ctl__label">Tipo de planta</legend>
@@ -516,13 +516,13 @@
   <section class="calc" id="ar" aria-labelledby="ar-title">
     <header class="sec-head" data-reveal>
       <p class="kicker">05 · Calculadora de exaustão</p>
-      <h2 class="sec-head__title" id="ar-title">Quanto <em>ar</em> precisa sair da tenda?</h2>
+      <h2 class="sec-head__title" id="ar-title">Quanto <em>ar</em> precisa sair do grow?</h2>
       <p class="sec-head__lead">O exaustor renova o ar, tira o calor e, com filtro de carvão, segura o cheiro. O filtro e cada curva do duto roubam força.</p>
     </header>
 
     <div class="calc__grid">
       <form class="controls" id="ar-form" data-reveal onsubmit="return false">
-        <p class="bound">Tenda: <strong id="ar-tent">120×120 cm</strong> · <a href="#kit">mudar</a></p>
+        <p class="bound">Grow: <strong id="ar-tent">120×120 cm</strong> · <a href="#kit">mudar</a></p>
 
         <label class="toggle">
           <input type="checkbox" id="in-filter" checked />
@@ -551,9 +551,9 @@
       </div>
 
       <figure class="chart" data-reveal>
-        <svg viewBox="0 0 560 200" id="ar-diagram" role="img" aria-label="Esquema da tenda com filtro, exaustor e duto"></svg>
+        <svg viewBox="0 0 560 200" id="ar-diagram" role="img" aria-label="Esquema da estufa com filtro, exaustor e duto"></svg>
         <svg viewBox="0 0 560 170" id="ar-bars" role="img" aria-labelledby="ar-cap"></svg>
-        <figcaption id="ar-cap">Capacidade de cada tamanho de exaustor. A linha marca o que sua tenda precisa; o ideal é usar até 70% da força, para o motor ficar silencioso.</figcaption>
+        <figcaption id="ar-cap">Capacidade de cada tamanho de exaustor. A linha marca o que o seu grow precisa; o ideal é usar até 70% da força, para o motor ficar silencioso.</figcaption>
       </figure>
 
       <details class="math lvl-2" data-reveal>
@@ -591,7 +591,7 @@
         <div class="ctl">
           <div class="ctl__row"><label class="ctl__label" for="in-watts">Potência do LED</label><output class="ctl__val" id="out-watts" for="in-watts">500 W</output></div>
           <input type="range" id="in-watts" min="50" max="1500" step="10" value="500" />
-          <p class="ctl__help">Começa com o valor sugerido para a sua tenda.</p>
+          <p class="ctl__help">Começa com o valor sugerido para o seu grow.</p>
         </div>
 
         <div class="ctl">
@@ -697,7 +697,7 @@
     <header class="sec-head" data-reveal>
       <p class="kicker">08 · Equipamentos</p>
       <h2 class="sec-head__title" id="hw-title">O que <em>vale a pena</em> comprar.</h2>
-      <p class="sec-head__lead">Poucas indicações, explicadas em uma linha. Marcamos o que serve na tenda que você escolheu.</p>
+      <p class="sec-head__lead">Poucas indicações, explicadas em uma linha. Marcamos o que serve no grow que você escolheu.</p>
     </header>
 
     <div class="filters" data-reveal>
@@ -711,7 +711,7 @@
       <label class="toggle toggle--sm">
         <input type="checkbox" id="hw-fit" />
         <span class="toggle__ui" aria-hidden="true"></span>
-        <span class="toggle__title">Só o que serve na minha tenda</span>
+        <span class="toggle__title">Só o que serve no meu grow</span>
       </label>
     </div>
 
@@ -725,7 +725,7 @@
   <section class="shelf" id="guias" aria-labelledby="guias-title">
     <header class="sec-head" data-reveal>
       <p class="kicker">09 · Guias práticos</p>
-      <h2 class="sec-head__title" id="guias-title">Leituras <em>de cinco minutos.</em></h2>
+      <h2 class="sec-head__title" id="guias-title">Leituras <em>curtas.</em></h2>
       <p class="sec-head__lead">O porquê por trás das calculadoras, em linguagem de gente.</p>
     </header>
 
@@ -767,7 +767,7 @@
       </div>
       <div>
         <h3>Só equipamento e jardinagem</h3>
-        <p>Indicamos luzes, tendas, exaustores, sensores e substratos. Não vendemos nem indicamos onde comprar sementes.</p>
+        <p>Indicamos luzes, estufas, exaustores, sensores e substratos. Não vendemos nem indicamos onde comprar sementes.</p>
       </div>
     </div>
   </section>
@@ -794,7 +794,7 @@
 
 <!-- Resumo do setup, aparece durante as calculadoras -->
 <aside class="setup" id="setup" aria-label="Resumo do seu setup">
-  <a href="#kit"><span class="setup__k">Tenda</span><span id="s-tent">120×120</span></a>
+  <a href="#kit"><span class="setup__k">Grow</span><span id="s-tent">120×120</span></a>
   <a href="#luz"><span class="setup__dot" id="s-luz-dot"></span><span class="setup__k">Luz</span><span id="s-luz">DLI 32</span></a>
   <a href="#clima"><span class="setup__dot" id="s-clima-dot"></span><span class="setup__k">Clima</span><span id="s-clima">ok</span></a>
   <a href="#ar"><span class="setup__k">Ar</span><span id="s-ar">268 m³/h</span></a>

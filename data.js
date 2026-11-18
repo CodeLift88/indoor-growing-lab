@@ -1,13 +1,15 @@
 /* ==========================================================================
-   Indoor Growing Lab — conteúdo (tendas, fases, equipamentos, guias)
+   Indoor Growing Lab — conteúdo (estufas, fases, equipamentos, guias)
    Editar aqui não exige mexer no app.js.
    ========================================================================== */
 
 window.IGL_DATA = {
 
-  /* Tamanhos de tenda. volM3 considera a altura usual de cada modelo. */
+  /* Tamanhos de estufa. volM3 considera a altura usual de cada modelo. */
   tents: {
+    '40x40':   { label: '40×40 cm',   w: 40,  d: 40,  h: 140, plants: [1, 1], areaM2: 0.16, volM3: 0.224, wattsVeg: 45,  wattsBloom: 65,  ppf: 180,  duct: '100 mm (4")' },
     '60x60':   { label: '60×60 cm',   w: 60,  d: 60,  h: 160, plants: [1, 2], areaM2: 0.36, volM3: 0.576, wattsVeg: 100, wattsBloom: 150, ppf: 410,  duct: '100 mm (4")' },
+    '80x80':   { label: '80×80 cm',   w: 80,  d: 80,  h: 180, plants: [2, 3], areaM2: 0.64, volM3: 1.152, wattsVeg: 180, wattsBloom: 250, ppf: 700,  duct: '100 mm (4")' },
     '120x60':  { label: '120×60 cm',  w: 120, d: 60,  h: 180, plants: [2, 3], areaM2: 0.72, volM3: 1.296, wattsVeg: 200, wattsBloom: 300, ppf: 820,  duct: '100 a 150 mm (4" a 6")' },
     '90x90':   { label: '90×90 cm',   w: 90,  d: 90,  h: 180, plants: [3, 4], areaM2: 0.81, volM3: 1.458, wattsVeg: 240, wattsBloom: 320, ppf: 900,  duct: '150 mm (6")' },
     '120x120': { label: '120×120 cm', w: 120, d: 120, h: 200, plants: [4, 6], areaM2: 1.44, volM3: 2.88,  wattsVeg: 360, wattsBloom: 500, ppf: 1400, duct: '150 mm (6")' },
@@ -30,7 +32,7 @@ window.IGL_DATA = {
 
   /* Lista do primeiro cultivo */
   checklist: [
-    { id: 'tenda',   item: 'Tenda',                       why: 'Isola luz, cheiro e clima. O tamanho define todo o resto.' },
+    { id: 'estufa',   item: 'Estufa de cultivo (grow box)', why: 'Isola luz, cheiro e clima. O tamanho define todo o resto.' },
     { id: 'led',     item: 'Luz LED de potência real',    why: 'Veja o consumo na tomada, não o número do anúncio.' },
     { id: 'exaustor',item: 'Exaustor + filtro de carvão', why: 'Tira calor, renova o ar e segura o cheiro.' },
     { id: 'duto',    item: 'Duto e abraçadeiras',         why: 'Leva o ar filtrado para fora do cômodo.' },
@@ -151,7 +153,7 @@ window.IGL_DATA = {
       label: 'Pó branco sobre as folhas',
       cause: 'Oídio (mofo branco)',
       why: 'Um fungo que adora ar úmido e parado. Começa em manchinhas brancas e se espalha rápido.',
-      steps: ['Remova as folhas mais atacadas e descarte fora da tenda.', 'Melhore a circulação com ventilador interno e exaustão.', 'Baixe a umidade e confira o clima.', 'No vegetativo, há produtos à base de bicarbonato de potássio ou enxofre. Nunca aplique nos buds.'],
+      steps: ['Remova as folhas mais atacadas e descarte fora da estufa.', 'Melhore a circulação com ventilador interno e exaustão.', 'Baixe a umidade e confira o clima.', 'No vegetativo, há produtos à base de bicarbonato de potássio ou enxofre. Nunca aplique nos buds.'],
       notThis: 'Se sai com um pano úmido e não volta, pode ser só poeira ou resíduo de água.',
       tech: 'Fungo de superfície favorecido por umidade alta, pouca circulação e variação de temperatura.',
       guides: ['pragas-mofo'], calc: { href: '#clima', label: 'Calculadora de clima' }
@@ -181,7 +183,7 @@ window.IGL_DATA = {
       label: 'Mofo cinza dentro dos buds',
       cause: 'Mofo cinza (botrytis)',
       why: 'Um fungo que apodrece o bud por dentro, em buds densos com umidade alta. Às vezes começa como uma folhinha seca no meio do bud.',
-      steps: ['Corte a parte afetada com folga, com tesoura limpa, e descarte fora da tenda. Não dá para aproveitar.', 'Baixe a umidade para menos de 50% e aumente a ventilação.', 'Confira os outros buds todos os dias até a colheita.'],
+      steps: ['Corte a parte afetada com folga, com tesoura limpa, e descarte fora da estufa. Não dá para aproveitar.', 'Baixe a umidade para menos de 50% e aumente a ventilação.', 'Confira os outros buds todos os dias até a colheita.'],
       notThis: 'Pistilos alaranjados e secos são normais no fim da floração.',
       tech: 'Botrytis cinerea: favorecido por umidade acima de 60% e pouca circulação nos buds.',
       guides: ['pragas-mofo'], calc: { href: '#clima', label: 'Calculadora de clima' }
@@ -189,25 +191,26 @@ window.IGL_DATA = {
   ],
 
   /* Equipamentos.
-     Quando tiver links de afiliado: troque officialUrl/amazonUrl pelo link
-     e marque officialAffiliate/amazonAffiliate como true. Cupom real vai em
-     coupon: 'CODIGO'. O aviso de afiliado aparece sozinho. */
+     Quando tiver links de afiliado: troque officialUrl/amazonUrl/mlUrl pelo
+     link e marque officialAffiliate/amazonAffiliate/mlAffiliate como true.
+     Cupom real vai em coupon: 'CODIGO'. Preço em reais (opcional) vai em
+     priceBRL: 'R$ 1.200 – 1.500'. O aviso de afiliado aparece sozinho. */
   hardware: [
     {
       id: 'vivosun-vsfd6500',
       category: 'luz',
       categoryLabel: 'Luz LED + ventilação',
       brand: 'Vivosun',
-      model: 'AeroLight Wing / kit de tenda inteligente',
+      model: 'AeroLight Wing / kit de estufa inteligente',
       tentFit: ['120x60', '120x120'],
       why: 'Gasta pouca energia e esquenta pouco.',
-      specs: [['Potência', '400 a 450 W reais'], ['Cobertura', 'Tendas de 120×60 e 120×120 cm'], ['Destaque', 'Chips Samsung e ventilador embutido no centro da luz']],
-      priceRange: 'US$ 389 – 469',
+      specs: [['Potência', '400 a 450 W reais'], ['Cobertura', 'Estufas de 120×60 e 120×120 cm'], ['Destaque', 'Chips Samsung e ventilador embutido no centro da luz']],
       coupon: null,
       officialAffiliate: false,
       amazonAffiliate: false,
       officialUrl: 'https://vivosun.com/',
-      amazonUrl: 'https://www.amazon.com/s?k=Vivosun+AeroLight+LED+Grow+Light'
+      amazonUrl: 'https://www.amazon.com.br/s?k=Vivosun+AeroLight+LED+Grow+Light',
+      mlUrl: 'https://lista.mercadolivre.com.br/vivosun-aerolight-led-grow-light'
     },
     {
       id: 'spiderfarmer-se5000',
@@ -216,14 +219,14 @@ window.IGL_DATA = {
       brand: 'Spider Farmer',
       model: 'SE5000 480 W (6 barras Samsung)',
       tentFit: ['120x120'],
-      why: 'Espalha a luz por igual, até nos cantos da tenda.',
-      specs: [['Potência', '480 W reais, com dimmer'], ['Cobertura', 'Tenda de 120×120 cm'], ['Destaque', 'Chips Samsung LM301H Evo']],
-      priceRange: 'US$ 459 – 519',
+      why: 'Espalha a luz por igual, até nos cantos da estufa.',
+      specs: [['Potência', '480 W reais, com dimmer'], ['Cobertura', 'Estufa de 120×120 cm'], ['Destaque', 'Chips Samsung LM301H Evo']],
       coupon: null,
       officialAffiliate: false,
       amazonAffiliate: false,
       officialUrl: 'https://www.spider-farmer.com/',
-      amazonUrl: 'https://www.amazon.com/s?k=Spider+Farmer+SE5000'
+      amazonUrl: 'https://www.amazon.com.br/s?k=Spider+Farmer+SE5000',
+      mlUrl: 'https://lista.mercadolivre.com.br/spider-farmer-se5000'
     },
     {
       id: 'acinfinity-cloudline-t6',
@@ -233,13 +236,13 @@ window.IGL_DATA = {
       model: 'Cloudline Pro T6 + controlador 69 Pro',
       tentFit: ['90x90', '120x120', '150x150'],
       why: 'Silencioso o bastante para dormir no mesmo quarto.',
-      specs: [['Potência', '40 W, até 683 m³/h'], ['Cobertura', 'Tendas de 90×90 a 150×150 cm'], ['Destaque', 'Acelera sozinho quando a tenda esquenta']],
-      priceRange: 'US$ 149 – 169',
+      specs: [['Potência', '40 W, até 683 m³/h'], ['Cobertura', 'Estufas de 90×90 a 150×150 cm'], ['Destaque', 'Acelera sozinho quando a estufa esquenta']],
       coupon: null,
       officialAffiliate: false,
       amazonAffiliate: false,
       officialUrl: 'https://acinfinity.com/',
-      amazonUrl: 'https://www.amazon.com/s?k=AC+Infinity+Cloudline+Pro+T6'
+      amazonUrl: 'https://www.amazon.com.br/s?k=AC+Infinity+Cloudline+Pro+T6',
+      mlUrl: 'https://lista.mercadolivre.com.br/ac-infinity-cloudline-pro-t6'
     },
     {
       id: 'pulse-pro-monitor',
@@ -247,15 +250,15 @@ window.IGL_DATA = {
       categoryLabel: 'Monitor pelo celular',
       brand: 'Pulse Grow',
       model: 'Pulse One / Pulse Pro (Wi-Fi)',
-      tentFit: ['60x60', '120x60', '90x90', '120x120', '150x150'],
-      why: 'Avisa no celular se a luz falhar ou a tenda esquentar.',
-      specs: [['Conexão', 'Wi-Fi, com bateria para quedas de energia'], ['Cobertura', 'Qualquer tamanho de tenda'], ['Destaque', 'Mostra o VPD pronto na tela']],
-      priceRange: 'US$ 199 – 499',
+      tentFit: ['40x40', '60x60', '80x80', '120x60', '90x90', '120x120', '150x150'],
+      why: 'Avisa no celular se a luz falhar ou a estufa esquentar.',
+      specs: [['Conexão', 'Wi-Fi, com bateria para quedas de energia'], ['Cobertura', 'Qualquer tamanho de estufa'], ['Destaque', 'Mostra o VPD pronto na tela']],
       coupon: null,
       officialAffiliate: false,
       amazonAffiliate: false,
       officialUrl: 'https://pulsegrow.com/',
-      amazonUrl: 'https://www.amazon.com/s?k=Pulse+One+Grow+Room+Monitor'
+      amazonUrl: 'https://www.amazon.com.br/s?k=Pulse+One+Grow+Room+Monitor',
+      mlUrl: 'https://lista.mercadolivre.com.br/pulse-one-grow-room-monitor'
     },
     {
       id: 'buildasoil-living-soil',
@@ -263,15 +266,15 @@ window.IGL_DATA = {
       categoryLabel: 'Terra orgânica viva',
       brand: 'BuildASoil',
       model: 'Kit terra viva 3.0 + Craft Blend',
-      tentFit: ['60x60', '120x60', '90x90', '120x120', '150x150'],
+      tentFit: ['40x40', '60x60', '80x80', '120x60', '90x90', '120x120', '150x150'],
       why: 'Só regar com água: sem medir pH nem misturar fertilizante.',
       specs: [['Tipo', 'Terra com vida microbiana que alimenta a planta'], ['Uso', 'Vasos grandes de feltro ou canteiros'], ['Destaque', 'Orgânico: difícil queimar a planta por excesso']],
-      priceRange: 'US$ 65 – 240',
       coupon: null,
       officialAffiliate: false,
       amazonAffiliate: false,
       officialUrl: 'https://buildasoil.com/',
-      amazonUrl: 'https://www.amazon.com/s?k=BuildASoil+Craft+Blend'
+      amazonUrl: 'https://www.amazon.com.br/s?k=BuildASoil+Craft+Blend',
+      mlUrl: 'https://lista.mercadolivre.com.br/buildasoil-craft-blend'
     },
     {
       id: 'clickandgrow-sg9',
@@ -279,15 +282,15 @@ window.IGL_DATA = {
       categoryLabel: 'Horta automática',
       brand: 'Click & Grow',
       model: 'Smart Garden 9 Pro',
-      tentFit: ['60x60'],
+      tentFit: ['40x40', '60x60'],
       why: 'Rega e ilumina sozinha. Água uma vez a cada 3 semanas.',
       specs: [['Potência', '13 W'], ['Capacidade', '9 mudas (ervas, pimentas, tomates)'], ['Destaque', 'Liga e desliga a luz automaticamente']],
-      priceRange: 'US$ 229 – 289',
       coupon: null,
       officialAffiliate: false,
       amazonAffiliate: false,
       officialUrl: 'https://www.clickandgrow.com/',
-      amazonUrl: 'https://www.amazon.com/s?k=Click+and+Grow+Smart+Garden+9'
+      amazonUrl: 'https://www.amazon.com.br/s?k=Click+and+Grow+Smart+Garden+9',
+      mlUrl: 'https://lista.mercadolivre.com.br/click-and-grow-smart-garden-9'
     }
   ],
 
@@ -303,7 +306,7 @@ window.IGL_DATA = {
       calc: { href: '#luz', label: 'Calculadora de luz' },
       hw: 'spiderfarmer-se5000',
       html: `
-        <p>A primeira decisão do cultivo não é a luz nem a tenda: é o tipo de planta. A diferença está em <strong>quem decide a hora de florescer</strong>.</p>
+        <p>A primeira decisão do cultivo não é a luz nem a estufa: é o tipo de planta. A diferença está em <strong>quem decide a hora de florescer</strong>.</p>
 
         <h3>1. A diferença em uma frase</h3>
         <ul>
@@ -337,7 +340,7 @@ window.IGL_DATA = {
 
         <h3>Erros comuns</h3>
         <ul>
-          <li><strong>Misturar as duas na mesma tenda.</strong> Quando a foto precisar de 12 h, a auto perde luz.</li>
+          <li><strong>Misturar as duas na mesma estufa.</strong> Quando a foto precisar de 12 h, a auto perde luz.</li>
           <li><strong>Podar a auto como se fosse foto.</strong> Ela não tem tempo de se recuperar e rende menos.</li>
         </ul>`
     },
@@ -440,7 +443,7 @@ window.IGL_DATA = {
 
         <h3>Erros comuns</h3>
         <ul>
-          <li><strong>Regar por calendário</strong> (“toda segunda e quinta”). A sede muda com o tamanho da planta, a fase e o clima da tenda.</li>
+          <li><strong>Regar por calendário</strong> (“toda segunda e quinta”). A sede muda com o tamanho da planta, a fase e o clima da estufa.</li>
           <li><strong>Vaso grande para muda pequena.</strong> A terra demora demais para secar. Comece num copo ou vaso pequeno e transplante depois.</li>
           <li><strong>Prato cheio embaixo do vaso.</strong> Esvazie depois de 15 minutos, senão a raiz fica de molho.</li>
         </ul>`
@@ -502,19 +505,19 @@ window.IGL_DATA = {
       readTime: '6 min',
       title: 'Pragas e mofo: como prevenir e o que fazer quando aparecem',
       excerpt: 'Ácaros, mosquinhas, oídio e mofo cinza. Como reconhecer cada um e por que prevenir dá muito menos trabalho do que tratar.',
-      summary: 'Prevenção é clima certo, ar circulando, tenda limpa e uma olhada semanal no verso das folhas. Na floração, nada de spray nos buds.',
+      summary: 'Prevenção é clima certo, ar circulando, estufa limpa e uma olhada semanal no verso das folhas. Na floração, nada de spray nos buds.',
       calc: { href: '#clima', label: 'Calculadora de clima' },
       hw: 'pulse-pro-monitor',
       html: `
-        <p>Numa tenda fechada, uma praga encontra calor, comida e nenhum predador. Por isso ela se multiplica rápido. A boa notícia: quase todas dependem de um <strong>clima errado</strong> para explodir, e isso você controla.</p>
+        <p>Numa estufa fechada, uma praga encontra calor, comida e nenhum predador. Por isso ela se multiplica rápido. A boa notícia: quase todas dependem de um <strong>clima errado</strong> para explodir, e isso você controla.</p>
 
         <h3>1. Prevenção: os cinco hábitos</h3>
         <ol>
           <li><strong>Clima na faixa certa.</strong> Ar úmido e parado traz fungo; ar quente e seco traz ácaro. Use a <a href="#clima">calculadora de clima</a>.</li>
           <li><strong>Ar sempre circulando</strong>, com um ventilador interno mexendo as folhas e o exaustor renovando o ar.</li>
-          <li><strong>Tenda limpa.</strong> Recolha folhas caídas e não deixe água parada no chão nem nos pratos.</li>
+          <li><strong>Estufa limpa.</strong> Recolha folhas caídas e não deixe água parada no chão nem nos pratos.</li>
           <li><strong>Inspeção semanal</strong> com a lupa, no verso das folhas. É ali que ácaros e tripes se escondem.</li>
-          <li><strong>Quarentena.</strong> Planta que vem de fora fica uma semana longe da tenda. Plantas do jardim também trazem pragas.</li>
+          <li><strong>Quarentena.</strong> Planta que vem de fora fica uma semana longe da estufa. Plantas do jardim também trazem pragas.</li>
         </ol>
 
         <h3>2. As mais comuns</h3>
@@ -551,16 +554,16 @@ window.IGL_DATA = {
       readTime: '4 min',
       title: 'Como escolher a luz LED certa (e não cair no golpe dos “1000 W”)',
       excerpt: 'Aquelas lâmpadas roxas baratas que dizem ter 1000 W ou 2000 W? Veja como descobrir a força real de um LED em 30 segundos.',
-      summary: 'Regra de bolso: de 30 a 35 W reais na tomada para cada 30×30 cm de tenda.',
+      summary: 'Regra de bolso: de 30 a 35 W reais na tomada para cada 30×30 cm de estufa.',
       hw: 'vivosun-vsfd6500',
       html: `
         <p>Ao procurar uma luz de cultivo, é comum achar anúncios de <strong>“LED 1000 W” ou “LED 2000 W” por um preço baixo</strong>. Nas letras miúdas, a lâmpada puxa só 80 W da tomada, e as plantas crescem esticadas, fracas e sem peso.</p>
         <h3>1. Olhe sempre o consumo real na tomada</h3>
         <p>Ignore o número do nome comercial. Procure na descrição a <strong>potência real</strong> (em inglês, <em>power draw</em> ou <em>true watts</em>):</p>
         <ul>
-          <li><strong>Tenda de 60×60 cm:</strong> 100 a 150 W reais.</li>
-          <li><strong>Tenda de 120×60 cm:</strong> 240 a 300 W reais.</li>
-          <li><strong>Tenda de 120×120 cm:</strong> 450 a 500 W reais.</li>
+          <li><strong>Estufa de 60×60 cm:</strong> 100 a 150 W reais.</li>
+          <li><strong>Estufa de 120×60 cm:</strong> 240 a 300 W reais.</li>
+          <li><strong>Estufa de 120×120 cm:</strong> 450 a 500 W reais.</li>
         </ul>
         <h3>2. Por que os painéis em barras são melhores que as placas antigas</h3>
         <p>As placas únicas concentravam a luz no centro: a planta do meio queimava e os cantos ficavam no escuro. Os modelos em <strong>barras espaçadas</strong> espalham a luz por igual e deixam o ar circular entre as barras, mantendo tudo mais fresco.</p>`
@@ -576,7 +579,7 @@ window.IGL_DATA = {
       summary: 'Vegetativo: 22–28 °C com 55–65% de umidade. Floração: 20–26 °C com 40–50%.',
       hw: 'pulse-pro-monitor',
       html: `
-        <p>Muita gente gasta com fertilizante achando que a planta está com fome, quando na verdade <strong>o clima da tenda está impedindo a planta de beber água</strong>.</p>
+        <p>Muita gente gasta com fertilizante achando que a planta está com fome, quando na verdade <strong>o clima da estufa está impedindo a planta de beber água</strong>.</p>
         <h3>1. Como a planta “bebe” e “sua”</h3>
         <p>Para puxar água e nutrientes pelas raízes, a planta precisa evaporar água pelos poros das folhas. É como você se exercitando:</p>
         <ul>
@@ -592,14 +595,14 @@ window.IGL_DATA = {
       cluster: 'ar',
       clusterLabel: 'Exaustão',
       readTime: '4 min',
-      title: 'Como segurar o cheiro e o calor da tenda sem barulho',
-      excerpt: 'Como ligar o filtro de carvão do jeito certo e o truque para a tenda ficar silenciosa.',
+      title: 'Como segurar o cheiro e o calor da estufa sem barulho',
+      excerpt: 'Como ligar o filtro de carvão do jeito certo e o truque para a estufa ficar silenciosa.',
       summary: 'Truque do silêncio: compre um exaustor um tamanho acima e use a 40–60% da força.',
       hw: 'acinfinity-cloudline-t6',
       html: `
         <p>Quem cultiva em apartamento tem duas preocupações: <strong>não deixar o cheiro escapar</strong> e <strong>não ter um motor zumbindo a noite inteira</strong>.</p>
         <h3>1. Pressão negativa: o segredo do cheiro zero</h3>
-        <p>Quando o exaustor puxa o ar de dentro da tenda através do <strong>filtro de carvão ativado</strong> e joga para fora, as paredes da tenda ficam levemente “chupadas” para dentro. É sinal de que o ar só sai depois de passar pelo carvão.</p>
+        <p>Quando o exaustor puxa o ar de dentro da estufa através do <strong>filtro de carvão ativado</strong> e joga para fora, as paredes da estufa ficam levemente “chupadas” para dentro. É sinal de que o ar só sai depois de passar pelo carvão.</p>
         <h3>2. Por que um exaustor de 150 mm é mais silencioso que um de 100 mm</h3>
         <p>Um exaustor pequeno a 100% faz barulho de vento. Um de <strong>150 mm a 40 ou 50%</strong> move o mesmo ar fazendo menos barulho que um ventilador de mesa. Confira o tamanho certo na <a href="#ar" data-close>calculadora de exaustão</a>.</p>`
     },
@@ -616,7 +619,7 @@ window.IGL_DATA = {
       html: `
         <p>Não é preciso pagar caro em lojas antigas para ter equipamento de primeira linha. Três marcas dominam as recomendações, e cada uma se destaca num ponto.</p>
         <h3>1. AC Infinity: exaustão e automação</h3>
-        <p>Para a tenda se cuidar sozinha pelo aplicativo, o conjunto <strong>Cloudline Pro + controlador 69 Pro</strong> é referência em acabamento e silêncio.</p>
+        <p>Para a estufa se cuidar sozinha pelo aplicativo, o conjunto <strong>Cloudline Pro + controlador 69 Pro</strong> é referência em acabamento e silêncio.</p>
         <h3>2. Vivosun e Spider Farmer: custo-benefício em LED</h3>
         <p>Para um painel com chips <strong>Samsung LM301H Evo</strong> ou um kit completo gastando menos, as duas entregam a mesma luz útil por um preço menor.</p>`
     },
@@ -631,7 +634,7 @@ window.IGL_DATA = {
       summary: 'Quer menos trabalho e menos erro? Terra orgânica viva. Quer velocidade máxima? Coco ou hidroponia.',
       hw: 'buildasoil-living-soil',
       html: `
-        <p>Antes de ligar a tenda, decida onde as raízes vão morar. São três caminhos, do mais fácil ao mais técnico.</p>
+        <p>Antes de ligar a estufa, decida onde as raízes vão morar. São três caminhos, do mais fácil ao mais técnico.</p>
         <h3>1. Terra orgânica viva: o mais fácil</h3>
         <p>Na terra viva completa, a comida dos 3 a 4 meses já está misturada de forma natural. <strong>Você só rega com água.</strong> Sem medir pH todo dia, sem garrafinhas de fertilizante.</p>
         <h3>2. Fibra de coco e hidroponia: para quem gosta de controle</h3>
@@ -644,15 +647,15 @@ window.IGL_DATA = {
       clusterLabel: 'Espaço',
       readTime: '4 min',
       title: 'Cultivo discreto em apartamento: 2 a 3 plantas em 120×60 cm',
-      excerpt: 'Por que a tenda retangular, que cabe no canto do quarto, virou a mais vendida do mundo.',
-      summary: 'Tenda de 120×60 cm + LED de 240–300 W + exaustor silencioso: colheita boa no espaço de uma cômoda.',
+      excerpt: 'Por que a estufa retangular, que cabe no canto do quarto, virou a mais vendida do mundo.',
+      summary: 'Estufa de 120×60 cm + LED de 240–300 W + exaustor silencioso: colheita boa no espaço de uma cômoda.',
       hw: 'clickandgrow-sg9',
       html: `
-        <p>Não é preciso um quarto vazio para cultivar bem. O formato que mais cresce hoje é a <strong>tenda de 120 cm de largura por 60 cm de fundo</strong>.</p>
-        <h3>1. Por que 120×60 é mais prática que uma tenda quadrada grande</h3>
+        <p>Não é preciso um quarto vazio para cultivar bem. O formato que mais cresce hoje é a <strong>estufa de 120 cm de largura por 60 cm de fundo</strong>.</p>
+        <h3>1. Por que 120×60 é mais prática que uma estufa quadrada grande</h3>
         <p>Com <strong>60 cm de fundo</strong>, a mesma profundidade de um guarda-roupa, ela não atrapalha a passagem e todas as plantas ficam ao alcance quando você abre o zíper.</p>
         <h3>2. E na bancada da cozinha?</h3>
-        <p>Para temperos, pimentas ou mudas sem tenda, hortas automáticas como a <strong>Click & Grow Smart Garden 9</strong> fazem tudo sozinhas.</p>`
+        <p>Para temperos, pimentas ou mudas sem estufa, hortas automáticas como a <strong>Click & Grow Smart Garden 9</strong> fazem tudo sozinhas.</p>`
     }
   ]
 };

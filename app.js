@@ -76,11 +76,13 @@
      NÍVEL DO LEITOR E TEMA
      ------------------------------------------------------------------ */
   const LEVEL_NAMES = { 1: 'Nunca plantei', 2: 'Já fiz um ciclo', 3: 'Quero otimizar' };
+  const LEVEL_SHORT = { 1: 'Iniciante', 2: 'Intermediário', 3: 'Avançado' };
 
   function applyLevel(v) {
     S.level = v;
     document.documentElement.dataset.level = v;
-    setText('#level-chip-text', LEVEL_NAMES[v]);
+    setText('#level-chip-text', LEVEL_SHORT[v]);
+    $('.level-chip').title = `Nível: ${LEVEL_NAMES[v]}. Toque para mudar.`;
     const radio = $(`input[name="level"][value="${v}"]`);
     if (radio) radio.checked = true;
     $$('details.math').forEach(d => { d.open = v === '3'; });
@@ -174,9 +176,12 @@
     { f: 0.5, n: 7, s: 1.05 }, { f: 0.62, n: 7, s: 1.0 }, { f: 0.73, n: 5, s: 0.86 }, { f: 0.83, n: 5, s: 0.7 }
   ];
 
-  const seed = el('g', {}, plantG);
-  el('path', { d: 'M200 446 q-2 12 3 22 m-3 -22 q4 8 -5 16', class: 'root' }, seed);
+  const seed = el('g', {}, $('#seed-layer'));
+  const rootPath = el('path', { d: 'M200 446 q-3 14 2 26 q3 10 -2 20 M201 458 q7 6 9 14 M199 466 q-8 5 -10 12', class: 'root' }, seed);
   el('ellipse', { cx: 200, cy: 444, rx: 6, ry: 4.2, class: 'seed', transform: 'rotate(-20 200 444)' }, seed);
+  const ROOT_LEN = rootPath.getTotalLength();
+  rootPath.style.strokeDasharray = ROOT_LEN;
+  seed.setAttribute('transform', 'translate(200 444) scale(1.35) translate(-200 -444)');
 
   const coty = [-1, 1].map(side => {
     const g = el('g', {}, plantG);
@@ -198,7 +203,8 @@
   function renderPlant(g, b) {
     stem.style.strokeDashoffset = STEM_LEN * (1 - clamp(g));
     stem.style.strokeWidth = (1.6 + 4.2 * g).toFixed(2);
-    seed.style.opacity = 1 - clamp((g - 0.02) / 0.05);
+    seed.style.opacity = 1 - clamp((g - 0.06) / 0.05);
+    rootPath.style.strokeDashoffset = ROOT_LEN * (1 - clamp(g / 0.06));
 
     const base = stem.getPointAtLength(0.035 * STEM_LEN);
     const cs = easeOut(clamp((g - 0.02) / 0.05)) * (1 - clamp((g - 0.4) / 0.2) * 0.5);
@@ -253,7 +259,7 @@
   const stages = $$('.stage', cycle);
   const railBtns = $$('#rail-steps button');
   const N = stages.length;
-  const G_KEYS = [0, 0.1, 0.32, 0.68, 1, 1, 1];
+  const G_KEYS = [0.004, 0.1, 0.32, 0.68, 1, 1, 1];
   const growthAt = p => { const x = p * N, i = Math.min(N - 1, Math.floor(x)); return lerp(G_KEYS[i], G_KEYS[i + 1], easeOut(x - i)); };
   const budsAt = p => clamp((p * N - 3.15) / 1.1);
 
@@ -556,7 +562,8 @@
       <p><b>DLI</b> (luz total do dia, em mol/m²/dia)<br>DLI = PPFD × horas × 3600 ÷ 1.000.000</p>
       <p>${ppfd} × ${hours} × 3600 ÷ 1.000.000 = <b>${fmt(dli, 1)} mol/m²/dia</b></p>
       <p>Alvo para ${ph.label.toLowerCase()}${co2 ? ' com CO₂' : ''}: ${dMin}–${dMax}<br>
-         PPFD para o meio da faixa com ${hours} h: <b>${fmtInt(needPpfd)}</b></p>`;
+         PPFD para o meio da faixa com ${hours} h: <b>${fmtInt(needPpfd)}</b></p>
+      <p class="math__src">Fontes: Faust e Logan (2018), “Daily Light Integral: A Research Review”, <i>HortScience</i> 53(9). Rodriguez-Morrison, Llewellyn e Zheng (2021), resposta da cannabis a níveis crescentes de luz, <i>Frontiers in Plant Science</i> 12.</p>`;
 
     S.dli = dli; S.luzOk = state === 'ok' && !(S.phase === 'flor' && !S.auto && hours !== 12);
   }
@@ -633,7 +640,8 @@
          SVP da folha (${fmt(t + off)} °C) = <b>${fmt(sLeaf, 3)} kPa</b><br>
          Vapor real no ar = ${fmt(sAir, 3)} × ${h}% = <b>${fmt(vpAir, 3)} kPa</b></p>
       <p><b>VPD da folha</b> = ${fmt(sLeaf, 3)} − ${fmt(vpAir, 3)} = <b>${fmt(vpd, 2)} kPa</b><br>
-         Alvo para ${D.phases[S.phase].label.toLowerCase()}: ${fmt(vMin)}–${fmt(vMax)} kPa</p>`;
+         Alvo para ${D.phases[S.phase].label.toLowerCase()}: ${fmt(vMin)}–${fmt(vMax)} kPa</p>
+      <p class="math__src">Fórmula de Tetens, na forma de Murray (1967), “On the computation of saturation vapor pressure”, <i>Journal of Applied Meteorology</i> 6. As faixas de VPD por fase são as usadas na prática de cultivo indoor.</p>`;
 
     S.vpd = vpd; S.climaOk = vstate === 'ok'; S.climaWord = word;
   }
@@ -644,9 +652,9 @@
      ------------------------------------------------------------------ */
   const diag = $('#ar-diagram');
   const ductG = el('g', {}, diag);
-  // tenda
+  // estufa
   el('rect', { x: 24, y: 24, width: 190, height: 160, rx: 2, class: 'tent-box' }, diag);
-  el('text', { x: 119, y: 176, 'text-anchor': 'middle', class: 'diagram-txt' }, diag).textContent = 'tenda';
+  el('text', { x: 119, y: 176, 'text-anchor': 'middle', class: 'diagram-txt' }, diag).textContent = 'estufa';
   // entrada de ar
   [140, 156].forEach(y => el('path', { d: `M4 ${y} h28 m-6 -5 l6 5 l-6 5`, class: 'inlet' }, diag));
   el('text', { x: 36, y: 128, class: 'diagram-txt' }, diag).textContent = 'ar entra';
@@ -702,7 +710,7 @@
     setText('#out-bends', bends === 0 ? 'nenhuma' : String(bends));
     setText('#out-ach', ach === 1 ? '1 por minuto' : `${fmt(ach)} por minuto`);
     tweenNumber($('#ar-flow'), need, v => fmtInt(v));
-    setText('#ar-body', `Para trocar todo o ar da tenda ${ach === 1 ? 'uma vez' : fmt(ach) + ' vezes'} por minuto, já contando ${filter ? 'o filtro' : 'sem filtro'} e ${bends === 0 ? 'duto reto' : bends + (bends === 1 ? ' curva' : ' curvas')}.`);
+    setText('#ar-body', `Para trocar todo o ar da estufa ${ach === 1 ? 'uma vez' : fmt(ach) + ' vezes'} por minuto, já contando ${filter ? 'o filtro' : 'sem filtro'} e ${bends === 0 ? 'duto reto' : bends + (bends === 1 ? ' curva' : ' curvas')}.`);
     setText('#ar-action', pct <= 70
       ? `Exaustor de ${pick.size} rodando a cerca de ${pct}% da força: folga e silêncio.`
       : `Mesmo o exaustor de ${pick.size} vai trabalhar a ${pct}% da força. Reduza curvas ou use dois exaustores.`);
@@ -918,11 +926,12 @@
         <dl class="hw__specs lvl-2">${h.specs.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
       </div>`}
       <div class="hw__side">
-        <p class="hw__price">${esc(h.priceRange)}</p>
-        <span class="fit ${fits ? 'is-fit' : ''}">${fits ? `Serve na sua tenda de ${D.tents[S.tent].label}` : 'Feito para outros tamanhos'}</span>
+        ${h.priceBRL ? `<p class="hw__price">${esc(h.priceBRL)}</p>` : ''}
+        <span class="fit ${fits ? 'is-fit' : ''}">${fits ? `Serve no seu grow de ${D.tents[S.tent].label}` : 'Feito para outros tamanhos'}</span>
         <div class="hw__actions">
-          ${shopLink(h.officialUrl, h.officialAffiliate, 'Loja oficial', true)}
-          ${h.amazonUrl ? shopLink(h.amazonUrl, h.amazonAffiliate, 'Ver na Amazon', false) : ''}
+          ${shopLink(h.officialUrl, h.officialAffiliate, 'Site oficial', true)}
+          ${h.amazonUrl ? shopLink(h.amazonUrl, h.amazonAffiliate, 'Amazon Brasil', false) : ''}
+          ${h.mlUrl ? shopLink(h.mlUrl, h.mlAffiliate, 'Mercado Livre', false) : ''}
         </div>
         ${h.coupon ? `<button type="button" class="coupon" data-coupon="${esc(h.coupon)}" data-brand="${esc(h.brand)}">Cupom ${esc(h.coupon)} · copiar</button>` : ''}
       </div>`;
@@ -940,10 +949,10 @@
     hwKey = key;
     const onlyFit = $('#hw-fit').checked;
     const list = D.hardware.filter(h => (hwCat === 'all' || h.category === hwCat) && (!onlyFit || h.tentFit.includes(S.tent)));
-    $('#hw-disclosure').hidden = !D.hardware.some(h => h.officialAffiliate || h.amazonAffiliate || h.coupon);
+    $('#hw-disclosure').hidden = !D.hardware.some(h => h.officialAffiliate || h.amazonAffiliate || h.mlAffiliate || h.coupon);
     $('#hw-list').innerHTML = list.length
       ? list.map((h, i) => `<article class="hw" style="animation-delay:${i * 50}ms">${hwCard(h)}</article>`).join('')
-      : '<p class="empty">Nenhuma indicação para esse filtro e tamanho de tenda.</p>';
+      : '<p class="empty">Nenhuma indicação para esse filtro e tamanho de grow.</p>';
   }
 
   $('#hw-filters').addEventListener('click', e => {
@@ -1122,7 +1131,7 @@
           <li><a href="#luz"><span>03</span>Luz</a></li>
           <li><a href="#clima"><span>04</span>Temperatura</a></li>
         </ul>
-        <p class="diag__hint">Escolha ao lado o que você está vendo.</p>`;
+        <p class="diag__hint">Escolha o sintoma que você está vendo.</p>`;
       return;
     }
     const links = d.guides.map(guideById).filter(Boolean)
@@ -1179,9 +1188,9 @@
      ------------------------------------------------------------------ */
   function updateSetup() {
     setText('#s-tent', D.tents[S.tent].label.replace(' cm', ''));
-    setText('#s-luz', S.level === '1' ? (S.luzOk ? 'ok' : 'ajustar') : `DLI ${fmtInt(S.dli)}`);
+    setText('#s-luz', S.level === '1' ? (S.luzOk ? 'Luz ok' : 'Luz: ajustar') : `DLI ${fmtInt(S.dli)}`);
     $('#s-luz-dot').classList.toggle('warn', !S.luzOk);
-    setText('#s-clima', S.level === '1' ? (S.climaOk ? 'ok' : 'ajustar') : `${fmt(S.vpd, 2)} kPa`);
+    setText('#s-clima', S.level === '1' ? (S.climaOk ? 'Clima ok' : 'Clima: ajustar') : `${fmt(S.vpd, 2)} kPa`);
     $('#s-clima-dot').classList.toggle('warn', !S.climaOk);
     setText('#s-ar', `${fmtInt(S.need)} m³/h`);
     setText('#s-en', `${S.month}/mês`);
@@ -1288,6 +1297,12 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { rootMargin: '0px 0px -10% 0px' });
   $$('[data-reveal]').forEach(n => io.observe(n));
+  const revealIn = sel => {
+    const t = sel && sel.length > 1 && document.getElementById(sel.slice(1));
+    if (t) [t, ...t.querySelectorAll('[data-reveal]')].forEach(n => { n.classList.add('in'); io.unobserve(n); });
+  };
+  document.addEventListener('click', e => { const a = e.target.closest('a[href^="#"]'); if (a) revealIn(a.getAttribute('href')); });
+  revealIn(location.hash);
 
   /* ------------------------------------------------------------------
      INÍCIO

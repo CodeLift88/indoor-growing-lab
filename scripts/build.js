@@ -155,7 +155,7 @@ function page(g) {
       ${g.calc ? `<a class="aside-card aside-card--calc" href="../index.html${g.calc.href}">
         <span class="kicker">Faça a conta</span>
         <span class="aside-card__title">${esc(g.calc.label)} <span aria-hidden="true">→</span></span>
-        <span class="aside-card__desc">Coloque os números da sua tenda e veja o resultado na hora.</span>
+        <span class="aside-card__desc">Coloque os números do seu grow e veja o resultado na hora.</span>
       </a>` : ''}
       ${hw ? `<div class="aside-card">
         <span class="kicker">Equipamento citado</span>
