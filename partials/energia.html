@@ -1,0 +1,95 @@
+<section class="calc" id="energia" aria-labelledby="energia-title">
+    <header class="sec-head" data-reveal>
+      <p class="kicker">Cronograma e conta de luz</p>
+      <h2 class="sec-head__title" id="energia-title">Quando colhe e quanto <em>custa?</em></h2>
+      <p class="sec-head__lead">Coloque a data de início e veja o calendário do cultivo inteiro, com o custo de luz de cada semana.</p>
+    </header>
+
+    <div class="calc__grid">
+      <form class="controls" id="energia-form" data-reveal onsubmit="return false">
+        <div class="ctl">
+          <div class="ctl__row"><label class="ctl__label" for="in-start">Dia de pôr a semente para germinar</label><button type="button" class="linkish" id="start-today">hoje</button></div>
+          <input type="date" id="in-start" class="date" />
+        </div>
+        <fieldset class="seg seg--2" data-bind="kind">
+          <legend class="ctl__label">Tipo de planta</legend>
+          <div class="seg__opts">
+            <label><input type="radio" name="kind-en" value="foto" checked /><span>Fotoperiódica</span></label>
+            <label><input type="radio" name="kind-en" value="auto" /><span>Autoflorescente</span></label>
+          </div>
+          
+        </fieldset>
+
+        <div class="ctl">
+          <div class="ctl__row"><label class="ctl__label" for="in-watts">Potência do LED</label><output class="ctl__val" id="out-watts" for="in-watts">500 W</output></div>
+          <input type="range" id="in-watts" min="50" max="1500" step="10" value="500" />
+          <p class="ctl__help">Começa com o valor sugerido para o seu grow.</p>
+        </div>
+
+        <div class="ctl">
+          <div class="ctl__row"><label class="ctl__label" for="in-extra">Exaustor, ventilador e outros</label><output class="ctl__val" id="out-extra" for="in-extra">60 W</output></div>
+          <input type="range" id="in-extra" min="0" max="300" step="5" value="60" />
+          <p class="ctl__help">Ficam ligados 24 h por dia.</p>
+        </div>
+
+        <div class="ctl">
+          <div class="ctl__row"><label class="ctl__label" for="in-veg">Semanas de vegetativo</label><output class="ctl__val" id="out-veg" for="in-veg">4 semanas</output></div>
+          <input type="range" id="in-veg" min="3" max="8" step="1" value="4" />
+        </div>
+
+        <div class="ctl ctl--pair">
+          <div class="ctl__grow">
+            <div class="ctl__row"><label class="ctl__label" for="in-tariff">Tarifa por kWh</label><output class="ctl__val" id="out-tariff" for="in-tariff">R$ 0,85</output></div>
+            <input type="range" id="in-tariff" min="0.10" max="2.50" step="0.05" value="0.85" />
+          </div>
+          <label class="select">
+            <span class="ctl__label">Moeda</span>
+            <select id="in-currency">
+              <option value="BRL" selected>R$</option>
+              <option value="USD">US$</option>
+              <option value="EUR">€</option>
+            </select>
+          </label>
+        </div>
+      </form>
+
+      <div class="verdict verdict--kit" data-reveal aria-live="polite">
+        <p class="verdict__kicker">Colheita estimada</p>
+        <p class="verdict__word verdict__word--ink" id="en-harvest">—</p>
+        <p class="verdict__body" id="en-harvest-sub"></p>
+        <dl class="kit-specs">
+          <div><dt>Luz por mês, em média</dt><dd id="en-month">R$ 165</dd></div>
+          <div><dt>Luz no ciclo inteiro</dt><dd id="en-total">R$ 480</dd></div>
+          <div class="lvl-2"><dt>Energia no ciclo</dt><dd id="en-kwh">560 kWh</dd></div>
+          <div class="lvl-2"><dt>Calor gerado</dt><dd id="en-btu">1.910 BTU/h</dd></div>
+        </dl>
+        <p class="verdict__action" id="en-peak"></p>
+      </div>
+
+      <figure class="chart" data-reveal>
+        <svg viewBox="0 0 560 280" id="en-chart" role="img" aria-labelledby="en-cap"></svg>
+        <figcaption id="en-cap">Custo de luz de cada semana. Na muda o LED fica a ~35% da força, no vegetativo a ~75%, na floração a 100%.</figcaption>
+      </figure>
+
+      <div class="tl-wrap" data-reveal>
+        <div class="tl-head">
+          <p class="ctl__label">Seu calendário</p>
+          <button type="button" class="btn btn--primary btn--sm" id="ics-btn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M4 10h16M9 3v4M15 3v4" /></svg>
+            Adicionar à agenda
+          </button>
+        </div>
+        <p class="tl-help">Baixa os marcos com lembrete às 9 h. Funciona no iPhone, no Google Agenda e no Outlook.</p>
+        <ol class="timeline" id="timeline"></ol>
+        <a class="diary-cta" href="{{base}}diario.html">
+          <span class="kicker">Durante o cultivo</span>
+          <span class="diary-cta__t">Anote regas, medições e problemas no seu diário <span aria-hidden="true">→</span></span>
+        </a>
+      </div>
+
+      <details class="math lvl-2" data-reveal>
+        <summary>Ver a matemática</summary>
+        <div class="math__body" id="en-math"></div>
+      </details>
+    </div>
+  </section>

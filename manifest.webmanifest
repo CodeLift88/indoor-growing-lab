@@ -15,7 +15,7 @@
   ],
   "shortcuts": [
     { "name": "Meu diário", "url": "diario.html" },
-    { "name": "Calendário", "url": "./#energia" },
-    { "name": "Diagnóstico", "url": "./#diagnostico" }
+    { "name": "Calendário", "url": "calculadoras/calendario.html" },
+    { "name": "Diagnóstico", "url": "diagnostico.html" }
   ]
 }

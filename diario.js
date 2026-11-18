@@ -60,7 +60,7 @@
         ? { k: 'Próximo marco', v: w.next.title, s: `${inDays(daysBetween(t, w.next.date))} · ${fmtDate(w.next.date)}`, small: true }
         : { k: 'Próximo marco', v: 'Ciclo concluído', s: 'Hora de planejar o próximo.', small: true });
     } else {
-      tiles.push({ k: 'Dia do cultivo', v: '—', s: '<a href="index.html#energia">Defina a data de início</a>', html: true });
+      tiles.push({ k: 'Dia do cultivo', v: '—', s: '<a href="calculadoras/calendario.html">Defina a data de início</a>', html: true });
     }
     const regas = entries.filter(e => e.type === 'rega').map(e => parse(e.date)).sort((a, b) => a - b);
     if (regas.length) {

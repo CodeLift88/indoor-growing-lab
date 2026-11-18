@@ -12,7 +12,6 @@
   }
 
   const D = window.IGL_DATA;
-  const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const lerp = (a, b, t) => a + (b - a) * t;
@@ -61,15 +60,65 @@
     node.classList.remove('swap'); void node.offsetWidth; node.classList.add('swap');
   }
 
+
+  /* ------------------------------------------------------------------
+     PÁGINAS SEPARADAS: cada ferramenta vive numa página, mas as contas
+     usam o setup inteiro. Campos que não estão nesta página leem o valor
+     salvo no navegador (ou o padrão), e cada mudança fica salva.
+     ------------------------------------------------------------------ */
+  const BASE = new URL('.', (document.currentScript && document.currentScript.src) || location.href).href;
+  const route = key => BASE + ((window.IGL_DATA.routes || {})[key] || 'index.html#' + key);
+  const HAS_CYCLE = !!document.getElementById('ciclo');
+  const DEFAULTS = { 'in-ppfd': '500', 'in-hours': '18', 'in-co2': false, 'in-temp': '26', 'in-rh': '60', 'in-off': '-1.5',
+    'in-filter': true, 'in-bends': '2', 'in-ach': '1', 'in-watts': '500', 'in-extra': '60', 'in-veg': '4',
+    'in-tariff': '0.85', 'in-currency': 'BRL', 'in-start': '' };
+  const RANGES = { 'in-ppfd': [100, 1500], 'in-hours': [10, 24], 'in-temp': [16, 35], 'in-rh': [30, 90], 'in-off': [-4, 2],
+    'in-bends': [0, 5], 'in-ach': [0.5, 2], 'in-watts': [50, 1500], 'in-extra': [0, 300], 'in-veg': [3, 8], 'in-tariff': [0.1, 2.5] };
+  let SAVED = {};
+  try { SAVED = JSON.parse(localStorage.getItem('igl-setup') || '{}') || {}; } catch { SAVED = {}; }
+  const persist = () => { try { localStorage.setItem('igl-setup', JSON.stringify(SAVED)); } catch { /* sem armazenamento */ } };
+  const ghosts = {};
+  function ghost(sel) {
+    if (ghosts[sel]) return ghosts[sel];
+    const id = sel.slice(1);
+    let n;
+    if (id in DEFAULTS) {
+      n = document.createElement('input');
+      n.id = id;
+      const v = SAVED[id] !== undefined ? SAVED[id] : DEFAULTS[id];
+      if (typeof DEFAULTS[id] === 'boolean') { n.type = 'checkbox'; n.checked = !!v; } else { n.value = v; }
+      if (RANGES[id]) { n.min = RANGES[id][0]; n.max = RANGES[id][1]; }
+      if (id === 'in-start') n.value = (() => { try { return localStorage.getItem('igl-start') || ''; } catch { return ''; } })();
+    } else {
+      n = document.createElement('div');
+      n.value = '';
+    }
+    return (ghosts[sel] = n);
+  }
+  const $ = (s, r = document) => r.querySelector(s) || (r === document && /^#[\w-]+$/.test(s) ? ghost(s) : null);
+  function saveInput(n) {
+    if (!n || !n.id || !(n.id in DEFAULTS) || n.id === 'in-start') return;
+    SAVED[n.id] = n.type === 'checkbox' ? n.checked : n.value;
+    persist();
+  }
+  // campos reais desta página começam com o valor salvo
+  Object.keys(DEFAULTS).forEach(id => {
+    const n = document.getElementById(id);
+    if (!n || SAVED[id] === undefined || id === 'in-start') return;
+    if (n.type === 'checkbox') n.checked = !!SAVED[id]; else n.value = SAVED[id];
+  });
+  document.addEventListener('input', e => saveInput(e.target), true);
+  document.addEventListener('change', e => saveInput(e.target), true);
+
   /* ------------------------------------------------------------------
      ESTADO COMPARTILHADO
      ------------------------------------------------------------------ */
   const S = {
     level: document.documentElement.dataset.level || '1',
-    tent: '120x120',
-    phase: 'veg',
+    tent: D.tents[SAVED.tent] ? SAVED.tent : '120x120',
+    phase: D.phases[SAVED.phase] ? SAVED.phase : 'veg',
     auto: store.get('igl-kind') === 'auto',
-    wattsTouched: false
+    wattsTouched: !!SAVED.wattsTouched
   };
 
   /* ------------------------------------------------------------------
@@ -82,7 +131,8 @@
     S.level = v;
     document.documentElement.dataset.level = v;
     setText('#level-chip-text', LEVEL_SHORT[v]);
-    $('.level-chip').title = `Nível: ${LEVEL_NAMES[v]}. Toque para mudar.`;
+    const chip = document.querySelector('.level-chip');
+    if (chip) chip.title = `Nível: ${LEVEL_NAMES[v]}. Toque para mudar.`;
     const radio = $(`input[name="level"][value="${v}"]`);
     if (radio) radio.checked = true;
     $$('details.math').forEach(d => { d.open = v === '3'; });
@@ -128,7 +178,7 @@
      ------------------------------------------------------------------ */
   const plantG = $('#plant');
   const stem = el('path', { d: 'M200 438 C205 360 194 250 200 112', class: 'stem' }, plantG);
-  const STEM_LEN = stem.getTotalLength();
+  const STEM_LEN = HAS_CYCLE ? stem.getTotalLength() : 1;
   stem.style.strokeDasharray = STEM_LEN;
 
   function leafletPath(len, wid, teeth = 16) {
@@ -179,7 +229,7 @@
   const seed = el('g', {}, $('#seed-layer'));
   const rootPath = el('path', { d: 'M200 446 q-3 14 2 26 q3 10 -2 20 M201 458 q7 6 9 14 M199 466 q-8 5 -10 12', class: 'root' }, seed);
   el('ellipse', { cx: 200, cy: 444, rx: 6, ry: 4.2, class: 'seed', transform: 'rotate(-20 200 444)' }, seed);
-  const ROOT_LEN = rootPath.getTotalLength();
+  const ROOT_LEN = HAS_CYCLE ? rootPath.getTotalLength() : 1;
   rootPath.style.strokeDasharray = ROOT_LEN;
   seed.setAttribute('transform', 'translate(200 444) scale(1.35) translate(-200 -444)');
 
@@ -191,7 +241,7 @@
 
   const nodes = NODES.map((d, i) => ({
     ...d, i,
-    pt: stem.getPointAtLength(d.f * STEM_LEN),
+    pt: HAS_CYCLE ? stem.getPointAtLength(d.f * STEM_LEN) : { x: 0, y: 0 },
     leaves: [-1, 1].map(side => ({ side, ...fanLeaf(plantG, d.n, d.s) })),
     buds: i >= 3 ? [-1, 1].map(side => ({ side, g: budCluster(plantG, false) })) : []
   }));
@@ -201,6 +251,7 @@
   const setT = (n, tx) => n.setAttribute('transform', tx);
 
   function renderPlant(g, b) {
+    if (!HAS_CYCLE) return;
     stem.style.strokeDashoffset = STEM_LEN * (1 - clamp(g));
     stem.style.strokeWidth = (1.6 + 4.2 * g).toFixed(2);
     seed.style.opacity = 1 - clamp((g - 0.06) / 0.05);
@@ -369,7 +420,8 @@
   });
   tentPicker.addEventListener('change', e => {
     S.tent = e.target.value;
-    if (!S.wattsTouched) $('#in-watts').value = D.tents[S.tent].wattsBloom;
+    SAVED.tent = S.tent; persist();
+    if (!S.wattsTouched) { $('#in-watts').value = D.tents[S.tent].wattsBloom; saveInput($('#in-watts')); }
     updateAll();
   });
 
@@ -460,6 +512,7 @@
      ------------------------------------------------------------------ */
   function setPhase(phase, fromLight) {
     S.phase = phase;
+    SAVED.phase = phase; persist();
     $$(`[data-bind="phase"] input[value="${phase}"]`).forEach(i => { i.checked = true; });
     if (fromLight !== false) applyPreset();
     updateAll();
@@ -470,6 +523,7 @@
     const autoFlor = S.auto && S.phase === 'flor';
     $('#in-ppfd').value = autoFlor ? 650 : p.ppfd;
     $('#in-hours').value = S.auto ? 18 : p.hours;
+    saveInput($('#in-ppfd')); saveInput($('#in-hours'));
   }
   $$('[data-bind="phase"]').forEach(fs => fs.addEventListener('change', e => setPhase(e.target.value)));
 
@@ -741,7 +795,7 @@
       <p><b>Vazão necessária</b> = ${fmtInt(base)} × ${fmt(mult, 2)} = <b>${fmtInt(need)} m³/h</b><br>
          Escolha: menor exaustor em que isso fica abaixo de 70% da vazão máxima.</p>`;
 
-    S.need = need;
+    S.need = need; S.fan = pick.size;
   }
   ['#in-filter', '#in-bends', '#in-ach'].forEach(s => $(s).addEventListener('input', updateAll));
 
@@ -795,7 +849,7 @@
       <li class="tl ${i < nowIdx ? 'is-past' : ''} ${i === nowIdx ? 'is-now' : ''} ${s.key ? 'is-key' : ''}">
         <span class="tl__date">${fmtDate(s.date)}</span>
         <span class="tl__body"><span class="tl__title">${esc(s.title)}${i === nowIdx ? ' <em class="tl__now">você está aqui</em>' : ''}</span>
-        <span class="tl__desc">${esc(s.desc)}${s.guide ? ` <a href="guias/${s.guide}.html">Ver guia</a>` : ''}${s.key ? ` <a class="tl__gcal" href="${esc(window.IGL_PLAN.googleLink(s, siteUrl()))}" target="_blank" rel="noopener">+ Google Agenda</a>` : ''}</span></span>
+        <span class="tl__desc">${esc(s.desc)}${s.guide ? ` <a href="${BASE}guias/${s.guide}.html">Ver guia</a>` : ''}${s.key ? ` <a class="tl__gcal" href="${esc(window.IGL_PLAN.googleLink(s, siteUrl()))}" target="_blank" rel="noopener">+ Google Agenda</a>` : ''}</span></span>
       </li>`).join('');
 
     swapWord($('#en-harvest'), fmtDate(tHarvest, true));
@@ -905,7 +959,7 @@
   ['#in-extra', '#in-veg', '#in-tariff', '#in-currency'].forEach(s => $(s).addEventListener('input', () => {
     fillRanges(); updateEnergy(); updateSetup();
   }));
-  $('#in-watts').addEventListener('input', () => { S.wattsTouched = true; fillRanges(); updateEnergy(); updateSetup(); });
+  $('#in-watts').addEventListener('input', () => { S.wattsTouched = true; SAVED.wattsTouched = true; persist(); fillRanges(); updateEnergy(); updateSetup(); });
 
   /* ------------------------------------------------------------------
      07 · EQUIPAMENTOS
@@ -989,7 +1043,7 @@
       (!q || norm(g.title + ' ' + (g.short || '') + ' ' + g.excerpt + ' ' + g.summary + ' ' + g.html.replace(/<[^>]+>/g, ' ')).includes(q)));
     $('#guide-list').innerHTML = list.map((g, i) => `
       <li class="guide" style="animation-delay:${i * 40}ms">
-        <a href="guias/${g.id}.html">
+        <a href="${BASE}guias/${g.id}.html">
           <span class="guide__n">${String(D.guides.indexOf(g) + 1).padStart(2, '0')}</span>
           <span class="guide__title">${esc(g.short || g.title)}</span>
           <span class="guide__ex">${esc(g.blurb || g.excerpt)}</span>
@@ -1126,17 +1180,17 @@
         <p class="diag__empty-title">Confira os quatro suspeitos de sempre.</p>
         <p class="verdict__body">Rega, pH, luz e temperatura explicam a maioria dos problemas. Se algum deles estiver fora, corrija primeiro e observe as folhas novas por alguns dias.</p>
         <ul class="suspects">
-          <li><a href="guias/rega.html"><span>01</span>Rega</a></li>
-          <li><a href="guias/folhas-amarelas.html"><span>02</span>pH</a></li>
-          <li><a href="#luz"><span>03</span>Luz</a></li>
-          <li><a href="#clima"><span>04</span>Temperatura</a></li>
+          <li><a href="${BASE}guias/rega.html"><span>01</span>Rega</a></li>
+          <li><a href="${BASE}guias/folhas-amarelas.html"><span>02</span>pH</a></li>
+          <li><a href="${route('luz')}"><span>03</span>Luz</a></li>
+          <li><a href="${route('clima')}"><span>04</span>Temperatura</a></li>
         </ul>
         <p class="diag__hint">Escolha o sintoma que você está vendo.</p>`;
       return;
     }
     const links = d.guides.map(guideById).filter(Boolean)
-      .map(g => `<a class="btn" href="guias/${g.id}.html">Guia: ${esc((g.short || g.title).split(':')[0])}</a>`);
-    if (d.calc) links.unshift(`<a class="btn btn--primary" href="${d.calc.href}">${esc(d.calc.label)}</a>`);
+      .map(g => `<a class="btn" href="${BASE}guias/${g.id}.html">Guia: ${esc((g.short || g.title).split(':')[0])}</a>`);
+    if (d.calc) links.unshift(`<a class="btn btn--primary" href="${route(d.calc.href.slice(1))}">${esc(d.calc.label)}</a>`);
     box.innerHTML = `
       <div class="diag__card">
         <div class="diag__head">
@@ -1195,6 +1249,13 @@
     setText('#s-ar', `${fmtInt(S.need)} m³/h`);
     setText('#s-en', `${S.month}/mês`);
     setText('#s-harvest', S.harvest);
+    const t = D.tents[S.tent];
+    setText('#t-kit', `${t.label} · LED de ${t.wattsBloom} W`);
+    setText('#t-luz', S.level === '1' ? (S.luzOk ? 'Sua luz: na medida' : 'Sua luz: ajustar') : `DLI ${fmtInt(S.dli)} · ${S.luzOk ? 'na faixa' : 'fora da faixa'}`);
+    setText('#t-clima', S.level === '1' ? `Seu clima: ${(S.climaWord || '').toLowerCase()}` : `${S.climaWord} · ${fmt(S.vpd, 2)} kPa`);
+    setText('#t-ar', `${fmtInt(S.need)} m³/h · exaustor ${S.fan || ''}`.trim());
+    setText('#t-cal', `Colheita em ${S.harvest} · ${S.month}/mês`);
+    setText('#t-hw', `Marcamos o que serve no seu grow de ${t.label}`);
   }
 
   function updateAll() {
@@ -1209,12 +1270,12 @@
   }
 
   const masthead = $('#masthead');
-  const setupBar = $('#setup');
-  const calcStart = $('#kit'), calcEnd = $('#diagnostico');
+  const setupBar = document.getElementById('setup') || document.createElement('aside');
   const navLinks = $$('#main-nav a[href^="#"]');
   const navTargets = navLinks.map(a => $(a.getAttribute('href')));
-  const setupLinks = $$('#setup a');
-  const setupTargets = setupLinks.map(a => $(a.getAttribute('href')));
+  const here = location.href.split('#')[0].split('?')[0];
+  $$('#setup a').forEach(a => a.classList.toggle('is-here', a.href === here));
+  if (!HAS_CYCLE && document.getElementById('setup')) setupBar.classList.add('is-on');
 
   let scrollTicking = false;
   function onScroll() {
@@ -1223,19 +1284,17 @@
     requestAnimationFrame(() => {
       scrollTicking = false;
       const vh = innerHeight;
-      // ciclo
-      const r = cycle.getBoundingClientRect();
-      const span = cycle.offsetHeight - vh;
-      const p = clamp(-r.top / span);
-      setStage(Math.min(N - 1, Math.floor(p * N)));
-      $('#rail-fill').style.transform = `scaleX(${p.toFixed(4)})`;
-      anim.tg = growthAt(p); anim.tb = budsAt(p);
-      if (!plantTicking) { plantTicking = true; requestAnimationFrame(plantTick); }
-      masthead.classList.toggle('on-night', r.top <= 40 && r.bottom > 40);
-
-      // barra de resumo
-      const a = calcStart.getBoundingClientRect().top, b = calcEnd.getBoundingClientRect().top;
-      setupBar.classList.toggle('is-on', a < vh * 0.6 && b > vh * 0.4);
+      // ciclo (só na home)
+      if (HAS_CYCLE) {
+        const r = cycle.getBoundingClientRect();
+        const span = cycle.offsetHeight - vh;
+        const p = clamp(-r.top / span);
+        setStage(Math.min(N - 1, Math.floor(p * N)));
+        $('#rail-fill').style.transform = `scaleX(${p.toFixed(4)})`;
+        anim.tg = growthAt(p); anim.tb = budsAt(p);
+        if (!plantTicking) { plantTicking = true; requestAnimationFrame(plantTick); }
+        masthead.classList.toggle('on-night', r.top <= 40 && r.bottom > 40);
+      }
 
       // seção atual
       const mark = vh * 0.35;
@@ -1243,10 +1302,6 @@
         const t = navTargets[i].getBoundingClientRect();
         const next = navTargets[i + 1] ? navTargets[i + 1].getBoundingClientRect().top : Infinity;
         l.classList.toggle('is-current', t.top <= mark && next > mark);
-      });
-      setupLinks.forEach((l, i) => {
-        const t = setupTargets[i].getBoundingClientRect();
-        l.classList.toggle('is-here', t.top <= mark && t.bottom > mark);
       });
     });
   }
@@ -1261,7 +1316,7 @@
     if ($('#in-co2').checked) q.set('co2', '1');
     if (!$('#in-filter').checked) q.set('f', '0');
     q.set('c', $('#in-currency').value);
-    return `${siteUrl()}?${q}#calculadoras`;
+    return `${siteUrl()}?${q}`;
   }
   // aplica um setup vindo de link; não grava nada no navegador de quem abriu
   function applyShared() {
@@ -1326,6 +1381,5 @@
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onScroll);
   onScroll();
-  anim.g = anim.tg; anim.b = anim.tb;
-  renderPlant(anim.g, anim.b);
+  if (HAS_CYCLE) { anim.g = anim.tg; anim.b = anim.tb; renderPlant(anim.g, anim.b); }
 })();

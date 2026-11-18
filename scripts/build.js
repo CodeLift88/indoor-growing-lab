@@ -40,7 +40,7 @@ function labelTables(html) {
 // links internos do conteúdo: "#clima" vira a calculadora na home, "guia:rega" vira outro guia
 function fixLinks(html) {
   return labelTables(html)
-    .replace(/href="#([a-z-]+)"/g, 'href="../index.html#$1"')
+    .replace(/href="#([a-z-]+)"/g, (m, k) => `href="../${D.routes[k] || 'index.html#' + k}"`)
     .replace(/href="guia:([a-z0-9-]+)"/g, 'href="$1.html"')
     .replace(/\s+data-close/g, '');
 }
@@ -55,13 +55,14 @@ function related(g) {
 }
 
 // moldura comum: head, cabeçalho e rodapé. base = '../' dentro de guias/, '' na raiz
-function shell({ base, file, title, desc, img, type, current, main, scripts = [], ld = null }) {
+function shell({ base, file, title, desc, img, type, current, main, scripts = [], ld = null, noGuide = false, mainClass = 'article' }) {
   const url = SITE + file;
-  const nav = [['ciclo', 'O ciclo'], ['calculadoras', 'Calculadoras'], ['diagnostico', 'Diagnóstico'], ['equipamentos', 'Equipamentos'], ['guias', 'Guias'], ['diario', 'Meu diário']];
-  const navHref = id => id === 'diario' ? `${base}diario.html` : `${base}index.html#${id}`;
+  const nav = [['ciclo', 'O ciclo'], ['ferramentas', 'Ferramentas'], ['diagnostico', 'Diagnóstico'], ['equipamentos', 'Equipamentos'], ['guias', 'Guias'], ['diario', 'Meu diário']];
+  const navHref = id => base + (D.routes[id] || `index.html#${id}`);
   const foot = [['ciclo', 'O ciclo'], ['kit', 'Espaço'], ['luz', 'Luz'], ['clima', 'Clima'], ['ar', 'Exaustão'], ['energia', 'Calendário e conta'], ['diagnostico', 'Diagnóstico'], ['equipamentos', 'Equipamentos'], ['guias', 'Guias']];
+  const footHref = id => base + (D.routes[id] || `index.html#${id}`);
   return `<!DOCTYPE html>
-<html lang="pt-BR" class="no-js">
+<html lang="pt-BR" class="no-js" data-level="1">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -89,7 +90,10 @@ function shell({ base, file, title, desc, img, type, current, main, scripts = []
   <link rel="stylesheet" href="${base}styles.css" />
   <script>
     document.documentElement.classList.replace('no-js', 'js');
-    try { var t = localStorage.getItem('igl-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    try {
+      var t = localStorage.getItem('igl-theme'); if (t) document.documentElement.dataset.theme = t;
+      var l = localStorage.getItem('igl-level'); if (l) document.documentElement.dataset.level = l;
+    } catch (e) {}
   </script>
 </head>
 <body class="page-guide">
@@ -113,7 +117,7 @@ function shell({ base, file, title, desc, img, type, current, main, scripts = []
   </div>
 </header>
 
-<main class="article" id="artigo">
+<main class="${mainClass}" id="artigo">
 ${main}
 </main>
 
@@ -123,14 +127,14 @@ ${main}
     <p class="foot__links"><a href="${base}diario.html">Meu diário</a> · <a href="${base}sobre.html">Quem somos</a> · <a href="${base}privacidade.html">Privacidade e contato</a></p>
   </div>
   <nav class="foot__nav" aria-label="Atalhos">
-    ${foot.map(([id, label]) => `<a href="${base}index.html#${id}">${label}</a>`).join('\n    ')}
+    ${foot.map(([id, label]) => `<a href="${footHref(id)}">${label}</a>`).join('\n    ')}
   </nav>
   <p class="foot__mark">Indoor Growing <em>Lab</em></p>
 </footer>
 
-<script src="${base}glossary.js"></script>
-<script src="${base}guide.js"></script>
 ${scripts.map(src => `<script src="${base}${src}"></script>`).join('\n')}
+<script src="${base}glossary.js"></script>
+${noGuide ? '' : `<script src="${base}guide.js"></script>`}
 </body>
 </html>
 `;
@@ -156,7 +160,7 @@ function page(g) {
     </div>
 
     <aside class="article__aside">
-      ${g.calc ? `<a class="aside-card aside-card--calc" href="../index.html${g.calc.href}">
+      ${g.calc ? `<a class="aside-card aside-card--calc" href="../${D.routes[g.calc.href.slice(1)] || 'index.html' + g.calc.href}">
         <span class="kicker">Faça a conta</span>
         <span class="aside-card__title">${esc(g.calc.label)} <span aria-hidden="true">→</span></span>
         <span class="aside-card__desc">Coloque os números do seu grow e veja o resultado na hora.</span>
@@ -240,11 +244,45 @@ function diaryPage() {
       <label class="btn dtools__file">Restaurar cópia<input type="file" id="d-import" accept="application/json,.json" /></label>
       <button type="button" class="btn dtools__danger" id="d-clear">Apagar tudo</button>
     </div>
-    <p class="dtools__more">A data de início e o tipo de planta vêm do <a href="index.html#energia">calendário</a>.</p>
+    <p class="dtools__more">A data de início e o tipo de planta vêm do <a href="calculadoras/calendario.html">calendário</a>.</p>
   </section>`;
   return shell({ base: '', file: 'diario.html', title: 'Diário de cultivo', desc: 'Anote regas, adubo, medições e problemas do seu cultivo. Grátis, sem cadastro, salvo só no seu navegador.', img: 'diario', type: 'website', current: 'diario', main, scripts: ['plan.js', 'diario.js'] });
 }
 
+
+
+/* Páginas das ferramentas: o trecho de partials/ dentro da moldura comum */
+const PARTIALS = path.join(ROOT, 'partials');
+const partial = (name, base) => fs.readFileSync(path.join(PARTIALS, `${name}.html`), 'utf8').replace(/\{\{base\}\}/g, base);
+const LEVELS = [['1', 'Iniciante'], ['2', 'Intermediário'], ['3', 'Avançado']];
+
+function toolPage(t, opts = {}) {
+  const base = '../'.repeat(t.file.split('/').length - 1);
+  const list = D.tools;
+  const i = list.indexOf(t);
+  const prev = i > 0 ? list[i - 1] : null;
+  const next = i >= 0 && i < list.length - 1 ? list[i + 1] : null;
+  const card = (x, dir) => x ? `<a class="tool-next__card" href="${base}${x.file}"><span class="kicker">${dir}</span><span class="tool-next__name">${esc(x.name)}</span><span class="tool-next__q">${esc(x.q)}</span></a>` : '<span></span>';
+  const main = `  <div class="tool-top">
+    <nav class="crumbs" aria-label="Você está em"><a href="${base}index.html#ferramentas">Ferramentas</a><span aria-hidden="true">/</span><span>${esc(t.name)}</span></nav>
+    <fieldset class="lvl-switch">
+      <legend class="sr-only">Nível de detalhe</legend>
+      <span class="lvl-switch__k" aria-hidden="true">Detalhe:</span>
+      ${LEVELS.map(([v, l]) => `<label><input type="radio" name="level" value="${v}"${v === '1' ? ' checked' : ''} /><span>${l}</span></label>`).join('')}
+    </fieldset>
+  </div>
+${partial(t.partial, base).replace(/<h2 class="sec-head__title"([^>]*)>([\s\S]*?)<\/h2>/, '<h1 class="sec-head__title"$1>$2</h1>')}
+  ${opts.noNext ? '' : `<nav class="tool-next" aria-label="Outras ferramentas">
+    ${card(prev, '← Anterior')}
+    <a class="tool-next__all" href="${base}index.html#ferramentas">Todas as ferramentas</a>
+    ${card(next, 'Próxima →')}
+  </nav>`}
+${opts.noSetup ? '' : partial('setup', base)}
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>`;
+  return shell({ base, file: t.file, title: t.title, desc: t.desc, img: `tool-${t.id}`, type: 'website',
+    current: opts.current || (t.id === 'diagnostico' ? 'diagnostico' : 'ferramentas'),
+    main, scripts: ['data.js', 'plan.js', 'app.js'], noGuide: true, mainClass: 'tool-page' });
+}
 
 /* Quem somos */
 function aboutPage() {
@@ -364,10 +402,13 @@ D.guides.forEach(g => fs.writeFileSync(path.join(ROOT, 'guias', `${g.id}.html`),
 fs.writeFileSync(path.join(ROOT, 'privacidade.html'), privacyPage());
 fs.writeFileSync(path.join(ROOT, 'diario.html'), diaryPage());
 fs.writeFileSync(path.join(ROOT, 'sobre.html'), aboutPage());
+fs.mkdirSync(path.join(ROOT, 'calculadoras'), { recursive: true });
+D.tools.forEach(t => fs.writeFileSync(path.join(ROOT, t.file), toolPage(t)));
+D.pages.forEach(p => fs.writeFileSync(path.join(ROOT, p.file), toolPage(p, { noNext: true, noSetup: true, current: p.current })));
 
-const urls = [SITE, ...D.guides.map(g => `${SITE}guias/${g.id}.html`), `${SITE}diario.html`, `${SITE}sobre.html`, `${SITE}privacidade.html`];
+const urls = [SITE, ...D.tools.map(t => SITE + t.file), ...D.pages.map(p => SITE + p.file), ...D.guides.map(g => `${SITE}guias/${g.id}.html`), `${SITE}diario.html`, `${SITE}sobre.html`, `${SITE}privacidade.html`];
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url><loc>${u}</loc></url>`).join('\n')}\n</urlset>\n`);
 fs.writeFileSync(path.join(ROOT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}sitemap.xml\n`);
 
-console.log(`${D.guides.length} guias gerados em guias/, diario.html, sobre.html, privacidade.html, sitemap.xml e robots.txt atualizados.`);
+console.log(`${D.tools.length} ferramentas, ${D.pages.length} página(s) extra, ${D.guides.length} guias, diario.html, sobre.html, privacidade.html, sitemap.xml e robots.txt atualizados.`);

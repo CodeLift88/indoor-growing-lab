@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://codelift88.github.io/indoor-growing-lab/</loc></url>
+  <url><loc>https://codelift88.github.io/indoor-growing-lab/calculadoras/espaco.html</loc></url>
+  <url><loc>https://codelift88.github.io/indoor-growing-lab/calculadoras/luz.html</loc></url>
+  <url><loc>https://codelift88.github.io/indoor-growing-lab/calculadoras/clima.html</loc></url>
+  <url><loc>https://codelift88.github.io/indoor-growing-lab/calculadoras/exaustao.html</loc></url>
+  <url><loc>https://codelift88.github.io/indoor-growing-lab/calculadoras/calendario.html</loc></url>
+  <url><loc>https://codelift88.github.io/indoor-growing-lab/diagnostico.html</loc></url>
+  <url><loc>https://codelift88.github.io/indoor-growing-lab/equipamentos.html</loc></url>
   <url><loc>https://codelift88.github.io/indoor-growing-lab/guias/auto-ou-foto.html</loc></url>
   <url><loc>https://codelift88.github.io/indoor-growing-lab/guias/germinacao.html</loc></url>
   <url><loc>https://codelift88.github.io/indoor-growing-lab/guias/rega.html</loc></url>

@@ -22,6 +22,8 @@ Site estático, sem framework. Funciona abrindo `index.html` direto no navegador
 | `assets/logo-mark.svg` | Favicon (símbolo claro sobre fundo escuro arredondado) |
 | `privacidade.html` | Privacidade e contato (gerada) |
 | `sobre.html` | Quem somos: Equipe Indoor Growing Lab (gerada) |
+| `partials/*.html` | Conteúdo de cada ferramenta (espaço, luz, clima, exaustão, calendário, diagnóstico, equipamentos) e a barra de resumo. Edite aqui |
+| `calculadoras/*.html`, `diagnostico.html`, `equipamentos.html` | Páginas das ferramentas (geradas a partir de `partials/`, não edite à mão) |
 | `guias/*.html` | Páginas dos guias (geradas, não edite à mão) |
 | `assets/og/*.png` | Imagens de prévia ao compartilhar links (geradas) |
 | `scripts/build.js` | Gera `guias/`, `privacidade.html`, `sitemap.xml` e `robots.txt` a partir de `data.js` |
@@ -53,6 +55,12 @@ Dentro do texto de um guia (`html`):
 Para adicionar um termo ao glossário, inclua uma linha na lista `TERMS` em `glossary.js`.
 
 Os sintomas da ferramenta de diagnóstico ficam em `diagnoses`, no `data.js`. Cada um aponta para um desenho (`illo`) definido em `app.js`.
+
+## Ferramentas em páginas separadas
+
+Cada ferramenta tem página própria. A lista fica em `tools` e `pages` no `data.js`, e os endereços em `routes`. O `app.js` é o mesmo em todas as páginas: campos que não estão na página atual usam o valor salvo no navegador (`igl-setup`), então o setup é um só em todo o site e os cartões da página inicial mostram os resultados atuais.
+
+Para mudar o conteúdo de uma ferramenta, edite `partials/<nome>.html` e rode `node scripts/build.js`. Links dentro dos partials usam `{{base}}` no começo, que o gerador troca pelo caminho certo.
 
 ## Modo app
 

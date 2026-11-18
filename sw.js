@@ -3,9 +3,11 @@
    Rede primeiro para tudo do site: quem está online sempre vê a versão nova.
    Sem internet, usa a última cópia guardada. Fontes do Google: cache primeiro.
    ========================================================================== */
-const CACHE = 'igl-v2';
+const CACHE = 'igl-v3';
 const CORE = ['./', 'index.html', 'styles.css', 'app.js', 'data.js', 'plan.js', 'glossary.js', 'guide.js',
-  'diario.html', 'diario.js', 'privacidade.html', 'assets/logo-mark.svg', 'manifest.webmanifest'];
+  'diario.html', 'diario.js', 'privacidade.html', 'diagnostico.html', 'equipamentos.html',
+  'calculadoras/espaco.html', 'calculadoras/luz.html', 'calculadoras/clima.html', 'calculadoras/exaustao.html',
+  'calculadoras/calendario.html', 'assets/logo-mark.svg', 'manifest.webmanifest'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));

@@ -79,6 +79,9 @@ function card({ title, kicker, size }) {
     { file: 'home', title: 'Do grão à colheita, sem <em>chute.</em>', kicker: 'do iniciante ao avançado', size: 112 },
     { file: 'diario', title: 'Seu diário de <em>cultivo.</em>', kicker: 'grátis · sem cadastro', size: 104 }
   ]
+    .concat(D.tools.concat(D.pages).map(t => ({
+      file: `tool-${t.id}`, title: esc(t.name), kicker: 'ferramenta gratuita', size: t.name.length > 18 ? 84 : 104
+    })))
     .concat(D.guides.map((g, i) => ({
       file: g.id,
       title: esc(g.title),

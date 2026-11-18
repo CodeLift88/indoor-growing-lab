@@ -5,6 +5,52 @@
 
 window.IGL_DATA = {
 
+  /* Endereço de cada ferramenta e seção. Os links do site saem daqui. */
+  routes: {
+    ciclo: 'index.html#ciclo',
+    ferramentas: 'index.html#ferramentas',
+    kit: 'calculadoras/espaco.html',
+    luz: 'calculadoras/luz.html',
+    clima: 'calculadoras/clima.html',
+    ar: 'calculadoras/exaustao.html',
+    energia: 'calculadoras/calendario.html',
+    diagnostico: 'diagnostico.html',
+    equipamentos: 'equipamentos.html',
+    guias: 'index.html#guias',
+    diario: 'diario.html',
+    sobre: 'sobre.html'
+  },
+
+  /* Ferramentas, na ordem em que o setup é montado. Cada uma vira uma página
+     (scripts/build.js) a partir do trecho em partials/<partial>.html */
+  tools: [
+    { id: 'kit', file: 'calculadoras/espaco.html', partial: 'kit', name: 'Espaço e kit', q: 'Que tamanho de grow você tem?',
+      title: 'Calculadora de grow: tamanho da estufa, LED e número de plantas',
+      desc: 'Escolha o tamanho da estufa e veja a potência de LED, quantas plantas cabem, o exaustor certo e a lista do primeiro cultivo.' },
+    { id: 'luz', file: 'calculadoras/luz.html', partial: 'luz', name: 'Luz do dia', q: 'Quanta luz a planta recebe?',
+      title: 'Calculadora de luz para cultivo indoor (DLI e PPFD)',
+      desc: 'Descubra se a luz do seu grow está fraca, na medida ou forte demais para cada fase, com DLI e PPFD explicados.' },
+    { id: 'clima', file: 'calculadoras/clima.html', partial: 'clima', name: 'Clima', q: 'A planta está confortável?',
+      title: 'Calculadora de VPD: temperatura e umidade ideais no grow',
+      desc: 'Coloque temperatura e umidade e veja no mapa se a planta está confortável, com o VPD da folha e o ajuste certo.' },
+    { id: 'ar', file: 'calculadoras/exaustao.html', partial: 'ar', name: 'Exaustão', q: 'Quanto ar precisa sair?',
+      title: 'Calculadora de exaustor para estufa de cultivo (m³/h)',
+      desc: 'Calcule a vazão e o tamanho de exaustor para sua estufa, contando o filtro de carvão e as curvas do duto.' },
+    { id: 'energia', file: 'calculadoras/calendario.html', partial: 'energia', name: 'Calendário e conta de luz', q: 'Quando colhe e quanto custa?',
+      title: 'Calendário de cultivo indoor e simulador da conta de luz',
+      desc: 'Monte o calendário do cultivo a partir da data de início, adicione à agenda e veja o custo de luz semana a semana.' },
+    { id: 'diagnostico', file: 'diagnostico.html', partial: 'diagnostico', name: 'Diagnóstico', q: 'O que há de errado com a planta?',
+      title: 'Diagnóstico de folhas e pragas: o que há de errado com a planta',
+      desc: 'Escolha o sintoma que você está vendo, com ilustração, e veja a causa provável e o que fazer agora.' }
+  ],
+
+  /* Outras páginas montadas a partir de partials/ */
+  pages: [
+    { id: 'equipamentos', file: 'equipamentos.html', partial: 'equipamentos', name: 'Equipamentos', current: 'equipamentos',
+      title: 'Equipamentos para cultivo indoor: o que vale a pena comprar',
+      desc: 'Luz LED, exaustores, sensores e substratos indicados em uma linha cada, marcando o que serve no seu grow.' }
+  ],
+
   /* Tamanhos de estufa. volM3 considera a altura usual de cada modelo. */
   tents: {
     '40x40':   { label: '40×40 cm',   w: 40,  d: 40,  h: 140, plants: [1, 1], areaM2: 0.16, volM3: 0.224, wattsVeg: 45,  wattsBloom: 65,  ppf: 180,  duct: '100 mm (4")' },

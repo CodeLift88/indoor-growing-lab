@@ -1,0 +1,49 @@
+<section class="calc" id="ar" aria-labelledby="ar-title">
+    <header class="sec-head" data-reveal>
+      <p class="kicker">Calculadora de exaustão</p>
+      <h2 class="sec-head__title" id="ar-title">Quanto <em>ar</em> precisa sair do grow?</h2>
+      <p class="sec-head__lead">O exaustor renova o ar, tira o calor e, com filtro de carvão, segura o cheiro. O filtro e cada curva do duto roubam força.</p>
+    </header>
+
+    <div class="calc__grid">
+      <form class="controls" id="ar-form" data-reveal onsubmit="return false">
+        <p class="bound">Grow: <strong id="ar-tent">120×120 cm</strong> · <a href="{{base}}calculadoras/espaco.html">mudar</a></p>
+
+        <label class="toggle">
+          <input type="checkbox" id="in-filter" checked />
+          <span class="toggle__ui" aria-hidden="true"></span>
+          <span><span class="toggle__title">Filtro de carvão ativado</span><span class="toggle__desc">Segura o cheiro, mas freia o ar em ~25%.</span></span>
+        </label>
+
+        <div class="ctl">
+          <div class="ctl__row"><label class="ctl__label" for="in-bends">Curvas no duto</label><output class="ctl__val" id="out-bends" for="in-bends">2</output></div>
+          <input type="range" id="in-bends" min="0" max="5" step="1" value="2" />
+          <div class="ctl__scale"><span>reto</span><span>5 curvas</span></div>
+        </div>
+
+        <div class="ctl">
+          <div class="ctl__row"><label class="ctl__label" for="in-ach">Renovação do ar</label><output class="ctl__val" id="out-ach" for="in-ach">1 por minuto</output></div>
+          <input type="range" id="in-ach" min="0.5" max="2" step="0.5" value="1" />
+          <div class="ctl__scale"><span>ambiente fresco</span><span>quarto quente</span></div>
+        </div>
+      </form>
+
+      <div class="verdict verdict--kit" data-reveal aria-live="polite">
+        <p class="verdict__kicker">Vazão necessária</p>
+        <p class="verdict__word verdict__word--ink"><span id="ar-flow">268</span> <small>m³/h</small></p>
+        <p class="verdict__body" id="ar-body"></p>
+        <p class="verdict__action" id="ar-action"></p>
+      </div>
+
+      <figure class="chart" data-reveal>
+        <svg viewBox="0 0 560 200" id="ar-diagram" role="img" aria-label="Esquema da estufa com filtro, exaustor e duto"></svg>
+        <svg viewBox="0 0 560 170" id="ar-bars" role="img" aria-labelledby="ar-cap"></svg>
+        <figcaption id="ar-cap">Capacidade de cada tamanho de exaustor. A linha marca o que o seu grow precisa; o ideal é usar até 70% da força, para o motor ficar silencioso.</figcaption>
+      </figure>
+
+      <details class="math lvl-2" data-reveal>
+        <summary>Ver a matemática</summary>
+        <div class="math__body" id="ar-math"></div>
+      </details>
+    </div>
+  </section>

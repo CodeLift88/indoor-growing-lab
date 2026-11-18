@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="no-js" data-level="1">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de luz para cultivo indoor (DLI e PPFD) · Indoor Growing Lab</title>
+  <meta name="description" content="Descubra se a luz do seu grow está fraca, na medida ou forte demais para cada fase, com DLI e PPFD explicados." />
+  <link rel="canonical" href="https://codelift88.github.io/indoor-growing-lab/calculadoras/luz.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="Indoor Growing Lab" />
+  <meta property="og:title" content="Calculadora de luz para cultivo indoor (DLI e PPFD)" />
+  <meta property="og:description" content="Descubra se a luz do seu grow está fraca, na medida ou forte demais para cada fase, com DLI e PPFD explicados." />
+  <meta property="og:url" content="https://codelift88.github.io/indoor-growing-lab/calculadoras/luz.html" />
+  <meta property="og:image" content="https://codelift88.github.io/indoor-growing-lab/assets/og/tool-luz.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#f2eee4" />
+  
+  <link rel="icon" type="image/svg+xml" href="../assets/logo-mark.svg" />
+  <link rel="manifest" href="../manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="../assets/icons/icon-180.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Instrument+Sans:wght@400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    document.documentElement.classList.replace('no-js', 'js');
+    try {
+      var t = localStorage.getItem('igl-theme'); if (t) document.documentElement.dataset.theme = t;
+      var l = localStorage.getItem('igl-level'); if (l) document.documentElement.dataset.level = l;
+    } catch (e) {}
+  </script>
+</head>
+<body class="page-guide">
+
+<a class="skip" href="#artigo">Pular para o conteúdo</a>
+
+<header class="masthead" id="masthead">
+  <a class="wordmark" href="../index.html" aria-label="Indoor Growing Lab, início"><svg class="wordmark__leaf" viewBox="5 6 90 90" aria-hidden="true"><path d="M29.8 73.2H70.2L72.6 77.2C74 79.6 74.6 81.6 74.6 84C74.6 88.4 71 91.8 66.4 91.8H33.6C29 91.8 25.4 88.4 25.4 84C25.4 81.6 26 79.6 27.4 77.2Z" fill="#d4f25a"/><path d="M40.8 47C40.8 44.5 37.4 44 37.4 40.5C37.4 38.5 38.8 37.3 41 37.3H59.4C61.6 37.3 63 38.5 63 40.5C63 44 59.6 44.5 59.6 47V54.6L73 77.2C74.4 79.6 75 81.6 75 84C75 88.4 71.4 91.8 66.8 91.8H33.6C29 91.8 25.4 88.4 25.4 84C25.4 81.6 26 79.6 27.4 77.2L40.8 54.6Z" fill="none" stroke="currentColor" stroke-width="5.6" stroke-linejoin="round"/><path d="M50.2 26.8C49.6 21 47 15 42 11.5C37.5 8.6 31 8.6 27.2 9.4C26 9.7 25.8 10.8 26 12.2C26.6 18 30 24 36 26.8C39.5 28.3 43 27.6 45.5 28.6C47.2 29.4 47.8 31 47.8 33V73.2H52.6V33.4C52.6 31.4 53.8 29.9 56.5 29.7C60 29.4 64.5 29.4 68.4 26.4C71.6 24 73.4 19 73.6 14.6C73.7 13.4 73 12.7 72 12.6C67.5 12 61 12.4 56.5 15.4C52.6 18 50.6 22.4 50.2 26.8Z" fill="currentColor"/></svg><span>Indoor Growing <em>Lab</em></span></a>
+  <nav class="masthead__nav" id="main-nav" aria-label="Seções">
+    <a href="../index.html#ciclo" class="">O ciclo</a>
+    <a href="../index.html#ferramentas" class="is-current">Ferramentas</a>
+    <a href="../diagnostico.html" class="">Diagnóstico</a>
+    <a href="../equipamentos.html" class="">Equipamentos</a>
+    <a href="../index.html#guias" class="">Guias</a>
+    <a href="../diario.html" class="nav-diary">Meu diário</a>
+  </nav>
+  <div class="masthead__tools">
+    <button type="button" class="theme-switch" id="theme-btn" role="switch" aria-checked="false" aria-label="Modo escuro" title="Mudar para o modo escuro">
+      <span class="theme-switch__thumb" aria-hidden="true"></span>
+      <svg class="theme-switch__icon theme-switch__icon--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" /></svg>
+      <svg class="theme-switch__icon theme-switch__icon--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" /></svg>
+    </button>
+    <button type="button" class="icon-btn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Abrir menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16" /></svg>
+    </button>
+  </div>
+</header>
+
+<main class="tool-page" id="artigo">
+  <div class="tool-top">
+    <nav class="crumbs" aria-label="Você está em"><a href="../index.html#ferramentas">Ferramentas</a><span aria-hidden="true">/</span><span>Luz do dia</span></nav>
+    <fieldset class="lvl-switch">
+      <legend class="sr-only">Nível de detalhe</legend>
+      <span class="lvl-switch__k" aria-hidden="true">Detalhe:</span>
+      <label><input type="radio" name="level" value="1" checked /><span>Iniciante</span></label><label><input type="radio" name="level" value="2" /><span>Intermediário</span></label><label><input type="radio" name="level" value="3" /><span>Avançado</span></label>
+    </fieldset>
+  </div>
+<section class="calc" id="luz" aria-labelledby="luz-title">
+    <header class="sec-head" data-reveal>
+      <p class="kicker">Calculadora de luz</p>
+      <h1 class="sec-head__title" id="luz-title">Quanta <em>luz</em> a planta recebe por dia?</h1>
+      <p class="sec-head__lead">A força da luz vezes o tempo ligada dá a luz total do dia. Pense numa bateria que a planta enche até a hora de apagar.</p>
+    </header>
+
+    <div class="calc__grid">
+      <form class="controls" id="luz-form" data-reveal onsubmit="return false">
+        <fieldset class="seg" data-bind="phase">
+          <legend class="ctl__label">Fase da planta</legend>
+          <div class="seg__opts">
+            <label><input type="radio" name="phase-luz" value="muda" /><span>Muda</span></label>
+            <label><input type="radio" name="phase-luz" value="veg" checked /><span>Vegetativo</span></label>
+            <label><input type="radio" name="phase-luz" value="flor" /><span>Floração</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="seg seg--2" data-bind="kind">
+          <legend class="ctl__label">Tipo de planta</legend>
+          <div class="seg__opts">
+            <label><input type="radio" name="kind-luz" value="foto" checked /><span>Fotoperiódica</span></label>
+            <label><input type="radio" name="kind-luz" value="auto" /><span>Autoflorescente</span></label>
+          </div>
+          
+        </fieldset>
+
+        <div class="ctl">
+          <div class="ctl__row"><label class="ctl__label" for="in-ppfd">Força da luz nas folhas <span class="lvl-2-inline">(PPFD)</span></label><output class="ctl__val" id="out-ppfd" for="in-ppfd">500</output></div>
+          <input type="range" id="in-ppfd" min="100" max="1500" step="25" value="500" />
+          <div class="ctl__scale"><span>fraca</span><span>muito forte</span></div>
+          <p class="ctl__help lvl-1-only">Sem medidor? Siga a altura indicada pelo fabricante do LED e o dimmer.</p>
+        </div>
+
+        <div class="ctl">
+          <div class="ctl__row"><label class="ctl__label" for="in-hours">Horas ligada por dia</label><output class="ctl__val" id="out-hours" for="in-hours">18 h</output></div>
+          <input type="range" id="in-hours" min="10" max="24" step="1" value="18" />
+          <div class="ctl__scale"><span>10 h</span><span>24 h</span></div>
+        </div>
+
+        <label class="toggle lvl-2">
+          <input type="checkbox" id="in-co2" />
+          <span class="toggle__ui" aria-hidden="true"></span>
+          <span><span class="toggle__title">Uso CO₂ extra</span><span class="toggle__desc">Com CO₂ a 1000–1200 ppm a planta aguenta mais luz.</span></span>
+        </label>
+      </form>
+
+      <div class="verdict" id="luz-verdict" data-state="ok" data-reveal aria-live="polite">
+        <p class="verdict__kicker">Diagnóstico</p>
+        <p class="verdict__word" id="luz-word">Na medida</p>
+        <p class="verdict__body" id="luz-body"></p>
+        <p class="verdict__action" id="luz-action"></p>
+        <div class="verdict__num lvl-2">
+          <span class="verdict__big"><span id="luz-dli">32</span> <small>mol/m²/dia</small></span>
+          <span class="verdict__target">DLI · alvo <span id="luz-target">20–40</span></span>
+        </div>
+      </div>
+
+      <figure class="chart" data-reveal>
+        <svg viewBox="0 0 560 360" id="luz-chart" role="img" aria-labelledby="luz-cap">
+          <rect class="plot-bg" x="56" y="20" width="480" height="296" />
+          <path class="z-ok" id="luz-zone" />
+          <g class="grid" id="luz-grid"></g>
+          <rect class="light-day" id="luz-rect" x="56" />
+          <text class="light-day__txt" id="luz-rect-txt" text-anchor="middle"></text>
+          <text class="z-label z-label--ok" id="luz-zone-lab">zona boa</text>
+          <g class="probe" id="luz-probe"><circle class="probe__pulse" r="14" /><circle class="probe__dot" r="6.5" /></g>
+        </svg>
+        <figcaption id="luz-cap">A área do retângulo é a luz total do dia: força × horas. A faixa verde mostra as combinações certas para a fase.</figcaption>
+      </figure>
+
+      <details class="math lvl-2" data-reveal>
+        <summary>Ver a matemática</summary>
+        <div class="math__body" id="luz-math"></div>
+      </details>
+    </div>
+  </section>
+
+  <nav class="tool-next" aria-label="Outras ferramentas">
+    <a class="tool-next__card" href="../calculadoras/espaco.html"><span class="kicker">← Anterior</span><span class="tool-next__name">Espaço e kit</span><span class="tool-next__q">Que tamanho de grow você tem?</span></a>
+    <a class="tool-next__all" href="../index.html#ferramentas">Todas as ferramentas</a>
+    <a class="tool-next__card" href="../calculadoras/clima.html"><span class="kicker">Próxima →</span><span class="tool-next__name">Clima</span><span class="tool-next__q">A planta está confortável?</span></a>
+  </nav>
+<!-- Resumo do setup: aparece nas páginas das ferramentas -->
+<aside class="setup" id="setup" aria-label="Resumo do seu setup">
+  <a href="../calculadoras/espaco.html"><span class="setup__k">Grow</span><span id="s-tent">120×120</span></a>
+  <a href="../calculadoras/luz.html"><span class="setup__dot" id="s-luz-dot"></span><span class="setup__k">Luz</span><span id="s-luz">DLI 32</span></a>
+  <a href="../calculadoras/clima.html"><span class="setup__dot" id="s-clima-dot"></span><span class="setup__k">Clima</span><span id="s-clima">ok</span></a>
+  <a href="../calculadoras/exaustao.html"><span class="setup__k">Ar</span><span id="s-ar">268 m³/h</span></a>
+  <a href="../calculadoras/calendario.html"><span class="setup__k">Conta</span><span id="s-en">R$ 165/mês</span></a>
+  <a href="../calculadoras/calendario.html" class="setup__wide"><span class="setup__k">Colheita</span><span id="s-harvest">—</span></a>
+  <button type="button" class="setup__share" id="share-btn" aria-label="Compartilhar meu setup">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5" /><circle cx="6" cy="12" r="2.5" /><circle cx="18" cy="19" r="2.5" /><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4" /></svg>
+    <span>Compartilhar</span>
+  </button>
+</aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</main>
+
+<footer class="foot">
+  <div class="foot__legal">
+    <p><strong>Conteúdo informativo e de redução de danos, para maiores de 18 anos.</strong> No Brasil, cultivar cannabis sem autorização ainda é ilegal. Desde 2024 o STF trata o cultivo para uso pessoal (até 6 plantas fêmeas) como infração administrativa, não como crime. Consulte a legislação do seu país antes de qualquer coisa.</p>
+    <p class="foot__links"><a href="../diario.html">Meu diário</a> · <a href="../sobre.html">Quem somos</a> · <a href="../privacidade.html">Privacidade e contato</a></p>
+  </div>
+  <nav class="foot__nav" aria-label="Atalhos">
+    <a href="../index.html#ciclo">O ciclo</a>
+    <a href="../calculadoras/espaco.html">Espaço</a>
+    <a href="../calculadoras/luz.html">Luz</a>
+    <a href="../calculadoras/clima.html">Clima</a>
+    <a href="../calculadoras/exaustao.html">Exaustão</a>
+    <a href="../calculadoras/calendario.html">Calendário e conta</a>
+    <a href="../diagnostico.html">Diagnóstico</a>
+    <a href="../equipamentos.html">Equipamentos</a>
+    <a href="../index.html#guias">Guias</a>
+  </nav>
+  <p class="foot__mark">Indoor Growing <em>Lab</em></p>
+</footer>
+
+<script src="../data.js"></script>
+<script src="../plan.js"></script>
+<script src="../app.js"></script>
+<script src="../glossary.js"></script>
+
+</body>
+</html>
