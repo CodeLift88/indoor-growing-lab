@@ -249,6 +249,13 @@
   const apexR = fanLeaf(plantG, 3, 0.42);
   const topCola = budCluster(plantG, true);
   const setT = (n, tx) => n.setAttribute('transform', tx);
+  // secagem: galhos pendurados com os mesmos botões da planta, de cabeça para baixo
+  if (HAS_CYCLE) $$('.hang__b').forEach(br => {
+    [[-9, 66, 0.85], [9, 96, 0.95], [-8, 126, 1], [8, 150, 1.05]].forEach(([x, y, k]) => {
+      budCluster(br, false).setAttribute('transform', `translate(${x} ${y}) rotate(180) scale(${k})`);
+    });
+    budCluster(br, true).setAttribute('transform', 'translate(0 168) rotate(180)');
+  });
 
   function renderPlant(g, b) {
     if (!HAS_CYCLE) return;
@@ -1051,7 +1058,20 @@
         </a>
       </li>`).join('');
     $('#guide-empty').hidden = list.length > 0;
+    // "comece por aqui": três guias em ordem para quem nunca plantou
+    const start = guideCat === 'all' && !q ? START_GUIDES.map(id => D.guides.find(g => g.id === id)).filter(Boolean) : [];
+    const box = $('#guide-start');
+    box.hidden = !start.length;
+    box.innerHTML = start.length ? `<p class="kicker">Comece por aqui <span>nunca plantou? leia nesta ordem</span></p>
+      <ol class="start-here__list">${start.map((g, i) => `
+        <li><a href="${BASE}guias/${g.id}.html">
+          <span class="start-here__n">${i + 1}</span>
+          <span class="start-here__t">${esc(g.short || g.title)}</span>
+          <span class="start-here__m">${esc(g.readTime)} de leitura <span aria-hidden="true">→</span></span>
+        </a></li>`).join('')}
+      </ol>` : '';
   }
+  const START_GUIDES = ['auto-ou-foto', 'germinacao', 'rega'];
 
   $('#guide-filters').addEventListener('click', e => {
     const b = e.target.closest('.pill'); if (!b) return;
@@ -1362,7 +1382,7 @@
         const span = cycle.offsetHeight - vh;
         const p = clamp(-r.top / span);
         setStage(Math.min(N - 1, Math.floor(p * N)));
-        cycle.classList.toggle('hint-off', p > 0.03);
+        if (p > 0.004) cycle.classList.add('hint-off'); // some de vez na primeira rolagem
         $('#rail-fill').style.transform = `scaleX(${p.toFixed(4)})`;
         anim.tg = growthAt(p); anim.tb = budsAt(p);
         if (!plantTicking) { plantTicking = true; requestAnimationFrame(plantTick); }

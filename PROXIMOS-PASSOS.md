@@ -48,6 +48,7 @@ Uma por sintoma, sua ou com licença de uso. Luz branca, de perto, horizontal, m
 - [x] Diário: ficha do grow para compartilhar (imagem 9:16, abre ao salvar uma foto)
 - [ ] Diário: comparação antes e depois
 - [ ] Quando o domínio chegar: colocar o endereço no rodapé da ficha do grow
+- [ ] Revisar estilos de link do site (hoje há mono verde, mono sublinhado, sans com seta e sans sublinhado): reduzir a dois
 - [ ] Novos guias: treinamento (LST e poda), secagem e cura, nutrição básica, segurança elétrica
 
 ## Quando o domínio chegar (técnico)

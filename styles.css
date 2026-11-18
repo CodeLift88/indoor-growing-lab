@@ -1706,3 +1706,71 @@ html.age-leaving body > *:not(.gate):not(.gate__leaf) { filter: blur(0) saturate
 .dart__btns { padding: 0 18px; }
 .dart__btns .btn--primary { background: var(--accent); color: #16190f; border-color: var(--accent); }
 .dart__btns .btn:not(.btn--primary) { background: transparent; color: #eef0e6; border-color: #eef0e6; }
+
+
+/* ===== revisão de direção de arte (nov. 2026) ===== */
+/* secagem: a planta sai do vaso e aparece pendurada; a lâmpada fica apagada */
+.hang { opacity: 0; transform: translateY(-16px); transition: opacity .8s ease, transform .9s var(--ease-out); }
+.cycle[data-stage="5"] .hang { opacity: 1; transform: none; }
+.cycle[data-stage="5"] .plant { opacity: 0; }
+.cycle[data-stage="5"] .pot { opacity: .35; transition: opacity .8s ease; }
+.cycle[data-stage="5"] .lamp__diodes { opacity: .2; }
+.hang__wire, .hang__hook { fill: none; stroke: var(--night-muted); stroke-width: 1.4; opacity: .75; }
+.hang__stem { fill: none; stroke: #8f9a62; stroke-width: 3; stroke-linecap: round; }
+.hang__leaf { fill: none; stroke: #7c8456; stroke-width: 2; stroke-linecap: round; }
+.hang .bud { fill: #8a8f4f; stroke: #cfdcae; stroke-width: .8; }
+.hang__b { transform-box: fill-box; transform-origin: 50% 0; animation: hang-sway 6s ease-in-out infinite; }
+.hang g:last-child .hang__b { animation-delay: -2.5s; }
+@keyframes hang-sway { 0%, 100% { rotate: -1.5deg; } 50% { rotate: 1.5deg; } }
+@media (prefers-reduced-motion: reduce) { .hang__b { animation: none; } }
+
+/* dados do ciclo: 3 colunas fixas; o último item ocupa o resto da linha, então a divisória vai até o fim */
+.specs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.specs div:last-child:nth-child(3n+1) { grid-column: 1 / -1; }
+.specs div:last-child:nth-child(3n+2) { grid-column: span 2; }
+@media (max-width: 760px) {
+  .specs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .specs div:last-child:nth-child(n) { grid-column: auto; }
+  .specs div:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+
+/* dica de rolagem: some rápido e não volta */
+.scene__hint { transition: opacity .2s; }
+
+/* "Erro comum" e dicas do ciclo: mais contraste */
+.stage__tip { color: #b8bbab; }
+
+/* cartões de ferramentas: resultado sempre com duas linhas, divisória e "Abrir" alinhados na base */
+.tool__now { min-height: 2.8em; }
+
+/* dúvidas da hero: os links verdes ficam na mesma linha mesmo quando um título quebra */
+.hero__ask .intents { grid-template-rows: auto auto; }
+.hero__ask .intents li { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; }
+.hero__ask .intents a { grid-row: span 2; grid-template-rows: subgrid; row-gap: 4px; }
+.hero__ask .intents__a { align-self: start; }
+
+/* dica de rolagem da hero em texto normal: o mono fica para rótulos e números */
+.hero__foot .scroll-cue { font: 500 .9375rem var(--f-body); }
+
+/* comece por aqui: quebra a lista de guias com um caminho para iniciantes */
+.start-here { margin: 8px 0 36px; }
+.start-here[hidden] { display: none; }
+.start-here .kicker span { margin-left: 8px; color: var(--muted); opacity: .8; }
+.start-here__list { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; counter-reset: none; }
+.start-here__list a {
+  display: grid; grid-template-rows: auto 1fr auto; gap: 12px; height: 100%; box-sizing: border-box;
+  padding: 20px; border: 1px solid var(--ink); border-radius: 8px; background: var(--paper-2);
+  text-decoration: none; color: var(--ink); transition: background .2s, transform .3s var(--ease-out);
+}
+.start-here__list a:hover { background: color-mix(in srgb, var(--accent) 30%, var(--paper)); transform: translateY(-3px); }
+.start-here__n { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: #16190f; box-shadow: 0 0 0 1px var(--ink); font: 700 1.125rem var(--f-display); }
+.start-here__t { font: 600 1.3rem/1.2 var(--f-display); letter-spacing: -.01em; }
+.start-here__m { font-weight: 600; font-size: .875rem; }
+@media (max-width: 760px) {
+  .start-here__list { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ajustes finos da revisão */
+.tool__now { min-height: calc(2.8em + 11px); }
+.cycle[data-stage="5"] .lamp { opacity: .2; transition: opacity .8s ease; }
+.hang .pistil { fill: none; stroke: #b8682c; stroke-width: 1; stroke-linecap: round; opacity: .8; }
