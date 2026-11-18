@@ -1262,7 +1262,7 @@
   /* FICHA DO GROW (hero da home): os mesmos números das calculadoras */
   const ficha = document.getElementById('f-sizes');
   const FICHA_SIZES = ['60x60', '80x80', '90x90', '120x60', '120x120'];
-  const CLIMA_ALVO = { muda: '22–26 °C · 65–75%', veg: '22–28 °C · 55–70%', flor: '20–26 °C · 40–50%' };
+  const CLIMA_ALVO = { muda: ['22–26°', '65–75%'], veg: ['22–28°', '55–70%'], flor: ['20–26°', '40–50%'] };
   const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const NUM = /\d{1,3}(?:\.\d{3})+(?:,\d+)?|\d+(?:,\d+)?/g;
   const parseBR = s => Number(s.replace(/\./g, '').replace(',', '.'));
@@ -1302,12 +1302,16 @@
     });
     const t = D.tents[S.tent], ph = D.phases[S.phase];
     setText('#f-phase', `${S.auto ? 'Auto · ' : ''}${ph.label} · ${$('#in-hours').value} h de luz`);
-    tween('f-grow', `${t.label} · ${t.plants[0] === t.plants[1] ? `${t.plants[0]} planta` : `${t.plants[0]} a ${t.plants[1]} plantas`}`);
-    tween('f-led', `${$('#in-watts').value} W reais`);
-    tween('f-clima', S.level === '1' ? CLIMA_ALVO[S.phase] : `${CLIMA_ALVO[S.phase]} · VPD ${fmt(ph.vpd[0], 1)}–${fmt(ph.vpd[1], 1)}`);
-    tween('f-ar', `${fmtInt(S.need)} m³/h · ${S.fan || t.duct}`);
-    if (S.month) tween('f-conta', `${S.month}/mês`);
-    if (S.harvest) tween('f-colheita', S.harvest);
+    const [temp, rh] = CLIMA_ALVO[S.phase];
+    tween('f-grow', t.label.replace(' cm', ''));
+    setText('#f-grow-u', `cm · ${t.plants[0] === t.plants[1] ? `${t.plants[0]} planta` : `${t.plants[0]} a ${t.plants[1]} plantas`}`);
+    tween('f-led', String($('#in-watts').value));
+    tween('f-clima', temp);
+    setText('#f-clima-u', S.level === '1' ? `${rh} UR` : `${rh} UR · VPD ${fmt(ph.vpd[0], 1)}–${fmt(ph.vpd[1], 1)}`);
+    tween('f-ar', fmtInt(S.need));
+    setText('#f-ar-u', `m³/h · ${S.fan || t.duct}`);
+    if (S.month) tween('f-conta', S.month);
+    if (S.harvest) tween('f-colheita', S.harvest.replace(' de ', ' '));
   }
   function pickTent(key) {
     S.tent = key;

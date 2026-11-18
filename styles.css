@@ -1571,3 +1571,10 @@ html.age-leaving body > *:not(.gate):not(.gate__leaf) { filter: blur(0) saturate
 }
 .ficha__kicker, .ficha__phase { font-size: .6875rem; }
 @media (max-width: 520px) { .hero__kicker { font-size: .6875rem; } }
+/* ficha: número grande em Bricolage, unidade pequena em mono */
+.ficha__list > div { align-items: center; padding: 9px 0; }
+.ficha__list dd { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 7px; font: inherit; }
+.ficha__list .fv { font: 700 1.5rem/1.05 var(--f-display); letter-spacing: -.02em; font-variant-numeric: tabular-nums; color: #fff; border-radius: 4px; transition: background .6s, color .6s; }
+.ficha__list .fv.is-new { background: rgba(212,242,90,.16); }
+.ficha__list .fu { font: 500 .6875rem/1.3 var(--f-mono); color: var(--fm); }
+@media (max-width: 520px) { .ficha__list .fv { font-size: 1.3rem; } }
