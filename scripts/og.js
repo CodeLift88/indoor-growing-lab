@@ -51,7 +51,7 @@ function card({ title, kicker, size }) {
   .mark { display: flex; align-items: center; gap: 12px; font-size: 30px; }
   .mark svg { width: 40px; height: 40px; }
   .mark { font-weight: 700; letter-spacing: -.02em; } .mark em { font-weight: 300; font-style: normal; }
-  .kick { font: 500 16px 'Martian Mono', monospace; color: #6a6e60; }
+  .kick { font: 500 16px 'Martian Mono', monospace; color: #5c6053; }
   h1 { position: absolute; left: 72px; top: 150px; width: 780px; font-weight: 750; font-size: ${size}px; line-height: .98; letter-spacing: -.03em; font-variation-settings: "opsz" 96; text-wrap: balance; }
   h1 em { font-weight: 300; font-style: normal; }
   .foot { position: absolute; left: 72px; right: 72px; bottom: 52px; padding-top: 22px; border-top: 2px solid #16190f; display: flex; align-items: center; gap: 14px; font: 500 16px 'Martian Mono', monospace; color: #3a3f31; }
