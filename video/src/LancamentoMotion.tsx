@@ -7,7 +7,7 @@ import { FD, FM } from './fonts';
 import { Brand } from './Lancamento';
 import { CycleScene, lightAt, STAGES } from './scene';
 
-export type FichaProps = { grow: string; plantas: string; watts: number; luz: string; conta: number };
+export type FichaProps = { grow: string; plantas: string; watts: number; luz: string; conta: number; musica?: boolean };
 export const fichaPadrao: FichaProps = { grow: '80×80', plantas: '2 a 3 plantas', watts: 250, luz: '12/12', conta: 111 };
 
 const K = { night: '#0f110b', card: '#16190f', ink: '#eef0e6', muted: '#9fa492', line: '#2e3326', accent: '#d4f25a' };
@@ -27,7 +27,17 @@ const SFX: { file: string; golpe: number; em: number; vol: number }[] = [
 ];
 const SAFE = { left: 72, right: 140, top: 240 };
 
-export const LancamentoMotion: React.FC<FichaProps> = props => {
+const WHOOSH = [0.35, 2.3, 6.3, 10.3, 20.3, 24.35, 27.75];
+// trilha: abaixa quando um efeito importante toca (clique, 12/12, luz apagando, ficha)
+const DUCK = [34, 480, 720, END + 8];
+const trilhaVol = (f: number) => {
+  const d = DUCK.reduce((m, x) => Math.min(m, interpolate(f, [x - 6, x, x + 10, x + 26], [1, 0.5, 0.5, 1], clamp)), 1);
+  return 0.78 * d;
+};
+// zumbido do grow: liga com a lâmpada, apaga com ela na secagem
+const zumbidoVol = (f: number) => interpolate(f, [36, 60, 712, 724], [0, 1, 1, 0], clamp) * 0.9;
+
+export const LancamentoMotion: React.FC<FichaProps> = ({ musica, ...props }) => {
   const f = useCurrentFrame();
   const { glow, lampOn } = lightAt(f);
   const flash = interpolate(f, [34, 37, 52], [0, 0.12, 0], clamp); // flash suave, sem piscar
@@ -72,6 +82,17 @@ export const LancamentoMotion: React.FC<FichaProps> = props => {
 
       {f >= END && <FichaCard f={f - END} {...props} />}
 
+      <Sequence from={36} durationInFrames={80} name="02-led-liga">
+        <Audio src={staticFile('sfx/norm/02-led-liga.wav')} volume={0.9} />
+      </Sequence>
+      <Audio src={staticFile('sfx/norm/03-zumbido-fundo.wav')} volume={zumbidoVol} />
+      {WHOOSH.map((t, i) => (
+        <Sequence key={'w' + i} from={Math.round((t - 0.356) * FPS)} durationInFrames={50} name={`04-whoosh ${t}s`}>
+          {/* alterna o tom levemente para não soar repetido */}
+          <Audio src={staticFile('sfx/norm/04-whoosh.wav')} volume={0.8} playbackRate={i % 2 ? 1.08 : 0.94} />
+        </Sequence>
+      ))}
+      {musica && <Audio src={staticFile('musica/trecho.wav')} volume={trilhaVol} />}
       {SFX.map(x => (
         <Sequence key={x.file} from={Math.round(x.em - x.golpe * FPS)} durationInFrames={120} name={x.file}>
           <Audio src={staticFile('sfx/norm/' + x.file)} volume={x.vol} />

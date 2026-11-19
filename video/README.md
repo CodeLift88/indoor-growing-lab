@@ -52,3 +52,13 @@ npx hyperframes render ep01 -o sem-chute-01.mp4 --quality delivery
    ```
 
 Área segura das redes (Reels, TikTok, Shorts): nada importante fora de x 72–940 e y 260–1420.
+
+## Som
+
+- Efeitos em `public/sfx/` (originais) e `public/sfx/norm/` (cortados e com volume igualado). Cada efeito tem o instante em que "bate" dentro do arquivo (`golpe`) e o quadro em que deve bater no vídeo (`em`), em `src/LancamentoMotion.tsx`.
+- A trilha fica em `public/musica/` e **não vai para o repositório** (ele é público). O trecho usado (`trecho.wav`) foi cortado para a virada cair em 16 s, desacelerado de 93,9 para 90 BPM e ganhou um filtro de 24 a 27,3 s (luz apagada).
+
+| Composição | Arquivo final | Para onde |
+|---|---|---|
+| `LancamentoMotion` | `growmetria-lancamento-instagram-tiktok.mp4` | Instagram e TikTok: só efeitos, a música entra pelo app |
+| `LancamentoMotionMusica` | `growmetria-lancamento-youtube.mp4` | YouTube Shorts e site: com a trilha, normalizado para −15 LUFS |
