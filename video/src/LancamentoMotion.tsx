@@ -28,6 +28,8 @@ const SFX: { file: string; golpe: number; em: number; vol: number }[] = [
 const SAFE = { left: 72, right: 140, top: 240 };
 
 const WHOOSH = [0.35, 2.3, 6.3, 10.3, 20.3, 24.35, 27.75];
+// contagem: o tique final (1,415 s dentro do arquivo) cai quando cada número para de contar
+const CONTAGEM = [7.75, 11.75, 25.55, (END + 52) / FPS];
 // trilha: abaixa quando um efeito importante toca (clique, 12/12, luz apagando, ficha)
 const DUCK = [34, 480, 720, END + 8];
 const trilhaVol = (f: number) => {
@@ -90,6 +92,11 @@ export const LancamentoMotion: React.FC<FichaProps> = ({ musica, ...props }) => 
         <Sequence key={'w' + i} from={Math.round((t - 0.356) * FPS)} durationInFrames={50} name={`04-whoosh ${t}s`}>
           {/* alterna o tom levemente para não soar repetido */}
           <Audio src={staticFile('sfx/norm/04-whoosh.wav')} volume={0.8} playbackRate={i % 2 ? 1.08 : 0.94} />
+        </Sequence>
+      ))}
+      {CONTAGEM.map((fim, i) => (
+        <Sequence key={'c' + i} from={Math.round((fim - 1.415) * FPS)} durationInFrames={56} name={`05-contagem até ${fim.toFixed(2)}s`}>
+          <Audio src={staticFile('sfx/norm/05-contagem.wav')} volume={i === 3 ? 0.6 : 0.85} />
         </Sequence>
       ))}
       {musica && <Audio src={staticFile('musica/trecho.wav')} volume={trilhaVol} />}
