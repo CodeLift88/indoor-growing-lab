@@ -31,7 +31,7 @@ const Flask: React.FC<{ size: number }> = ({ size }) => (
     <path d={FLASK.sprout} fill={K.ink} />
   </svg>
 );
-const Brand: React.FC<{ size: number }> = ({ size }) => (
+export const Brand: React.FC<{ size: number }> = ({ size }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: size * 0.3, color: K.ink, fontFamily: FD, fontSize: size, letterSpacing: '-0.02em' }}>
     <Flask size={size * 1.2} />
     <span><b style={{ fontWeight: 700 }}>Grow</b><span style={{ fontWeight: 300 }}>metria</span></span>
@@ -213,7 +213,7 @@ const ROWS: { k: string; v: number; pre?: string; mid?: string; u: string }[] = 
   { k: 'Conta', v: 111, pre: 'R$ ', u: 'por mês' }
 ];
 
-const Ending: React.FC<{ f: number }> = ({ f }) => {
+export const Ending: React.FC<{ f: number }> = ({ f }) => {
   const card = interpolate(f, [8, 30], [0, 1], { ...clamp, easing: ease });
   const count = interpolate(f, [20, 50], [0, 1], { ...clamp, easing: ease });
   const cta = interpolate(f, [44, 60], [0, 1], { ...clamp, easing: ease });

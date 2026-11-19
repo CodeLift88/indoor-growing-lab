@@ -4,7 +4,8 @@ Projeto em [Remotion](https://www.remotion.dev/). A planta é a mesma do ciclo d
 
 | Composição | Arquivo | O que é |
 |---|---|---|
-| `Lancamento` | `src/Lancamento.tsx` | "Do grão à colheita em 30 segundos", 1080×1920, 30 fps |
+| `Lancamento` | `src/Lancamento.tsx` | "Do grão à colheita em 30 segundos", ilustrado (o mesmo desenho do site) |
+| `LancamentoReal` | `src/LancamentoReal.tsx` | O mesmo roteiro com fotos realistas (`public/real/`), trocando como timelapse e mergulhando nos tricomas |
 
 ## Rodar
 
@@ -12,6 +13,7 @@ Projeto em [Remotion](https://www.remotion.dev/). A planta é a mesma do ciclo d
 npm install
 npm run studio   # editor no navegador, para ajustar tempos e textos
 npm run render   # gera out/lancamento.mp4
+npx remotion render src/index.ts LancamentoReal out/lancamento-real.mp4
 ```
 
 As fontes ficam em `public/fonts`, então o render não depende de internet.
