@@ -2,7 +2,7 @@
 // + tipografia animada com fundo transparente (HyperFrames, public/camadas/tipografia.webm).
 // Tudo que importa fica na área segura das redes: x 72–940, y 260–1420.
 import React from 'react';
-import { AbsoluteFill, Easing, OffthreadVideo, interpolate, staticFile, useCurrentFrame } from 'remotion';
+import { AbsoluteFill, Audio, Easing, OffthreadVideo, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion';
 import { FD, FM } from './fonts';
 import { Brand } from './Lancamento';
 import { CycleScene, lightAt, STAGES } from './scene';
@@ -14,6 +14,17 @@ const K = { night: '#0f110b', card: '#16190f', ink: '#eef0e6', muted: '#9fa492',
 const ease = Easing.bezier(0.22, 1, 0.36, 1);
 const clamp = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const;
 const END = 810;
+
+// Efeitos sonoros: "golpe" é o instante (s) em que o som bate dentro do arquivo,
+// "em" é o quadro do vídeo em que ele deve bater. Assim o início é calculado.
+const FPS = 30;
+const SFX: { file: string; golpe: number; em: number; vol: number }[] = [
+  { file: '01-clique-lampada.wav', golpe: 0.032, em: 34, vol: 0.72 },       // lâmpada acende (flash)
+  { file: '06-subida.wav', golpe: 1.843, em: 480, vol: 0.85 },            // sobe até o 12/12
+  { file: '07-impacto-12-12.wav', golpe: 0.235, em: 480, vol: 0.62 },    // 12/12 pousa
+  { file: '08-lampada-desliga.wav', golpe: 0.774, em: 720, vol: 0.72 },     // secagem: luz apaga
+  { file: '09-ficha.wav', golpe: 0.03, em: END + 8, vol: 0.9 }           // ficha aparece
+];
 const SAFE = { left: 72, right: 140, top: 240 };
 
 export const LancamentoMotion: React.FC<FichaProps> = props => {
@@ -60,6 +71,12 @@ export const LancamentoMotion: React.FC<FichaProps> = props => {
       </div>
 
       {f >= END && <FichaCard f={f - END} {...props} />}
+
+      {SFX.map(x => (
+        <Sequence key={x.file} from={Math.round(x.em - x.golpe * FPS)} durationInFrames={120} name={x.file}>
+          <Audio src={staticFile('sfx/norm/' + x.file)} volume={x.vol} />
+        </Sequence>
+      ))}
 
       {/* tipografia animada (HyperFrames), por cima de tudo */}
       <AbsoluteFill>
