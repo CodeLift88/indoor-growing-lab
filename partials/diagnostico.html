@@ -1,0 +1,24 @@
+<section class="calc diag" id="diagnostico" aria-labelledby="diag-title">
+    <header class="sec-head" data-reveal>
+      <p class="kicker">Diagnóstico</p>
+      <h2 class="sec-head__title" id="diag-title">O que há de <em>errado</em> com a planta?</h2>
+      <p class="sec-head__lead">Escolha o que você está vendo. O site mostra a causa mais provável e o que fazer agora.</p>
+    </header>
+
+    <div class="diag__grid">
+      <div class="diag__pick" data-reveal>
+        <div class="diag__filter">
+          <p class="ctl__label" id="diag-where-label">Onde começou?</p>
+          <div class="pills" id="diag-where" role="group" aria-labelledby="diag-where-label">
+            <button type="button" class="pill is-active" data-where="all">Tudo</button>
+            <button type="button" class="pill" data-where="baixo">Folhas de baixo</button>
+            <button type="button" class="pill" data-where="topo">Folhas do topo</button>
+            <button type="button" class="pill" data-where="toda">Planta inteira</button>
+            <button type="button" class="pill" data-where="solo">Terra e flores</button>
+          </div>
+        </div>
+        <div class="symptoms" id="symptoms" role="radiogroup" aria-label="Sintomas"></div>
+      </div>
+      <div class="diag__result" id="diag-result" aria-live="polite" data-reveal></div>
+    </div>
+  </section>

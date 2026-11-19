@@ -1,0 +1,73 @@
+<section class="calc" id="clima" aria-labelledby="climate-title">
+    <header class="sec-head" data-reveal>
+      <p class="kicker">Calculadora de clima</p>
+      <h2 class="sec-head__title" id="climate-title">A planta está <em>confortável?</em></h2>
+      <p class="sec-head__lead">Temperatura e umidade, juntas, decidem se a folha “respira” no ritmo certo. Mexa nas duas e veja em que ponto do mapa você está.</p>
+    </header>
+
+    <div class="calc__grid">
+      <form class="controls" id="climate-form" data-reveal onsubmit="return false">
+        <fieldset class="seg" data-bind="phase">
+          <legend class="ctl__label">Fase da planta</legend>
+          <div class="seg__opts">
+            <label><input type="radio" name="phase-clima" value="muda" /><span>Muda</span></label>
+            <label><input type="radio" name="phase-clima" value="veg" checked /><span>Vegetativo</span></label>
+            <label><input type="radio" name="phase-clima" value="flor" /><span>Floração</span></label>
+          </div>
+        </fieldset>
+
+        <div class="ctl">
+          <div class="ctl__row"><label class="ctl__label" for="in-temp">Temperatura do ar</label><output class="ctl__val" id="out-temp" for="in-temp">26,0 °C</output></div>
+          <input type="range" id="in-temp" min="16" max="35" step="0.5" value="26" />
+          <div class="ctl__scale"><span>16 °C</span><span>35 °C</span></div>
+        </div>
+
+        <div class="ctl">
+          <div class="ctl__row"><label class="ctl__label" for="in-rh">Umidade do ar</label><output class="ctl__val" id="out-rh" for="in-rh">60%</output></div>
+          <input type="range" id="in-rh" min="30" max="90" step="1" value="60" />
+          <div class="ctl__scale"><span>30%</span><span>90%</span></div>
+        </div>
+
+        <div class="ctl lvl-3">
+          <div class="ctl__row"><label class="ctl__label" for="in-off">Folha em relação ao ar</label><output class="ctl__val" id="out-off" for="in-off">−1,5 °C</output></div>
+          <input type="range" id="in-off" min="-4" max="2" step="0.5" value="-1.5" />
+          <p class="ctl__help">Sob LED a folha fica 1 a 2 °C mais fria que o ar. Meça com termômetro infravermelho.</p>
+        </div>
+      </form>
+
+      <div class="verdict" id="clima-verdict" data-state="ok" data-reveal aria-live="polite">
+        <p class="verdict__kicker">Diagnóstico</p>
+        <p class="verdict__word" id="clima-word">Confortável</p>
+        <p class="verdict__body" id="clima-body"></p>
+        <p class="verdict__action" id="clima-action"></p>
+        <div class="verdict__num lvl-2">
+          <span class="verdict__big"><span id="clima-kpa">1,06</span> <small>kPa</small></span>
+          <span class="verdict__target">VPD da folha · alvo <span id="clima-target">0,8–1,2</span></span>
+        </div>
+      </div>
+
+      <figure class="chart" data-reveal>
+        <svg viewBox="0 0 560 360" id="clima-chart" role="img" aria-labelledby="clima-cap">
+          <rect class="z-dry" x="56" y="20" width="480" height="296" />
+          <path class="z-humid" id="z-humid" />
+          <path class="z-ok" id="z-ok" />
+          <g class="grid" id="clima-grid"></g>
+          <text class="z-label" x="70" y="44">úmido demais</text>
+          <text class="z-label" x="522" y="302" text-anchor="end">seco demais</text>
+          <text class="z-label z-label--ok" id="clima-zone-lab">zona boa</text>
+          <g class="probe" id="clima-probe">
+            <line class="probe__line" id="clima-px" />
+            <line class="probe__line" id="clima-py" />
+            <circle class="probe__pulse" r="14" />
+            <circle class="probe__dot" r="6.5" />
+          </g>
+        </svg>
+        <figcaption id="clima-cap">Mapa de temperatura × umidade. A faixa verde é onde a planta trabalha melhor na fase escolhida.</figcaption>
+      </figure>
+
+      <details class="math lvl-2" data-reveal>
+        <summary>Ver a matemática</summary>
+        <div class="math__body" id="clima-math"></div>
+      </details>
+    </div>
+  </section>
