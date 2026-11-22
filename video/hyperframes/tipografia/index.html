@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="pt-BR" data-composition-variables='[
+  {"id":"hook","type":"string","label":"Abertura (linhas separadas por |)","default":"Do grão|à colheita|em {30} segundos."},
+  {"id":"stages","type":"string","label":"Fases (JSON)","default":"[{\"t\":2,\"d\":4,\"k\":\"Germinação\",\"h\":\"Só água e calor.\"},{\"t\":6,\"d\":4,\"k\":\"Muda\",\"h\":\"{18} h de luz por dia.\"},{\"t\":10,\"d\":5,\"k\":\"Vegetativo\",\"h\":\"{24} °C e {60}% de umidade.\"},{\"t\":15,\"d\":5,\"k\":\"Floração\",\"h\":\"Vire o timer:\",\"big\":\"12/12\"},{\"t\":20,\"d\":4,\"k\":\"Colheita\",\"h\":\"Colha pelos tricomas, não pela data.\"},{\"t\":24,\"d\":3,\"k\":\"Secagem e cura\",\"h\":\"{7} a {14} dias no escuro.\"}]"},
+  {"id":"cta1","type":"string","label":"Chamada, linha 1","default":"Calcule o seu grow."},
+  {"id":"cta2","type":"string","label":"Chamada, linha 2 (*destaque*)","default":"É grátis, *sem chute.*"},
+  {"id":"pill","type":"string","label":"Selo final","default":"link na bio"}
+]'>
+<head>
+<meta charset="utf-8">
+<title>Growmetria · camada de tipografia</title>
+<style>
+  @font-face { font-family: "Bricolage Grotesque"; src: url("fonts/bricolage.woff2") format("woff2"); font-weight: 200 800; }
+  @font-face { font-family: "Martian Mono"; src: url("fonts/martian.woff2") format("woff2"); font-weight: 500; }
+  :root { --ink: #eef0e6; --muted: #b9bcae; --accent: #d4f25a; --night: #0f110b; }
+  * { box-sizing: border-box; margin: 0; }
+  /* fundo transparente: esta camada vai por cima da cena no Remotion */
+  html, body { width: 1080px; height: 1920px; background: transparent; overflow: hidden; }
+  body { font-family: "Bricolage Grotesque", sans-serif; color: var(--ink); }
+  #root { position: relative; width: 1080px; height: 1920px; }
+  /* área segura das redes: x 72–940, y 260–1420 */
+  .block { position: absolute; left: 72px; width: 868px; }
+  .line { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+  .w { display: inline-block; white-space: pre; }
+  .w > i { display: inline-block; font-style: normal; font-weight: var(--wg, 800); will-change: transform; }
+  .num { color: var(--accent); font-variant-numeric: tabular-nums; }
+  .shadow { text-shadow: 0 4px 40px rgba(10,12,7,.65); }
+
+  .hook { top: 760px; }
+  .hook .line { font-size: 150px; line-height: .92; letter-spacing: -.045em; }
+  .hook .line:last-child { font-size: 96px; letter-spacing: -.03em; margin-top: 18px; }
+
+  .stage { top: 340px; }
+  .kick { font: 500 30px "Martian Mono", monospace; color: var(--accent); letter-spacing: .06em; text-transform: uppercase; display: flex; gap: 18px; align-items: center; }
+  .kick b { font-weight: 500; color: var(--muted); }
+  .kick .bar { display: inline-block; width: 56px; height: 3px; background: var(--accent); transform-origin: left center; }
+  .head { margin-top: 22px; font-size: 92px; line-height: 1.0; letter-spacing: -.035em; }
+  .big { font-size: 250px; line-height: .86; letter-spacing: -.055em; color: var(--accent); margin-top: 6px; }
+
+  .cta { top: 1070px; }
+  .cta .l1 { font-size: 96px; line-height: .95; letter-spacing: -.045em; }
+  .cta .l2 { font-size: 70px; line-height: 1.05; letter-spacing: -.03em; margin-top: 14px; }
+  .cta em { font-style: normal; color: var(--accent); font-weight: 700; }
+  .num { font-weight: 800; }
+  .pill { display: inline-block; margin-top: 40px; font: 500 30px "Martian Mono", monospace; color: var(--night); background: var(--accent); padding: 16px 28px; border-radius: 999px; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="root" data-width="1080" data-height="1920" data-fps="30">
+  <div id="span" class="clip" data-start="0" data-duration="30" style="position:absolute;inset:0;pointer-events:none"></div>
+  <div class="block hook shadow" id="hook"></div>
+  <div id="stages"></div>
+  <div class="block cta shadow" id="cta"></div>
+</div>
+
+<script src="gsap.min.js"></script>
+<script>
+(() => {
+  const V = (window.__hyperframes && window.__hyperframes.getVariables) ? window.__hyperframes.getVariables() : {};
+  const get = (k, d) => (V[k] !== undefined && V[k] !== '' ? V[k] : d);
+  const HOOK = get('hook', 'Do grão|à colheita|em {30} segundos.').split('|');
+  let STAGES = [];
+  try { STAGES = JSON.parse(get('stages', '[]')); } catch (e) { STAGES = []; }
+  const CTA1 = get('cta1', 'Calcule o seu grow.');
+  const CTA2 = get('cta2', 'É grátis, *sem chute.*');
+  const PILL = get('pill', 'link na bio');
+
+  // texto → palavras com máscara; {n} vira número que conta; *x* vira destaque
+  const counters = [];
+  function words(text) {
+    const frag = document.createDocumentFragment();
+    let accent = false;
+    text.split(/(\s+)/).forEach(tok => {
+      if (!tok) return;
+      if (/^\s+$/.test(tok)) { frag.appendChild(document.createTextNode(' ')); return; }
+      const w = document.createElement('span'); w.className = 'w';
+      const i = document.createElement('i');
+      let t = tok;
+      if (t.startsWith('*')) { accent = true; t = t.slice(1); }
+      const closes = t.endsWith('*') || t.endsWith('*.') ;
+      t = t.replace(/\*/g, '');
+      if (accent) { const em = document.createElement('em'); i.appendChild(em); }
+      const host = accent ? i.firstChild : i;
+      t.split(/(\{\d+\})/).forEach(part => {
+        const m = part.match(/^\{(\d+)\}$/);
+        if (m) {
+          const n = document.createElement('span'); n.className = 'num'; n.textContent = m[1];
+          counters.push({ el: n, to: Number(m[1]) });
+          host.appendChild(n);
+        } else if (part) host.appendChild(document.createTextNode(part));
+      });
+      if (closes) accent = false;
+      w.appendChild(i); frag.appendChild(w);
+    });
+    return frag;
+  }
+  function line(cls, text) {
+    const l = document.createElement('div'); l.className = 'line ' + (cls || '');
+    l.appendChild(words(text)); return l;
+  }
+
+  // monta o DOM
+  const hook = document.getElementById('hook');
+  HOOK.forEach(t => hook.appendChild(line('', t)));
+  const stagesBox = document.getElementById('stages');
+  STAGES.forEach((s, idx) => {
+    const b = document.createElement('div'); b.className = 'block stage shadow'; b.id = 'st' + idx;
+    b.innerHTML = `<div class="kick"><span class="bar"></span><span>${String(idx + 1).padStart(2, '0')} <b>/ ${String(STAGES.length).padStart(2, '0')}</b></span><span class="k"></span></div>`;
+    b.querySelector('.k').textContent = s.k;
+    b.appendChild(line('head', s.h));
+    if (s.big) b.appendChild(line('big', s.big));
+    stagesBox.appendChild(b);
+  });
+  const cta = document.getElementById('cta');
+  cta.appendChild(line('l1', CTA1));
+  cta.appendChild(line('l2', CTA2));
+  const pill = document.createElement('div'); pill.className = 'pill'; pill.textContent = PILL; cta.appendChild(pill);
+
+  // animação
+  const tl = gsap.timeline({ paused: true });
+  const IN = 'expo.out', OUT = 'power3.in';
+  const revealWords = (scope, at, stagger, wg = 800) => {
+    const it = scope.querySelectorAll('.w > i');
+    tl.fromTo(it, { yPercent: 115, rotation: 4, '--wg': 260 }, { yPercent: 0, rotation: 0, '--wg': wg, duration: .9, ease: IN, stagger }, at);
+    return it;
+  };
+  const countIn = (scope, at, dur) => {
+    counters.filter(c => scope.contains(c.el)).forEach(c => {
+      const o = { v: 0 };
+      tl.to(o, { v: c.to, duration: dur, ease: 'power2.out', onUpdate: () => { c.el.textContent = Math.round(o.v); } }, at);
+    });
+  };
+  const exit = (scope, at) => tl.to(scope.querySelectorAll('.w > i, .kick, .pill'), { yPercent: -110, opacity: 0, duration: .35, ease: OUT, stagger: .02 }, at);
+
+  // abertura (0–2 s)
+  gsap.set(hook, { opacity: 1 });
+  revealWords(hook.querySelectorAll('.line')[0], .15, .07);
+  revealWords(hook.querySelectorAll('.line')[1], .3, .07);
+  if (hook.querySelectorAll('.line')[2]) revealWords(hook.querySelectorAll('.line')[2], .55, .06, 300);
+  countIn(hook, .6, 1.1);
+  exit(hook, 1.75);
+
+  // fases
+  STAGES.forEach((s, idx) => {
+    const b = document.getElementById('st' + idx);
+    tl.set(b, { opacity: 0 }, 0);
+    tl.set(b, { opacity: 1 }, s.t);
+    tl.fromTo(b.querySelector('.bar'), { scaleX: 0 }, { scaleX: 1, duration: .5, ease: IN }, s.t);
+    tl.from(b.querySelector('.kick'), { x: -30, opacity: 0, duration: .5, ease: IN }, s.t + .05);
+    revealWords(b.querySelector('.head'), s.t + .2, .05);
+    countIn(b, s.t + .35, Math.min(1.4, s.d * .4));
+    const big = b.querySelector('.big');
+    if (big) {
+      const it = big.querySelectorAll('.w > i');
+      tl.fromTo(it, { yPercent: 120, scale: .7, '--wg': 200 }, { yPercent: 0, scale: 1, '--wg': 800, duration: 1, ease: 'back.out(1.6)' }, s.t + .7);
+      tl.to(it, { scale: 1.06, duration: .25, yoyo: true, repeat: 1, ease: 'sine.inOut' }, s.t + 2.2);
+    }
+    exit(b, s.t + s.d - .4);
+  });
+
+  // chamada (27,4–30 s)
+  tl.set(cta, { opacity: 0 }, 0);
+  tl.set(cta, { opacity: 1 }, 27.4);
+  revealWords(cta.querySelector('.l1'), 27.45, .06);
+  revealWords(cta.querySelector('.l2'), 27.85, .05, 300);
+  tl.from(cta.querySelector('.pill'), { y: 30, opacity: 0, scale: .9, duration: .6, ease: 'back.out(2)' }, 28.4);
+  tl.to({}, { duration: .01 }, 29.99); // fecha a duração em 30 s
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines['root'] = tl;
+})();
+</script>
+</body>
+</html>

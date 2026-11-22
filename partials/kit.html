@@ -1,0 +1,48 @@
+<section class="calc" id="kit" aria-labelledby="kit-title">
+    <header class="sec-head" data-reveal>
+      <p class="kicker">Seu espaço</p>
+      <h2 class="sec-head__title" id="kit-title">Que tamanho de <em>espaço</em> você tem?</h2>
+      <p class="sec-head__lead">Escolha o tamanho do seu grow. A partir dele, o site calcula a luz, o exaustor e quantas plantas cabem com folga.</p>
+    </header>
+
+    <div class="calc__grid">
+      <form class="controls" data-reveal onsubmit="return false">
+        <fieldset class="tents" id="tent-picker">
+          <legend class="ctl__label">Tamanho do grow</legend>
+        </fieldset>
+        <fieldset class="seg seg--2" data-bind="kind">
+          <legend class="ctl__label">Tipo de planta</legend>
+          <div class="seg__opts">
+            <label><input type="radio" name="kind-kit" value="foto" checked /><span>Fotoperiódica</span></label>
+            <label><input type="radio" name="kind-kit" value="auto" /><span>Autoflorescente</span></label>
+          </div>
+          <p class="ctl__help"><a href="{{base}}guias/auto-ou-foto.html">Qual a diferença?</a></p>
+        </fieldset>
+      </form>
+
+      <div class="verdict verdict--kit" data-reveal aria-live="polite">
+        <p class="verdict__kicker">Seu kit para <span id="kit-tent-name">120×120 cm</span></p>
+        <p class="verdict__word verdict__word--ink"><span id="kit-watts">500</span> W <small>de LED</small></p>
+        <p class="verdict__body">Potência real na tomada, não o número do anúncio. Com dimmer, use cerca de <span id="kit-watts-veg">360</span> W no vegetativo.</p>
+        <dl class="kit-specs">
+          <div><dt>Plantas com folga</dt><dd id="kit-plants">4 a 6</dd></div>
+          <div><dt>Exaustor</dt><dd id="kit-fan">150 mm (6")</dd></div>
+          <div><dt>Vazão mínima</dt><dd id="kit-flow">268 m³/h</dd></div>
+          <div class="lvl-3"><dt>PPF do LED</dt><dd id="kit-ppf">1400 µmol/s</dd></div>
+        </dl>
+      </div>
+
+      <figure class="chart chart--plan" data-reveal>
+        <svg viewBox="0 0 400 400" id="plan" role="img" aria-labelledby="plan-cap"></svg>
+        <figcaption id="plan-cap">Vista de cima, em escala. Os quadrados claros são os outros tamanhos; os círculos, as plantas.</figcaption>
+      </figure>
+
+      <div class="checklist" data-reveal>
+        <div class="checklist__head">
+          <p class="ctl__label">Lista do primeiro cultivo</p>
+          <p class="checklist__count"><span id="check-count">0</span> de <span id="check-total">10</span></p>
+        </div>
+        <ul id="checklist"></ul>
+      </div>
+    </div>
+  </section>

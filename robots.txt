@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://codelift88.github.io/indoor-growing-lab/sitemap.xml
